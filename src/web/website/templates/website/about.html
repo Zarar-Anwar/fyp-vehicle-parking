@@ -1,0 +1,119 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}
+About-Us
+{% endblock %}
+{% block content %}
+
+{#----------Main Banner------------#}
+<div class="page-title-area pb-100 bg-img bg-s-cover" data-bg-image="{% static 'assets/images/page-title-bg-4.jpg' %}" style="background-image: url(&quot;assets/images/page-title-bg-4.jpg&quot;); background-position: center center; display: block;">
+        <div class="container">
+            <div class="content">
+                <h2>About Us</h2>
+                <ul class="list-unstyled">
+                    <li class="d-inline"><a href="index.html">Home</a></li>
+                    <li class="d-inline">/</li>
+                    <li class="d-inline active opacity-75">About</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{#----------Steps Area------------#}
+<section class="about-area pt-100 pb-60">
+        <div class="container">
+            <div class="row gx-xl-5 align-items-center">
+                <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1000">
+                    <div class="image mb-40">
+                        <img class="blur-up lazyloaded" src="{% static 'assets/images/about.png' %}" data-src="{% static 'assets/images/about.png' %}" alt="Image">
+                    </div>
+                </div>
+                <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up">
+                    <div class="content-title mb-40">
+                        <span class="subtitle mb-10 color-primary">Change The Look of Your Car</span>
+                        <h2 class="title mb-25">
+                            Furious Provides an Extensive Inventory of Vehicles.
+                            <span>.</span>
+                        </h2>
+                        <div class="text">
+                            <p>
+                                Welcome to Furious, the leading online platform for connecting car buyers and sellers. Whether you're in the market for a new vehicle or looking to sell your current one, we provide a convenient and user-friendly platform to meet your automotive needs.
+                            </p>
+                            <p>
+                                At Furious, we understand that buying or selling a car can be a significant decision, and our goal is to make the process as smooth and hassle-free as possible. With our extensive database of car listings, you'll find a wide range of vehicles to choose from, catering to various budgets, preferences, and lifestyles.
+                            </p>
+                        </div>
+                        <div class="cta-btn mt-25">
+                            <a href="contact.html" class="btn btn-lg btn-primary" title="Btn" target="_self">Get a Quote</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{#----------Browse Category------------#}
+<section class="steps-area pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title title-center mb-50 aos-init aos-animate" data-aos="fade-up">
+                        <span class="subtitle mb-10">How It Works</span>
+                        <h2 class="title">Furious Follows <span>03 Steps</span></h2>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 aos-init aos-animate" data-aos="fade-up">
+                            <div class="card align-items-center text-center radius-md p-25 mb-30">
+                                <div class="card-icon radius-md mb-25">
+                                    <i class="ico-truck"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title mb-20">Search Your Dream Car</h4>
+                                    <p class="card-text lc-3">
+                                        They are definitely recommend them if you are looking for a good car service. always on time,
+                                        and they're very professional.
+                                    </p>
+                                </div>
+                                <span class="text-stroke h2">01</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                            <div class="card align-items-center text-center radius-md p-25 mb-30">
+                                <div class="card-icon radius-md mb-25">
+                                    <i class="ico-dollar-mail"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title mb-20">Check Price With features</h4>
+                                    <p class="card-text lc-3">
+                                        They are definitely recommend them if you are looking for a good car service. always on time,
+                                        and they're very professional.
+                                    </p>
+                                </div>
+                                <span class="text-stroke h2">02</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="150">
+                            <div class="card align-items-center text-center radius-md p-25 mb-30">
+                                <div class="card-icon radius-md mb-25">
+                                    <i class="ico-dollar-note"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title mb-20">Contact With Dealer</h4>
+                                    <p class="card-text lc-3">
+                                        They are definitely recommend them if you are looking for a good car service. always on time,
+                                        and they're very professional.
+                                    </p>
+                                </div>
+                                <span class="text-stroke h2">03</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

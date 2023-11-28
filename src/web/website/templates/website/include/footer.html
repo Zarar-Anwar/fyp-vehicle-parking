@@ -1,0 +1,112 @@
+{% load static %}
+
+<footer class="footer-area bg-img bg-s-cover" data-bg-image="{% static 'assets/images/footer-bg-2.jpg' %}"
+        style="background-image: url(&quot;assets/images/footer-bg-2.jpg&quot;); background-position: center center; display: block;">
+    <div class="overlay opacity-80"></div>
+    <div class="footer-top pt-100 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <div class="footer-widget aos-init" data-aos="fade-up">
+                        <div class="navbar-brand">
+                            <a href="{% url 'website:home' %}">
+                                <img class="lazyload" src="{% static 'assets/images/logo/logo-2-1.png' %}"
+                                     data-src="{% static 'assets/images/logo/logo-2-1.png' %}" alt="Logo">
+                            </a>
+                        </div>
+                        <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                        <div class="social-link rounded">
+                            <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.dribbble.com/" target="_blank"><i class="fab fa-dribbble"></i></a>
+                            <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-3 col-sm">
+                    <div class="footer-widget aos-init" data-aos="fade-up">
+                        <h4>Useful Links</h4>
+                        <ul class="footer-links">
+                            <li>
+                                <a href="about.html">About Us</a>
+                            </li>
+                            <li>
+                                <a href="404.html">My Account</a>
+                            </li>
+                            <li>
+                                <a href="404.html">Champaigns</a>
+                            </li>
+                            <li>
+                                <a href="404.html">Privacy Policy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-3 col-sm">
+                    <div class="footer-widget aos-init" data-aos="fade-up">
+                        <h4>Vehicles Type</h4>
+                        <ul class="footer-links">
+                            <li>
+                                <a href="car-grid.html">All Vehicles</a>
+                            </li>
+                            <li>
+                                <a href="car-grid.html">Crossovers</a>
+                            </li>
+                            <li>
+                                <a href="car-grid.html">Pickup Truck</a>
+                            </li>
+                            <li>
+                                <a href="car-grid.html">Hatchback</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-4 col-md-4 col-sm-5">
+                    <div class="footer-widget aos-init" data-aos="fade-up">
+                        <h4>Contact Us</h4>
+                        <ul class="info-list">
+                            <li>
+                                <i class="fal fa-map-marker-alt"></i>
+                                <span>2416 Mapleview Drive</span>
+                            </li>
+                            <li>
+                                <i class="fal fa-headset"></i>
+                                <a href="tel:992233555">+999 22 33 555</a>
+                            </li>
+                            <li>
+                                <i class="fal fa-envelope"></i>
+                                <a href="mailto:info@example.com">info@example.com</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <div class="footer-widget aos-init" data-aos="fade-up">
+                        <h4>Subscribe Us</h4>
+                        <p class="lh-1 mb-20">Stay update with us and get offer!</p>
+                        <div class="newsletter-form">
+                            <form id="newsletterForm">
+                                <div class="form-group">
+                                    <input class="form-control radius-sm" placeholder="Enter email" type="text"
+                                           name="EMAIL" required="" autocomplete="off">
+                                    <button class="btn btn-md btn-primary radius-sm" type="submit">Subscribe</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copy-right-area border-top">
+        <div class="container">
+            <div class="copy-right-content">
+                    <span>
+                        Copyright <i class="fal fa-copyright"></i><span id="footerDate">2023</span> <a
+                            href="{% url 'website:home' %}"
+                            class="color-primary">Furious</a>. All Rights Reserved
+                    </span>
+            </div>
+        </div>
+    </div>
+</footer>

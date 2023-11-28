@@ -1,0 +1,191 @@
+{% load static %}
+
+<header class="header-area header-2 aos-init aos-animate" data-aos="slide-down">
+
+        {#--------Mobile Menu---------#}
+    <div class="mobile-menu" style="">
+        <div class="container">
+            <div class="mobile-menu-wrapper">
+                <ul id="mainMenu" class="navbar-nav mobile-item mx-auto">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link toggle">Home <i class="fal fa-plus"></i></a>
+                        <ul class="menu-dropdown">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'website:home' %}">Home Demo 1</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="index-2.html">Home Demo 2</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="index-3.html">Home Demo 3</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link toggle" href="#cars">Cars<i class="fal fa-plus"></i></a>
+                        <ul class="menu-dropdown">
+                            <li class="nav-item">
+                                <a class="nav-link" href="car-grid.html">Car Grid</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="car-list.html">Car List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="car-details.html">Car Details</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link toggle" href="#shop">Shop<i class="fal fa-plus"></i></a>
+                        <ul class="menu-dropdown">
+                            <li class="nav-item">
+                                <a class="nav-link" href="shop.html">Shop</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="shop-details.html">Shop Details</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="cart.html">Cart</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="wishlist.html">Wishlist</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="checkout.html">Checkout</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link toggle" href="#pages">Pages<i class="fal fa-plus"></i></a>
+                        <ul class="menu-dropdown">
+                            <li class="nav-item">
+                                <a class="nav-link" href="about.html">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="faq.html">FAQ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="login.html">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="signup.html">Signup</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="404.html">404 Error</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="coming-soon.html">Coming Soon</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="terms-conditions.html">Terms &amp; Conditions</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link toggle" href="#blog">Blog<i class="fal fa-plus"></i></a>
+                        <ul class="menu-dropdown">
+                            <li class="nav-item">
+                                <a class="nav-link" href="blogs.html">Blogs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="blog-details.html">Blog Details</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+                <div class="more-option mobile-item">
+                    <div class="item">
+                        <div class="language">
+                            <select class="nice-select" style="display: none;">
+                                <option value="1">English</option>
+                                <option value="2">Chinese</option>
+                                <option value="3">French</option>
+                            </select>
+                            <div class="nice-select" tabindex="0"><span class="current">English</span>
+                                <ul class="list">
+                                    <li data-value="1" class="option selected">English</li>
+                                    <li data-value="2" class="option">Chinese</li>
+                                    <li data-value="3" class="option">French</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <a href="login.html" class="btn-icon">
+                            <i class="far fa-user-circle"></i>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="contact.html" class="btn btn-md btn-primary radius-sm" title="Get a Quote"
+                           target="_self">Get a Quote</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        {#--------Logo--------#}
+    <div class="main-responsive-nav">
+        <div class="container">
+            <div class="logo">
+                <a href="{% url 'website:home' %}">
+                    <img src="{% static 'assets/images/logo/logo-2.png' %}" alt="logo">
+                </a>
+            </div>
+            <button class="menu-toggler" type="button">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+
+        {#--------Main Menu---------#}
+    <div class="main-navbar" style="display: none;">
+        <div class="container custom-container">
+            <nav class="navbar navbar-expand-lg justify-content-between">
+                <a class="navbar-brand" href="{% url 'website:home' %}">
+                    <img src="{% static 'assets/images/logo/logo-2.png' %}" alt="Logo">
+                </a>
+                <div class="collapse navbar-collapse">
+                    <ul id="mainMenu1" class="navbar-nav mobile-item mx-auto">
+                        <li class="nav-item">
+                            <a href="{% url 'website:home' %}" class="nav-link toggle">Home</a>
+                        </li>
+                         <li class="nav-item">
+                            <a href="{% url 'website:cars' %}" class="nav-link toggle">Cars</a>
+                        </li>
+                         <li class="nav-item">
+                            <a href="{% url 'website:faqs' %}" class="nav-link toggle">FAQ</a>
+                        </li>
+                         <li class="nav-item">
+                            <a href="{% url 'website:about-us' %}" class="nav-link toggle">About Us</a>
+                        </li>
+                         <li class="nav-item">
+                            <a href="{% url 'website:contact-us' %}" class="nav-link toggle">Contact Us</a>
+                        </li>
+                         <li class="nav-item">
+                            <a href="{% url 'website:terms-and-conditions' %}" class="nav-link toggle">Terms & Condition</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="more-option mobile-item">
+                    <div class="item">
+                        <a href="{% url 'website:home' %}" class="btn btn-md btn-primary radius-sm" title="Get a Quote"
+                           target="_self">Login</a>
+                    </div>
+                     <div class="item">
+                        <a href="{% url 'website:home' %}" class="btn btn-md btn-primary radius-sm" title="Get a Quote"
+                           target="_self">Sign Up</a>
+                    </div>
+                </div>
+
+            </nav>
+        </div>
+    </div>
+
+</header>
