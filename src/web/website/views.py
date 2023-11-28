@@ -1,4 +1,5 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
+
 
 # Create your views here.
 
@@ -9,6 +10,10 @@ class HomeView(TemplateView):
 
 class CarsView(TemplateView):
     template_name = 'website/cars.html'
+
+
+class CarDetailsView(TemplateView):
+    template_name = 'website/car_details.html'
 
 
 class AboutView(TemplateView):
