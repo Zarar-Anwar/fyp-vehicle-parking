@@ -1,5 +1,6 @@
 from django.forms import ModelForm
-from src.services.users.models import User
+
+from src.web.accounts.models import User
 
 
 class UserProfileForm(ModelForm):

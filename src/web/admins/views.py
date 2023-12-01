@@ -10,8 +10,8 @@ from django.views.generic import (
     TemplateView, ListView, DetailView, UpdateView
 )
 
+from src.web.accounts.models import User
 # from faker_data import initialization
-from src.services.users.models import User
 from src.web.admins.filters import UserFilter
 
 admin_decorators = [login_required, user_passes_test(lambda u: u.is_superuser)]
