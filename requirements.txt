@@ -6,6 +6,7 @@ python-dateutil
 pytz
 DateTime
 
+django-jazzmin
 django~=4.2.3
 django-environ
 django-filter~=23.2

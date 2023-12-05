@@ -29,8 +29,8 @@
 <div class="authentication-area ptb-100">
         <div class="container">
             <div class="auth-form border">
-                <form >
-                    {{crispy_tokens}}
+                <form method="post">
+                    {% csrf_token %}
                     <div class="title">
                         <h4 class="mb-20">Signup</h4>
                     </div>
@@ -39,7 +39,7 @@
                         <div class="col-sm-8">
                             <div class="link go-signup">
                                 Already have an account?
-                                <a href="login.html" target="_self" title="Link"> Click Here</a> to Login
+                                <a href="{% url 'account_login'%}" target="_self" title="Link"> Click Here</a> to Login
                             </div>
                         </div>
                     </div>
