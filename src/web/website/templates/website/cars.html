@@ -69,14 +69,14 @@ Cars List
                         <div class="col-xl-4 col-md-6 aos-init aos-animate" data-aos="fade-up">
                             <div class="product-default border p-15 mb-25">
                                 <figure class="product-img mb-15">
-                                    <a href="car-details.html" target="_self" title="Link" class="lazy-container ratio ratio-2-3">
+                                    <a href="{% url 'website:car-details' 1 %}" target="_self" title="Link" class="lazy-container ratio ratio-2-3">
                                         <img class=" ls-is-cached lazyloaded" src="{% static 'assets/images/category/cat-9.png' %}" data-src="{% static 'assets/images/category/cat-9.png' %}" alt="Product">
                                     </a>
                                 </figure>
                                 <div class="product-details">
                                     <span class="product-category font-xsm">Couple Car</span>
                                     <div class="d-flex align-items-center justify-content-between mb-15">
-                                        <h5 class="product-title lc-1 mb-0"><a href="car-details.html" target="_self" title="Link">Aurora Starlight Elite</a></h5>
+                                        <h5 class="product-title lc-1 mb-0"><a href="{% url 'website:car-details' 1 %}" target="_self" title="Link">Aurora Starlight Elite</a></h5>
                                         <a href="wishlist.html" class="btn btn-icon" data-tooltip="tooltip" data-bs-placement="right" aria-label="Save to Wishlist" data-bs-original-title="Save to Wishlist">
                                             <i class="fal fa-heart"></i>
                                         </a>

@@ -2,7 +2,7 @@
 
 <header class="header-area header-2 aos-init aos-animate" data-aos="slide-down">
 
-        {#--------Mobile Menu---------#}
+    {#--------Mobile Menu---------#}
     <div class="mobile-menu" style="">
         <div class="container">
             <div class="mobile-menu-wrapper">
@@ -127,7 +127,7 @@
         </div>
     </div>
 
-        {#--------Logo--------#}
+    {#--------Logo--------#}
     <div class="main-responsive-nav">
         <div class="container">
             <div class="logo">
@@ -143,7 +143,7 @@
         </div>
     </div>
 
-        {#--------Main Menu---------#}
+    {#--------Main Menu---------#}
     <div class="main-navbar" style="display: none;">
         <div class="container custom-container">
             <nav class="navbar navbar-expand-lg justify-content-between">
@@ -155,33 +155,41 @@
                         <li class="nav-item">
                             <a href="{% url 'website:home' %}" class="nav-link toggle">Home</a>
                         </li>
-                         <li class="nav-item">
+                        <li class="nav-item">
                             <a href="{% url 'website:cars' %}" class="nav-link toggle">Cars</a>
                         </li>
-                         <li class="nav-item">
+                        <li class="nav-item">
                             <a href="{% url 'website:faqs' %}" class="nav-link toggle">FAQ</a>
                         </li>
-                         <li class="nav-item">
+                        <li class="nav-item">
                             <a href="{% url 'website:about-us' %}" class="nav-link toggle">About Us</a>
                         </li>
-                         <li class="nav-item">
+                        <li class="nav-item">
                             <a href="{% url 'website:contact-us' %}" class="nav-link toggle">Contact Us</a>
                         </li>
-                         <li class="nav-item">
-                            <a href="{% url 'website:terms-and-conditions' %}" class="nav-link toggle">Terms & Condition</a>
+                        <li class="nav-item">
+                            <a href="{% url 'website:terms-and-conditions' %}" class="nav-link toggle">Terms &
+                                Condition</a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="more-option mobile-item">
+                    {% if user.is_authenticated %}
+                    <div class="item">
+                        <a href="{% url 'account_logout' %}" class="btn btn-warning" style="background-color:orange;font-size:20px">Logout</a>
+                    </div>
+                    {% else %}
                     <div class="item">
                         <a href="{% url 'account_login' %}" class="btn btn-md btn-primary radius-sm" title="Get a Quote"
                            target="_self">Login</a>
                     </div>
-                     <div class="item">
-                        <a href="{% url 'account_signup' %}" class="btn btn-md btn-primary radius-sm" title="Get a Quote"
+                    <div class="item">
+                        <a href="{% url 'account_signup' %}" class="btn btn-md btn-primary radius-sm"
+                           title="Get a Quote"
                            target="_self">Sign Up</a>
                     </div>
+                    {% endif %}
                 </div>
 
             </nav>

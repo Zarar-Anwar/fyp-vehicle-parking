@@ -6,6 +6,135 @@ Car-Details
 {% endblock %}
 {% block content %}
 
+{% block css%}
+<style>
+    /* Style the row of seats */
+   .seat-container {
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       border: 1px solid #ddd;
+       padding: 10px;
+       border-radius: 8px;
+       background-color: #f5f5f5;
+       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   }
+
+   /* Style the seat checkboxes */
+   .seat-checkbox {
+       width: 20px;
+       height: 20px;
+   }
+
+   /* Style the seat labels */
+   .seat-label {
+       font-size: 16px;
+       font-weight: bold;
+       color: #333;
+   }
+    .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+        .coach-run-ticket {
+      width: 300px;
+      height: 150px;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    }
+
+    .coach-run-ticket-header {
+      padding: 10px;
+      background-color: #008CBA;
+      color: #fff;
+      text-align: center;
+    }
+
+    .coach-run-ticket-header h3 {
+      margin: 0;
+    }
+
+    .coach-run-ticket-body {
+      padding: 10px;
+    }
+
+    .coach-run-ticket-body p {
+      margin-bottom: 5px;
+    }
+
+    .coach-run-ticket-footer {
+      padding: 10px;
+      text-align: center;
+    }
+
+    .coach-run-ticket-footer p {
+      margin-bottom: 0;
+    }
+
+    .coach-run-ticket-checkbox {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      background-color: #ccc;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .coach-run-ticket-checkbox:checked {
+      background-color: green;
+    }
+
+    .coach-run-ticket-checkbox:checked:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      background-color: #fff;
+      border-radius: 50%;
+    }
+</style>
+{% endblock css%}
+
+
 {#----------Main Banner------------#}
 <div class="page-title-area pb-100 bg-img bg-s-cover" data-bg-image="{% static 'assets/images/page-title-bg-4.jpg' %}"
      style="background-image: url(&quot;assets/images/page-title-bg-4.jpg' %}&quot;); background-position: center center; display: block;">
@@ -238,7 +367,33 @@ Car-Details
                             </button>
                         </div>
                     </div>
+
                 </div>
+
+                <div class="row m-5">
+                    {% for i in '123456789' %}
+
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="seat-container">
+                                    <p class="seat-label">Seat No</p>
+                                    <p class="ml-2">{{ i }}</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="seat-container">
+                                    <input type="checkbox" class="seat-checkbox ml-3"
+                                           data-seat-number="{{ i }}">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+                </div>
+
                 <div class="product-single-details">
                     <div class="row aos-init aos-animate" data-aos="fade-up">
                         <div class="col-md-8">
@@ -276,19 +431,27 @@ Car-Details
                                 <h4 class="mb-20">Car Description</h4>
                                 <p>
                                     It is a long established fact that a reader will be distracted by the readable
-                                    content of a page when looking at its layout. The point of using Lorem Ipsum is that
-                                    it has a more-or-less normal distribution of letters, as opposed to using 'Content
-                                    here, content here', making it look like readable English. Many desktop publishing
-                                    packages and web page editors now use Lorem Ipsum as their default model text, and a
-                                    search for 'lorem ipsum' will uncover many web sites still in their infancy. Various
-                                    versions have evolved over the years, sometimes by accident, sometimes on purpose
+                                    content of a page when looking at its layout. The point of using Lorem Ipsum is
+                                    that
+                                    it has a more-or-less normal distribution of letters, as opposed to using
+                                    'Content
+                                    here, content here', making it look like readable English. Many desktop
+                                    publishing
+                                    packages and web page editors now use Lorem Ipsum as their default model text,
+                                    and a
+                                    search for 'lorem ipsum' will uncover many web sites still in their infancy.
+                                    Various
+                                    versions have evolved over the years, sometimes by accident, sometimes on
+                                    purpose
                                     (injected humour and the like).
                                 </p>
                                 <p>
                                     There are many variations of passages of Lorem Ipsum available, but the majority
-                                    have suffered alteration in some form, by injected humour, or randomised words which
+                                    have suffered alteration in some form, by injected humour, or randomised words
+                                    which
                                     don't look even slightly believable. If you are going to use a passage of Lorem
-                                    Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of
+                                    Ipsum, you need to be sure there isn't anything embarrassing hidden in the
+                                    middle of
                                     text. All the Lorem Ipsum generators on the Internet tend to repeat.
                                 </p>
                             </div>
@@ -406,17 +569,19 @@ Car-Details
                             <div class="col-lg-4">
                                 <div class="product-default border p-15 mb-25">
                                     <figure class="product-img mb-15">
-                                        <a href="car-details.html" target="_self" title="Link"
+                                        <a href="{% url 'website:car-details' 1 %}" target="_self" title="Link"
                                            class="lazy-container ratio ratio-2-3">
-                                            <img class=" ls-is-cached lazyloaded" src="{% static 'assets/images/category/cat-11.png' %}"
+                                            <img class=" ls-is-cached lazyloaded"
+                                                 src="{% static 'assets/images/category/cat-11.png' %}"
                                                  data-src="assets/images/product/pro-1.png" alt="Product">
                                         </a>
                                     </figure>
                                     <div class="product-details">
                                         <span class="product-category font-xsm">Couple Car</span>
                                         <div class="d-flex align-items-center justify-content-between mb-15">
-                                            <h5 class="product-title lc-1 mb-0"><a href="car-details.html"
-                                                                                   target="_self" title="Link">Aurora
+                                            <h5 class="product-title lc-1 mb-0"><a
+                                                    href="{% url 'website:car-details' 1 %}"
+                                                    target="_self" title="Link">Aurora
                                                 Starlight Elite</a></h5>
                                             <a href="wishlist.html" class="btn btn-icon" data-tooltip="tooltip"
                                                data-bs-placement="right" aria-label="Save to Wishlist"
@@ -464,5 +629,70 @@ Car-Details
     </div>
 </div>
 
+
+{% endblock %}
+
+{% block external_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var checkboxes = document.querySelectorAll('.seat-checkbox');
+
+      checkboxes.forEach(function(checkbox) {
+          checkbox.addEventListener('change', function() {
+              if (this.checked) {
+                  checkboxes.forEach(function(otherCheckbox) {
+                      if (otherCheckbox !== checkbox) {
+                          otherCheckbox.checked = false;
+                      }
+                  });
+
+                  // Change background color of the checkbox to green
+                  checkbox.style.backgroundColor = 'green';
+
+                  checkboxes.forEach(function(otherCheckbox) {
+                      if (otherCheckbox !== checkbox && otherCheckbox.checked) {
+                          otherCheckbox.style.backgroundColor = '';
+                      }
+                  });
+              } else {
+                  // If the current checkbox is unchecked, reset background color
+                  checkbox.style.backgroundColor = '';
+              }
+          });
+      });
+  });
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+    // Your existing JavaScript code
+
+    // Get the modal and the button that opens it
+    var modal = document.getElementById('bookingModal');
+    var btn = document.getElementById('bookNowButton');
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName('close')[0];
+
+    // When the user clicks the button, open the modal
+    btn.addEventListener('click', function() {
+        modal.style.display = 'block';
+        // Populate the bookingInfo div with relevant information
+        document.getElementById('bookingInfo').innerHTML = 'Booking details go here...';
+    });
+
+    // When the user clicks on <span> (x), close the modal
+    span.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
+
+</script>
 
 {% endblock %}

@@ -34,6 +34,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 INSTALLED_APPS = [
     # DJANGO APPS
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
@@ -74,6 +75,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     # DJANGO MIDDLEWARES
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
