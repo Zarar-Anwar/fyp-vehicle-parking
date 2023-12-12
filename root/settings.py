@@ -189,6 +189,7 @@ DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
 
 """ ALL-AUTH SETUP --------------------------------------------------------------------------------"""
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
+ACCOUNT_SIGNUP_REDIRECT_URL = '/accounts/logout/'
 SOCIALACCOUNT_LOGIN_REDIRECT_URL = '/login/'
 ACCOUNT_LOGOUT_ON_GET = True
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
