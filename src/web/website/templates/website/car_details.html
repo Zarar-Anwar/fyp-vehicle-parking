@@ -8,128 +8,62 @@ Car-Details
 
 {% block css%}
 <style>
-    /* Style the row of seats */
-   .seat-container {
-       display: flex;
-       align-items: center;
-       justify-content: space-between;
-       border: 1px solid #ddd;
-       padding: 10px;
-       border-radius: 8px;
-       background-color: #f5f5f5;
-       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-   }
-
-   /* Style the seat checkboxes */
-   .seat-checkbox {
-       width: 20px;
-       height: 20px;
-   }
-
-   /* Style the seat labels */
-   .seat-label {
-       font-size: 16px;
-       font-weight: bold;
-       color: #333;
-   }
-    .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.5);
-}
-
-/* Modal content */
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-/* Close button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-
-        .coach-run-ticket {
-      width: 300px;
-      height: 150px;
-      border-radius: 10px;
+    .bus-card {
       background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-    }
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: 100%;
+      align-items: center;
+          }
 
-    .coach-run-ticket-header {
-      padding: 10px;
-      background-color: #008CBA;
+    .bus-header {
+      background-color: #3498db;
       color: #fff;
+      padding: 15px;
       text-align: center;
     }
 
-    .coach-run-ticket-header h3 {
-      margin: 0;
+    .bus-seats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      padding: 15px;
     }
 
-    .coach-run-ticket-body {
-      padding: 10px;
-    }
+    .seat {
 
-    .coach-run-ticket-body p {
-      margin-bottom: 5px;
-    }
-
-    .coach-run-ticket-footer {
-      padding: 10px;
-      text-align: center;
-    }
-
-    .coach-run-ticket-footer p {
-      margin-bottom: 0;
-    }
-
-    .coach-run-ticket-checkbox {
-      position: relative;
-      width: 20px;
-      height: 20px;
-      background-color: #ccc;
-      border: 1px solid #ccc;
-      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      background-color: blue;
+      color: #fff;
+      border-radius: 5px;
+      margin: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
 
-    .coach-run-ticket-checkbox:checked {
-      background-color: green;
+    .empty {
+      background-color: #f0f0f0;
+      cursor: default;
     }
 
-    .coach-run-ticket-checkbox:checked:after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 6px;
-      height: 6px;
-      background-color: #fff;
-      border-radius: 50%;
+    .bus-footer {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .book-button {
+      background-color: #27ae60;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
     }
 </style>
 {% endblock css%}
@@ -140,86 +74,53 @@ Car-Details
      style="background-image: url(&quot;assets/images/page-title-bg-4.jpg' %}&quot;); background-position: center center; display: block;">
     <div class="container">
         <div class="content">
-            <h2>Car Details</h2>
+            <h2>Vehicle Details</h2>
             <ul class="list-unstyled">
                 <li class="d-inline"><a href="index.html">Home</a></li>
                 <li class="d-inline">/</li>
-                <li class="d-inline active opacity-75">Car Details</li>
+                <li class="d-inline active opacity-75">Vehicle Details</li>
             </ul>
         </div>
     </div>
 </div>
 
 {#----------Steps Area------------#}
-<div class="car-details-area pt-100 pb-60">
+<div class="car-details-area  pb-60">
     <div class="container">
         <div class="row gx-xl-5">
+
+            <div class="col-lg-12 m-5 ">
+                <div class="product-featured pt-60 aos-init aos-animate text-center" data-aos="fade-up">
+                    <h2 class="mb-5 text-center">Vehicle Features</h2>
+                    <ul class="features-list justify-content-center">
+                        <li class="font-lg">
+                            <span><i class="fas fa-file-alt"></i>Name : {{bus.name}} </span>
+                        </li>
+                        <li class="font-lg">
+                            <span><i class="fas fa-users"></i>Seats : {{bus.capacity}} </span>
+                        </li>
+                        <li class="font-lg">
+                            <span><i class="fas fa-car"></i> Model : {{bus.model}}</span>
+                        </li>
+                        <li class="font-lg">
+                            <span><i class="fas fa-coins"></i>Fare_Rates : {{bus.fare_rates}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="col-lg-12">
                 <div class="product-single-gallery mb-40">
                     <div class="swiper product-single-slider swiper-initialized swiper-horizontal swiper-pointer-events swiper-watch-progress swiper-backface-hidden">
-                        <div class="swiper-wrapper" id="swiper-wrapper-aacbbfa8ca779b29" aria-live="off"
+                        <div class="swiper-wrapper justify-content-center" id="swiper-wrapper-aacbbfa8ca779b29"
+                             aria-live="off"
                              style="transform: translate3d(-2088px, 0px, 0px); transition-duration: 0ms;">
-                            <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next"
-                                 data-swiper-slide-index="3" role="group" aria-label="4 / 4" style="width: 696px;">
-                                <figure class="lazy-container ratio ratio-5-3">
-                                    <a href="assets/images/product/pro-lg-4.jpg' %}" class="lightbox-single">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-4.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-4.jpg' %}"
-                                             alt="product image">
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="swiper-slide" data-swiper-slide-index="0" role="group" aria-label="1 / 4"
-                                 style="width: 696px;">
+                            <div class="" data-swiper-slide-index="0" role="group" aria-label="1 / 4"
+                                 style="width:100%;">
                                 <figure class="lazy-container ratio ratio-5-3">
                                     <a href="assets/images/product/pro-lg-1.jpg' %}" class="lightbox-single">
                                         <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
-                                             alt="product image">
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="swiper-slide swiper-slide-prev" data-swiper-slide-index="1" role="group"
-                                 aria-label="2 / 4" style="width: 696px;">
-                                <figure class="lazy-container ratio ratio-5-3">
-                                    <a href="assets/images/product/pro-lg-2.jpg' %}" class="lightbox-single">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-2.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-2.jpg' %}"
-                                             alt="product image">
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="swiper-slide swiper-slide-visible swiper-slide-active"
-                                 data-swiper-slide-index="2" role="group" aria-label="3 / 4" style="width: 696px;">
-                                <figure class="lazy-container ratio ratio-5-3">
-                                    <a href="assets/images/product/pro-lg-3.jpg' %}" class="lightbox-single">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-3.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-3.jpg' %}"
-                                             alt="product image">
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="swiper-slide swiper-slide-next" data-swiper-slide-index="3" role="group"
-                                 aria-label="4 / 4" style="width: 696px;">
-                                <figure class="lazy-container ratio ratio-5-3">
-                                    <a href="assets/images/product/pro-lg-4.jpg' %}" class="lightbox-single">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-4.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-4.jpg' %}"
-                                             alt="product image">
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="0" role="group"
-                                 aria-label="1 / 4" style="width: 696px;">
-                                <figure class="lazy-container ratio ratio-5-3">
-                                    <a href="assets/images/product/pro-lg-1.jpg' %}" class="lightbox-single">
-                                        <img class=" lazyloading"
-                                             src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
+                                             src="{{bus.Image.url}}"
                                              data-src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
                                              alt="product image">
                                     </a>
@@ -242,388 +143,40 @@ Car-Details
                                              alt="product image">
                                     </div>
                                 </div>
-                                <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next"
-                                     role="group" aria-label="2 / 4" style="width: 162.75px; margin-right: 15px;"
-                                     data-swiper-slide-index="1">
-                                    <div class="thumbnail-img lazy-container ratio ratio-5-3">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-2.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-2.jpg' %}"
-                                             alt="product image">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide swiper-slide-duplicate swiper-slide-thumb-active" role="group"
-                                     aria-label="3 / 4" style="width: 162.75px; margin-right: 15px;"
-                                     data-swiper-slide-index="2">
-                                    <div class="thumbnail-img lazy-container ratio ratio-5-3">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-3.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-3.jpg' %}"
-                                             alt="product image">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide swiper-slide-duplicate swiper-slide-prev" role="group"
-                                     aria-label="4 / 4" style="width: 162.75px; margin-right: 15px;"
-                                     data-swiper-slide-index="3">
-                                    <div class="thumbnail-img lazy-container ratio ratio-5-3">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-4.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-4.jpg' %}"
-                                             alt="product image">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide swiper-slide-visible swiper-slide-active" role="group"
-                                     aria-label="1 / 4" style="width: 162.75px; margin-right: 15px;"
-                                     data-swiper-slide-index="0">
-                                    <div class="thumbnail-img lazy-container ratio ratio-5-3">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
-                                             alt="product image">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide swiper-slide-visible swiper-slide-next" role="group"
-                                     aria-label="2 / 4" style="width: 162.75px; margin-right: 15px;"
-                                     data-swiper-slide-index="1">
-                                    <div class="thumbnail-img lazy-container ratio ratio-5-3">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-2.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-2.jpg' %}"
-                                             alt="product image">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide swiper-slide-visible swiper-slide-thumb-active" role="group"
-                                     aria-label="3 / 4" style="width: 162.75px; margin-right: 15px;"
-                                     data-swiper-slide-index="2">
-                                    <div class="thumbnail-img lazy-container ratio ratio-5-3">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-3.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-3.jpg' %}"
-                                             alt="product image">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide swiper-slide-visible swiper-slide-duplicate-prev" role="group"
-                                     aria-label="4 / 4" style="width: 162.75px; margin-right: 15px;"
-                                     data-swiper-slide-index="3">
-                                    <div class="thumbnail-img lazy-container ratio ratio-5-3">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-4.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-4.jpg' %}"
-                                             alt="product image">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active"
-                                     role="group" aria-label="1 / 4" style="width: 162.75px; margin-right: 15px;"
-                                     data-swiper-slide-index="0">
-                                    <div class="thumbnail-img lazy-container ratio ratio-5-3">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
-                                             alt="product image">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next"
-                                     role="group" aria-label="2 / 4" style="width: 162.75px; margin-right: 15px;"
-                                     data-swiper-slide-index="1">
-                                    <div class="thumbnail-img lazy-container ratio ratio-5-3">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-2.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-2.jpg' %}"
-                                             alt="product image">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide swiper-slide-duplicate swiper-slide-thumb-active" role="group"
-                                     aria-label="3 / 4" style="width: 162.75px; margin-right: 15px;"
-                                     data-swiper-slide-index="2">
-                                    <div class="thumbnail-img lazy-container ratio ratio-5-3">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-3.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-3.jpg' %}"
-                                             alt="product image">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide swiper-slide-duplicate" role="group" aria-label="4 / 4"
-                                     style="width: 162.75px; margin-right: 15px;" data-swiper-slide-index="3">
-                                    <div class="thumbnail-img lazy-container ratio ratio-5-3">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-4.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-4.jpg' %}"
-                                             alt="product image">
-                                    </div>
-                                </div>
                             </div>
                             <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
-                        <!-- Slider navigation buttons -->
-                        <div class="slider-navigation">
-                            <button type="button" title="Slide prev" class="slider-btn slider-btn-prev radius-0"
-                                    tabindex="0" aria-label="Previous slide"
-                                    aria-controls="swiper-wrapper-aacbbfa8ca779b29">
-                                <i class="fal fa-angle-left"></i>
-                            </button>
-                            <button type="button" title="Slide next" class="slider-btn slider-btn-next radius-0"
-                                    tabindex="0" aria-label="Next slide"
-                                    aria-controls="swiper-wrapper-aacbbfa8ca779b29">
-                                <i class="fal fa-angle-right"></i>
-                            </button>
-                        </div>
                     </div>
 
                 </div>
 
-                <div class="row m-5">
-                    {% for i in '123456789' %}
+                <div class="row ">
+                    <div class="col-lg-12 ">
+                        <form method="post">
 
-                    <div class="col-lg-6">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="seat-container">
-                                    <p class="seat-label">Seat No</p>
-                                    <p class="ml-2">{{ i }}</p>
+                            <div class="bus-card ">
+                                <div class="bus-header">
+                                    <h4>BUS : {{bus.name|upper}}</h4>
+                                </div>
+                                <div class="bus-seats">
+
+                                    {% for i in ""|rjust:bus.capacity %}
+                                    <div class="seat">{{ forloop.counter }}</div>
+                                    {% endfor %}
+
+
+                                </div>
+                                <div class="bus-footer">
+                                    <button class="book-button" type="button">Book Now
+                                    </button>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="seat-container">
-                                    <input type="checkbox" class="seat-checkbox ml-3"
-                                           data-seat-number="{{ i }}">
-                                </div>
-                            </div>
-                        </div>
+
+                        </form>
 
                     </div>
 
-                    {% endfor %}
                 </div>
 
-                <div class="product-single-details">
-                    <div class="row aos-init aos-animate" data-aos="fade-up">
-                        <div class="col-md-8">
-                            <span class="product-category">Luxury Sports Car</span>
-                            <h3 class="product-title mt-10 mb-20">Lamborghini SC18 Is A One Off Aventador</h3>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="product-price mb-20">
-                                <h3 class="new-price color-primary">$150.00</h3>
-                                <span class="old-price h4 color-medium">$200.00</span>
-                            </div>
-                            <div class="author mb-20">
-                                <div class="image">
-                                    <img class="blur-up ls-is-cached lazyloaded"
-                                         src="{% static 'assets/images/avatar-1.jpg' %}"
-                                         data-src="{% static 'assets/images/avatar-1.jpg' %}" alt="Person Image">
-                                </div>
-                                <div class="author-info">
-                                    <h6 class="mb-2 lh-1">By Jonathan Doe</h6>
-                                    <div class="ratings">
-                                        <div class="rate">
-                                            <div class="rating-icon"></div>
-                                        </div>
-                                        <span class="ratings-total">(4.5)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-11">
-                            <!-- Product description -->
-                            <div class="product-desc pt-40 aos-init aos-animate" data-aos="fade-up">
-                                <h4 class="mb-20">Car Description</h4>
-                                <p>
-                                    It is a long established fact that a reader will be distracted by the readable
-                                    content of a page when looking at its layout. The point of using Lorem Ipsum is
-                                    that
-                                    it has a more-or-less normal distribution of letters, as opposed to using
-                                    'Content
-                                    here, content here', making it look like readable English. Many desktop
-                                    publishing
-                                    packages and web page editors now use Lorem Ipsum as their default model text,
-                                    and a
-                                    search for 'lorem ipsum' will uncover many web sites still in their infancy.
-                                    Various
-                                    versions have evolved over the years, sometimes by accident, sometimes on
-                                    purpose
-                                    (injected humour and the like).
-                                </p>
-                                <p>
-                                    There are many variations of passages of Lorem Ipsum available, but the majority
-                                    have suffered alteration in some form, by injected humour, or randomised words
-                                    which
-                                    don't look even slightly believable. If you are going to use a passage of Lorem
-                                    Ipsum, you need to be sure there isn't anything embarrassing hidden in the
-                                    middle of
-                                    text. All the Lorem Ipsum generators on the Internet tend to repeat.
-                                </p>
-                            </div>
-
-                            <!-- Product feature -->
-                            <div class="product-featured pt-60 aos-init aos-animate" data-aos="fade-up">
-                                <h4 class="mb-20">Car Features</h4>
-                                <ul class="features-list">
-                                    <li class="font-lg">
-                                        <span><i class="ico-car-seat"></i> 5 Seats</span>
-                                    </li>
-                                    <li class="font-lg">
-                                        <span><i class="ico-travel-luggage"></i> 6 Bags</span>
-                                    </li>
-                                    <li class="font-lg">
-                                        <span><i class="ico-car-door"></i> 4 Doors</span>
-                                    </li>
-                                    <li class="font-lg">
-                                        <span><i class="ico-gear-shift"></i> Auto Gear</span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <!-- Product specification -->
-                            <div class="product-spec pt-60 aos-init aos-animate" data-aos="fade-up">
-                                <h4 class="mb-20">Car Specification</h4>
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-6 col-md-4 mb-20">
-                                        <h6 class="mb-1">Car Company</h6>
-                                        <span>Nissan</span>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-md-4 mb-20">
-                                        <h6 class="mb-1">Car Model</h6>
-                                        <span>Sports XTrial 22</span>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-md-4 mb-20">
-                                        <h6 class="mb-1">Made Date</h6>
-                                        <span>01/01/2021</span>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-md-4 mb-20">
-                                        <h6 class="mb-1">Mileage</h6>
-                                        <span>150,556</span>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-md-4 mb-20">
-                                        <h6 class="mb-1">Car Company</h6>
-                                        <span>Nissan</span>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-md-4 mb-20">
-                                        <h6 class="mb-1">VIN</h6>
-                                        <span>MSMLOPIRUO</span>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-md-4 mb-20">
-                                        <h6 class="mb-1">Version</h6>
-                                        <span>Sports V2</span>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-md-4 mb-20">
-                                        <h6 class="mb-1">Horsepower</h6>
-                                        <span>300</span>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-md-4 mb-20">
-                                        <h6 class="mb-1">Transmission</h6>
-                                        <span>Automatic</span>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-md-4 mb-20">
-                                        <h6 class="mb-1">Condition</h6>
-                                        <span>Imported</span>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-md-4 mb-20">
-                                        <h6 class="mb-1">Driver</h6>
-                                        <span>Expert</span>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-md-4 mb-20">
-                                        <h6 class="mb-1">Warranty</h6>
-                                        <span>Yes</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Product policy -->
-                            <div class="product-policy pt-40 aos-init aos-animate" data-aos="fade-up">
-                                <h3 class="pb-20">Cars Rules and Policies</h3>
-                                <h4 class="title mt-20">Check In - Check Out</h4>
-                                <p>Praesent lectus facilisi tempor <b>11:30 am</b> arcu pharetra non tellus.
-                                    Torquent nisl
-                                    tempor Magnis <b>12:00 pm</b> lobortis nam, montes ut, consequat sed amet
-                                    nullam.</p>
-
-                                <h4 class="title mt-30 pb-10">Car Policies</h4>
-                                <h6>Guarantee Policy:</h6>
-                                <ul class="policy-list list-unstyled mb-30">
-                                    <li>facilisi tempor arcu pharetra non tellus consequat sed amet nullam</li>
-                                    <li>Torquent nisl tempor Magnis lobortis Praesent lectus facilisi</li>
-                                    <li>nam, montes ut, consequat sed amet nullam</li>
-                                </ul>
-                                <h6>Cancellation Policy:</h6>
-                                <ul class="policy-list list-unstyled">
-                                    <li>Cras ultricies ligula sed magna dictum porta. Nulla quis lorem ut libero
-                                    </li>
-                                    <li>Quisque velit nisi, pretium ut lacinia in, elementum id enim.</li>
-                                    <li>nam, montes ut, consequat sed amet nullam</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product-area start -->
-                    <div class="product-area pt-60">
-                        <div class="section-title title-inline mb-30 aos-init" data-aos="fade-up">
-                            <h3 class="title mb-20">More From Lamborghini</h3>
-                        </div>
-
-                        <div class="row">
-
-                            {% for i in '123'%}
-                            <div class="col-lg-4">
-                                <div class="product-default border p-15 mb-25">
-                                    <figure class="product-img mb-15">
-                                        <a href="{% url 'website:car-details' 1 %}" target="_self" title="Link"
-                                           class="lazy-container ratio ratio-2-3">
-                                            <img class=" ls-is-cached lazyloaded"
-                                                 src="{% static 'assets/images/category/cat-11.png' %}"
-                                                 data-src="assets/images/product/pro-1.png" alt="Product">
-                                        </a>
-                                    </figure>
-                                    <div class="product-details">
-                                        <span class="product-category font-xsm">Couple Car</span>
-                                        <div class="d-flex align-items-center justify-content-between mb-15">
-                                            <h5 class="product-title lc-1 mb-0"><a
-                                                    href="{% url 'website:car-details' 1 %}"
-                                                    target="_self" title="Link">Aurora
-                                                Starlight Elite</a></h5>
-                                            <a href="wishlist.html" class="btn btn-icon" data-tooltip="tooltip"
-                                               data-bs-placement="right" aria-label="Save to Wishlist"
-                                               data-bs-original-title="Save to Wishlist">
-                                                <i class="fal fa-heart"></i>
-                                            </a>
-                                        </div>
-                                        <div class="author mb-15">
-                                            <a href="car-grid.html" target="_self" title="link">
-                                                <img class="blur-up ls-is-cached lazyloaded"
-                                                     src="{% static 'assets/images/avatar-1.jpg' %}"
-                                                     data-src="assets/images/avatar-1.jpg" alt="Image">
-                                                <span>By Nikon</span>
-                                            </a>
-                                        </div>
-                                        <ul class="product-icon-list mb-15 list-unstyled">
-                                            <li class="icon-start">
-                                                <i class="fal fa-tachometer-alt"></i>
-                                                <span>Automatic</span>
-                                            </li>
-                                            <li class="icon-start">
-                                                <i class="fal fa-tire"></i>
-                                                <span>3WD</span>
-                                            </li>
-                                            <li class="icon-start">
-                                                <i class="fal fa-map-marked-alt"></i>
-                                                <span>1,000</span>
-                                            </li>
-                                        </ul>
-                                        <div class="product-price">
-                                            <h6 class="new-price">$25000.00</h6>
-                                            <span class="old-price font-sm">$26000.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-
-                        </div>
-
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -634,65 +187,26 @@ Car-Details
 
 {% block external_js %}
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var checkboxes = document.querySelectorAll('.seat-checkbox');
+    document.addEventListener('DOMContentLoaded', function () {
+        let selectedSeat = null;
 
-      checkboxes.forEach(function(checkbox) {
-          checkbox.addEventListener('change', function() {
-              if (this.checked) {
-                  checkboxes.forEach(function(otherCheckbox) {
-                      if (otherCheckbox !== checkbox) {
-                          otherCheckbox.checked = false;
-                      }
-                  });
+        // Get all seats
+        const seats = document.querySelectorAll('.seat');
 
-                  // Change background color of the checkbox to green
-                  checkbox.style.backgroundColor = 'green';
+        // Add click event listener to each seat
+        seats.forEach(function (seat) {
+            seat.addEventListener('click', function () {
+                if (selectedSeat) {
+                    // Reset the previously selected seat to blue
+                    selectedSeat.style.backgroundColor = 'blue';
+                }
 
-                  checkboxes.forEach(function(otherCheckbox) {
-                      if (otherCheckbox !== checkbox && otherCheckbox.checked) {
-                          otherCheckbox.style.backgroundColor = '';
-                      }
-                  });
-              } else {
-                  // If the current checkbox is unchecked, reset background color
-                  checkbox.style.backgroundColor = '';
-              }
-          });
-      });
-  });
-
-
-    document.addEventListener("DOMContentLoaded", function() {
-    // Your existing JavaScript code
-
-    // Get the modal and the button that opens it
-    var modal = document.getElementById('bookingModal');
-    var btn = document.getElementById('bookNowButton');
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName('close')[0];
-
-    // When the user clicks the button, open the modal
-    btn.addEventListener('click', function() {
-        modal.style.display = 'block';
-        // Populate the bookingInfo div with relevant information
-        document.getElementById('bookingInfo').innerHTML = 'Booking details go here...';
+                // Set the current seat as selected (orange)
+                this.style.backgroundColor = 'orange';
+                selectedSeat = this;
+            });
+        });
     });
-
-    // When the user clicks on <span> (x), close the modal
-    span.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-});
-
 </script>
 
 {% endblock %}
