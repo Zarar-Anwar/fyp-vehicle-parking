@@ -5,7 +5,7 @@ from src.web.admins.models import Vehicle, Queue
 
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
-    list_display = ('make', 'model', 'capacity', 'fare_rates', 'registration_details', 'status')
+    list_display = ('name', 'model', 'capacity', 'fare_rates', 'registration_details', 'status')
 
 
 @admin.register(Queue)
