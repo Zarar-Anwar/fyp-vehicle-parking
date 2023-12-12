@@ -16,7 +16,9 @@ class CarsView(ListView):
     template_name = 'website/cars.html'
 
 
-class CarDetailsView(TemplateView):
+class CarDetailsView(DetailView):
+    model = Vehicle
+    context_object_name = 'bus'
     template_name = 'website/car_details.html'
 
 
@@ -30,4 +32,5 @@ class ContactView(TemplateView):
 
 class TermsAndConditionsView(TemplateView):
     template_name = 'website/terms_and_conditions.html'
+
 
