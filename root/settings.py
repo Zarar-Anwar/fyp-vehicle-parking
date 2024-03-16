@@ -67,6 +67,7 @@ INSTALLED_APPS = [
 
     # WEB APPS
     'src.web.website',
+    'src.web.agency',
     'src.web.accounts',
     'src.web.admins',
 
