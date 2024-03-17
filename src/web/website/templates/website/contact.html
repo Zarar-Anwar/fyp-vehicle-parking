@@ -12,7 +12,7 @@ Contact-Us
             <div class="content">
                 <h2>Contact Us</h2>
                 <ul class="list-unstyled">
-                    <li class="d-inline"><a href="index.html">Home</a></li>
+                    <li class="d-inline"><a href="{% url 'website:home' %}">Home</a></li>
                     <li class="d-inline">/</li>
                     <li class="d-inline active opacity-75">Contact</li>
                 </ul>
@@ -30,8 +30,8 @@ Contact-Us
                             <i class="fal fa-phone-plus"></i>
                         </div>
                         <div class="card-text font-weight-bold">
-                            <p><a href="tel:+990123456789"><strong>+92 3055293210</strong></a></p>
-                            <p><a href="tel:+990456123789"><strong>+92 3499266919</strong></a>
+                            <p><a href="tel:{{ app.contact_phone1 }}"><strong>{{app.contact_phone1}}</strong></a></p>
+                            <p><a href="tel:{{ app.contact_phone2 }}"><strong>{{app.contact_phone2}}</strong></a>
                         </p></div>
                     </div>
                 </div>
@@ -41,8 +41,8 @@ Contact-Us
                             <i class="fal fa-envelope"></i>
                         </div>
                         <div class="card-text">
-                            <p><a href="mailTo:hello@example.com"><strong>faridkhan1773@gmail.com</strong></a></p>
-                            <p><a href="mailTo:info@example.com"><strong>harisijaz7075@gmail.com</strong></a>
+                            <p><a href="mailTo:{{app.contact_email1}}"><strong>{{app.contact_email1}}</strong></a></p>
+                            <p><a href="mailTo:{{app.contact_email2}}"><strong>{{app.contact_email2}}</strong></a>
                         </p></div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@ Contact-Us
                             <i class="fal fa-map-marker-alt"></i>
                         </div>
                         <div class="card-text">
-                            <p><strong>Comsats University Islamabad Abbottabad Campus</strong></p>
+                            <p><strong>{{app.address}}</strong></p>
                         </div>
                     </div>
                 </div>

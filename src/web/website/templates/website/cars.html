@@ -79,20 +79,21 @@ Vehicle List
                 </div>
                 <div class="row">
 
-                    {% if buses %}
+                    {% if  page_obj %}
 
-                    {% for bus in buses %}
+                    {% for bus in page_obj %}
                     <div class="col-12 aos-init aos-animate" data-aos="fade-up">
                         <div class="row g-0 product-default product-column border mb-30 align-items-center p-15">
                             <figure class="product-img col-xl-4 col-lg-5 col-md-6 col-sm-12">
-                                <a href="car-details.html" target="_self" title="Link"
+                                <a href="{% url 'website:car-details' bus.pk %}" target="_self" title="Link"
                                    class="lazy-container ratio ratio-2-3">
                                     <img class=" lazyloaded" src="{{ bus.Image.url }}"
                                          data-src="{% static 'assets/images/product/pro-1.png' %}" alt="Product">
                                 </a>
                             </figure>
                             <div class="product-details col-xl-5 col-lg-5 col-md-6 col-sm-12 border-lg-end">
-                                <h5 class="product-title mb-10"><a href="car-details.html" target="_self" title="Link"></a>{{bus.name}}</h5>
+                                <h5 class="product-title mb-10"><a href="{% url 'website:car-details' bus.pk %}"
+                                                                   target="_self" title="Link"></a>{{bus.name}}</h5>
                                 <ul class="product-list-group list-unstyled">
                                     <li><strong>Model :</strong> {{bus.model}}</li>
                                     <li><strong>Capacity :</strong> {{bus.capacity}}</li>
@@ -100,7 +101,8 @@ Vehicle List
                                 </ul>
                             </div>
                             <div class="product-action col-xl-3 col-lg-2 col-md-12 col-sm-12">
-                                <a href="{% url 'website:car-details' bus.pk %}" class="btn btn-sm btn-primary" title="View Details">View
+                                <a href="{% url 'website:car-details' bus.pk %}" class="btn btn-sm btn-primary"
+                                   title="View Details">View
                                     Details</a>
                             </div>
 
@@ -116,12 +118,21 @@ Vehicle List
 
                 </div>
                 <div class="pagination mb-40 justify-content-center aos-init" data-aos="fade-up">
-                    <a href="car-grid.html" class="page-numbers radius-0 prev">Prev</a>
-                    <span class="page-numbers radius-0 current" aria-current="page">1</span>
-                    <a href="car-grid.html" class="page-numbers radius-0">2</a>
-                    <a href="car-grid.html" class="page-numbers radius-0">3</a>
-                    <a href="car-grid.html" class="page-numbers radius-0">4</a>
-                    <a href="car-grid.html" class="page-numbers radius-0 next">Next</a>
+                    {% if page_obj.has_previous %}
+                    <a href="?page=1" class="page-numbers radius-0">First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="page-numbers radius-0 prev">Prev</a>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <span class="page-numbers radius-0 current" aria-current="page">{{ num }}</span>
+                    {% else %}
+                    <a href="?page={{ num }}" class="page-numbers radius-0">{{ num }}</a>
+                    {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="page-numbers radius-0 next">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="page-numbers radius-0">Last</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
