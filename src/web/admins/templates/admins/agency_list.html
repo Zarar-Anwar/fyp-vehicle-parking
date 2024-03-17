@@ -3,7 +3,7 @@
 {% load core_tags %}
 
 {% block subtitle %}
-    Users List
+    Agency List
 {% endblock %}
 
 {% block content %}
@@ -12,7 +12,7 @@
         <div class="col-12">
             <form method="get">
                 <div class="input-group mb-3">
-                    {{ user_filter_form }}
+                    {{ agency_filter_form }}
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="submit">
                             <i class="fa fa-search"></i> Search
@@ -32,36 +32,33 @@
 
                     <div class="table-responsive">
                         <table class="table table-borderless">
-                            {% if user_list %}
+                            {% if agency_list %}
                                 <thead class="border-bottom">
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Email</th>
-                                    <th>Active</th>
-                                    <th>Action</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
 
-                                {% for user in user_list %}
+                                {% for object in agency_list %}
                                     <tr>
-                                        <td>{{ user.pk }}</td>
-                                        <td>{{ user.first_name }} {{ user.last_name }}</td>
-                                        <td>{{ user.username }}</td>
-                                        <td>{{ user.email }}</td>
+                                        <td>{{ object.pk }}</td>
+                                        <td>{{object.name}}</td>
+                                        <td>{{ object.owner.username }}</td>
+                                        <td>{{ object.contact_email }}</td>
                                         <td>
-                                            {% if user.is_active %}
-                                                <b class="text-success"><i class="fa fa-check-circle"></i></b>
-
-                                            {% else %}
-                                                <b class="text-danger"><i class="fa fa-times-circle"></i></b>
-
-                                            {% endif %}
+                                          {{ object.contact_phone}}
                                         </td>
-
+                                        <td>
+                                            {{ object.address}}
+                                        </td>
                                         <td>
                                             <a href="{% url 'admins:user-detail' user.pk %}"
                                                class="text-decoration-none"><i

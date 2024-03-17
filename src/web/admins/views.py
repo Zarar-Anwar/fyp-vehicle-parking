@@ -12,22 +12,20 @@ from django.views.generic import (
 
 from src.web.accounts.models import User
 # from faker_data import initialization
-from src.web.admins.filters import UserFilter
+from src.web.admins.filters import UserFilter, AgencyFilter, VehicleFilter
+from src.web.agency.models import Agency, Vehicle
 
 admin_decorators = [login_required, user_passes_test(lambda u: u.is_superuser)]
 
 
 @method_decorator(admin_decorators, name='dispatch')
 class DashboardView(TemplateView):
-    """
-    Registrations: Today, Month, Year (PAID/UNPAID)
-    Subscriptions: Today, Month, Year (TYPES)
-    Withdrawals  : Today, Month, Year (CALCULATE)
-    """
     template_name = 'admins/dashboard.html'
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
+        context['users'] = User.objects.all()
+        context['users_count_data'] = list(User.objects.values_list('id', flat=True))
         # context = calculate_statistics(context)
         # initialization(init=False, mid=False, end=False)
         return context
@@ -94,3 +92,99 @@ class UserPasswordResetView(View):
             form.save(commit=True)
             messages.success(request, f"{user.get_full_name()}'s password changed successfully.")
         return render(request, 'admins/admin_password_reset.html', {'form': form, 'object': user})
+
+
+# Agency
+
+class AgencyListView(ListView):
+    model = Agency
+    template_name = 'admins/agency_list.html'
+    paginate_by = 50
+
+    def get_context_data(self, **kwargs):
+        context = super(AgencyListView, self).get_context_data(**kwargs)
+        agency_filter = AgencyFilter(self.request.GET, queryset=Agency.objects.filter())
+        context['agency_filter_form'] = agency_filter.form
+
+        paginator = Paginator(agency_filter.qs, 50)
+        page_number = self.request.GET.get('page')
+        agency_page_object = paginator.get_page(page_number)
+
+        context['agency_list'] = agency_page_object
+        return context
+
+
+class AgencyDetailView(DetailView):
+    model = Agency
+    template_name = 'admins/agency_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        agency = get_object_or_404(Agency, pk=self.kwargs['pk'])
+        return context
+
+
+class AgencyUpdateView(UpdateView):
+    model = Agency
+    fields = [
+        'name', 'company_registration_number', 'vat_number',
+        'tagline', 'logo', 'cover_image', 'contact_email', 'contact_phone', 'address'
+    ]
+    template_name = 'admins/agency_update_form.html'
+
+    def get_success_url(self):
+        return reverse('admins:agency-detail', kwargs={'pk': self.object.pk})
+
+
+# Vehicle
+
+class VehicleListView(ListView):
+    model = Vehicle
+    template_name = 'admins/vehicle_list.html'
+    paginate_by = 50
+
+    def get_context_data(self, **kwargs):
+        context = super(VehicleListView, self).get_context_data(**kwargs)
+        vehicle_filter = VehicleFilter(self.request.GET, queryset=Vehicle.objects.filter())
+        context['vehicle_filter_form'] = vehicle_filter.form
+
+        paginator = Paginator(vehicle_filter.qs, 50)
+        page_number = self.request.GET.get('page')
+        vehicle_page_object = paginator.get_page(page_number)
+
+        context['vehicle_list'] = vehicle_page_object
+        return context
+
+
+class VehicleDetailView(DetailView):
+    model = Vehicle
+    template_name = 'admins/vehicle_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        vehicle = get_object_or_404(Vehicle, pk=self.kwargs['pk'])
+        return context
+
+
+class VehicleUpdateView(UpdateView):
+    model = Vehicle
+    fields = [
+        'registration_number', 'model', 'capacity', 'image', 'is_active'
+    ]
+    template_name = 'admins/vehicle_update_form.html'
+
+    def get_success_url(self):
+        return reverse('admins:vehicle-detail', kwargs={'pk': self.object.pk})
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     vehicle = get_object_or_404(Vehicle, pk=self.kwargs['pk'])
+    #     return context
+    #
+    # def get_success_url(self):
+    #     return reverse('admins:vehicle-detail', kwargs={'pk': self.object.pk})
+    #
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     vehicle = get_object_or_404(Vehicle, pk=self.kwargs['pk'])
+    #     return context
+    #

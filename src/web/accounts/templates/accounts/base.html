@@ -1,0 +1,111 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <title>
+        {# BASE HALF TITLE #}
+        {% block title %}
+        Pages
+        {% endblock %}
+        {# --------------- #}
+
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block base_seo %}
+
+    {% endblock %}
+    <link rel="shortcut icon" href="{% static 'assets/images/logo/fav2.png' %}" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/vendors/bootstrap.min.css' %}">
+    <!-- Fontawesome Icon CSS -->
+    <link rel="stylesheet" href="{% static 'assets/fonts/fontawesome/css/all.min.css' %}">
+    <!-- Icomoon Icon CSS -->
+    <link rel="stylesheet" href="{% static 'assets/fonts/icomoon/style.css' %}">
+    <!-- NoUi Range Slider -->
+    <link rel="stylesheet" href="{% static 'assets/css/vendors/nouislider.min.css' %}">
+    <!-- Magnific Popup CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/vendors/magnific-popup.min.css' %}">
+    <!-- Swiper Slider -->
+    <link rel="stylesheet" href="{% static 'assets/css/vendors/swiper-bundle.min.css' %}">
+    <!-- Nice Select -->
+    <link rel="stylesheet" href="{% static 'assets/css/vendors/nice-select.css' %}">
+    <!-- AOS Animation CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/vendors/aos.min.css' %}">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/vendors/animate.min.css' %}">
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
+
+
+    {# BASE LINKS THAT ARE REQUIRED FOR CERTAIN PAGE #}
+    {% block base_links %}
+    {% endblock %}
+
+    {% block css %}
+    {% endblock %}
+
+</head>
+{% block body %}
+<body class="theme-color-2" data-aos-easing="ease" data-aos-duration="1500" data-aos-delay="0">
+
+<div id="preLoader" style="display: none;">
+    <div class="loader">
+        <div class="road">
+            <div class="line"></div>
+            <div class="line center-line"></div>
+            <div class="line"></div>
+            <div class="icon">
+                <i class="fas fa-car"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% block content %}
+{% endblock %}
+
+<div class="go-top"><i class="fal fa-angle-up"></i></div>
+
+{# jQuery first, then Popper, then Bootstrap JS #}
+<script src="{% static 'assets/js/vendors/jquery.min.js' %}"></script>
+<!-- Bootstrap JS -->
+<script src="{% static 'assets/js/vendors/bootstrap.min.js' %}"></script>
+<!-- Counter JS -->
+<script src="{% static 'assets/js/vendors/jquery.counterup.min.js' %}"></script>
+<!-- Nice Select JS -->
+<script src="{% static 'assets/js/vendors/jquery.nice-select.min.js' %}"></script>
+<!-- Magnific Popup JS -->
+<script src="{% static 'assets/js/vendors/jquery.magnific-popup.min.js' %}"></script>
+<!-- Swiper Slider JS -->
+<script src="{% static 'assets/js/vendors/swiper-bundle.min.js' %}"></script>
+<!-- Lazysizes -->
+<script src="{% static 'assets/js/vendors/lazysizes.min.js' %}"></script>
+<!-- Noui Range Slider JS -->
+<script src="{% static 'assets/js/vendors/nouislider.min.js' %}"></script>
+<!-- AOS JS -->
+<script src="{% static 'assets/js/vendors/aos.min.js' %}"></script>
+<!-- Mouse Hover JS -->
+<script src="{% static 'assets/js/vendors/mouse-hover-move.js' %}"></script>
+<!-- Main script JS -->
+<script src="{% static 'assets/js/script.js' %}"></script>
+
+{# BASE INTERNAL SCRIPTS OR LINKS THAT ARE REQUIRED IN PAGE #}
+{% block base_internal_scripts %}
+
+{% endblock %}
+{# -------------------------------------------------------- #}
+</body>
+{% endblock %}
+</html>
+
+
+{# BASE EXTERNAL SCRIPTS OR LINKS THAT ARE REQUIRED IN PAGE #}
+{% block external_js %}
+
+{% endblock %}
+{# -------------------------------------------------------- #}

@@ -4,11 +4,10 @@ from django.forms import ModelForm
 from django import forms
 
 from src.web.accounts.models import User
-from src.web.agency.models import Agency, Branch, Vehicle
+from src.web.agency.models import Agency, Vehicle
 
 
 class UserProfileForm(ModelForm):
-
     class Meta:
         model = User
         fields = [
@@ -27,10 +26,9 @@ class IncompleteAgencyForm(ModelForm):
     class Meta:
         model = Agency
         fields = ['name',
-                  'logo', 'cover_image', 'tagline', 'description', 'contact_email',
-                  'company_registration_number', 'vat_number',
-                  'address', 'contact_phone', 'company_postal_code',
-                  'company_city', 'company_state',
+                  'logo', 'cover_image', 'description', 'contact_email',
+                  'address', 'contact_phone',
+                  'company_city',
                   'website', 'instagram', 'facebook', 'twitter'
                   ]
 
@@ -61,19 +59,7 @@ class IncompleteAgencyForm(ModelForm):
         )
 
 
-class IncompleteBranchForm(ModelForm):
-    class Meta:
-        model = Branch
-        fields = ['name',
-                  'cover_image', 'description', 'contact_email',
-                  'registration_number',
-                  'address', 'contact_phone',
-                  'location', 'is_active',
-                  ]
-
-
 class VehicleForm(ModelForm):
     class Meta:
         model = Vehicle
         fields = ['registration_number', 'model', 'capacity', 'image', 'is_active']
-
