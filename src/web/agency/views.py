@@ -4,8 +4,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 
-from src.web.accounts.forms import IncompleteAgencyForm, UserForm, IncompleteBranchForm, VehicleForm
-from src.web.agency.models import Booking, Branch, Agency, Vehicle
+from src.web.accounts.forms import IncompleteAgencyForm, UserForm, VehicleForm
+from src.web.agency.models import Booking, Agency, Vehicle
 
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -22,64 +22,6 @@ class BookingView(ListView):
     model = Booking
     template_name = 'agency/booking.html'
     context_object_name = 'bookings'
-
-
-@method_decorator(login_required, name='dispatch')
-class BranchesView(TemplateView):
-    template_name = 'agency/branches.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['branches'] = Branch.objects.filter(agency__owner=self.request.user)
-        return context
-
-
-class BranchesAddView(CreateView):
-    model = Branch
-    form_class = IncompleteBranchForm
-    template_name = 'agency/add_branch.html'
-    success_url = reverse_lazy('agency:branches')
-
-    def form_valid(self, form):
-        branch = form.save(commit=False)
-        branch.agency = Agency.objects.get(owner=self.request.user)
-        branch.branch_manager = self.request.user
-        branch.save()
-
-        messages.success(self.request, 'Branch Added Successfully')
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        messages.error(self.request, 'Error adding branch')
-        return self.render_to_response(self.get_context_data(form=form))
-
-
-class BranchesUpdateView(UpdateView):
-    model = Branch
-    form_class = IncompleteBranchForm
-    template_name = 'agency/add_branch.html'
-    success_url = reverse_lazy('agency:branches')
-
-    def form_valid(self, form):
-        branch = form.save(commit=False)
-        branch.agency = Agency.objects.get(owner=self.request.user)
-        branch.branch_manager = self.request.user
-        branch.save()
-
-        messages.success(self.request, 'Branch Added Successfully')
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-
-        messages.error(self.request, 'Error adding branch')
-        return self.render_to_response(self.get_context_data(form=form))
-
-
-class BranchesDeleteView(View):
-    def get(self, request, id):
-        branch = get_object_or_404(Branch, id=id)
-        branch.delete()
-        return redirect('agency:branches')
 
 
 @method_decorator(login_required, name='dispatch')

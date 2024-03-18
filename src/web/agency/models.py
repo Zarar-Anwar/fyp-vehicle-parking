@@ -20,13 +20,8 @@ class Agency(AgencyBranchData):
     logo = models.ImageField(upload_to='agency_logos/', null=True, blank=True)
     cover_image = models.ImageField(upload_to='agency_covers/', null=True, blank=True)
     company_name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255)
     description = models.TextField()
-    company_registration_number = models.CharField(max_length=255)
-    vat_number = models.CharField(max_length=255)
-    company_postal_code = models.CharField(max_length=10)
     company_city = models.CharField(max_length=255)
-    company_state = models.CharField(max_length=255)
     website = models.URLField(max_length=255, null=True, blank=True)
     instagram = models.URLField(max_length=255, null=True, blank=True)
     facebook = models.URLField(max_length=255, null=True, blank=True)
@@ -40,28 +35,9 @@ class Agency(AgencyBranchData):
         return self.name
 
 
-class Branch(AgencyBranchData):
-    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, null=True, blank=True)
-    branch_manager = models.ForeignKey(User, on_delete=models.CASCADE)
-    cover_image = models.ImageField(upload_to='branch_covers/', null=True, blank=True)
-    registration_number = models.CharField(max_length=255)
-    description = models.TextField()
-    is_independent = models.BooleanField(default=False)
-    location = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=False)
-
-    class Meta:
-        verbose_name_plural = 'Branches'
-        ordering = ['agency', 'name']
-
-    def __str__(self):
-        return self.name
-
-
 class Vehicle(models.Model):
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    agency = models.ForeignKey(Agency, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey("content_type", "object_id")
     registration_number = models.CharField(max_length=20)
     model = models.CharField(max_length=100)
     capacity = models.PositiveIntegerField()
@@ -71,10 +47,10 @@ class Vehicle(models.Model):
 
     class Meta:
         verbose_name_plural = 'Vehicles'
-        ordering = ['content_type', 'object_id']
+        ordering = ['object_id']
 
     def __str__(self):
-        return f"{self.content_object.name} - {self.registration_number}"
+        return f"{self.object_id} - {self.registration_number}"
 
 
 class Schedule(models.Model):

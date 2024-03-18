@@ -11,7 +11,7 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <p><a href="{% url 'admins:user-list' %}"><i class="fa fa-arrow-left"></i> Go Back</a></p>
+            <p><a href="{% url 'admins:vehicle-list' %}"><i class="fa fa-arrow-left"></i> Go Back</a></p>
         </div>
     </div>
 
@@ -22,8 +22,8 @@
 
                     {# IMAGE DIV #}
                     <div class="text-center">
-                        {% if user.profile_image %}
-                            <img class="rounded-circle" src="{{ user.profile_image.url }}" height="150px"
+                        {% if vehicle.image %}
+                            <img class="rounded-circle" src="{{ vehicle.image.url }}" height="150px"
                                  alt="user-image">
                         {% else %}
                             <img class="rounded-circle" src="{% static 'core/images/base/no-user.png' %}"
@@ -34,59 +34,59 @@
                     {# NAME AND OTHER #}
                     <div class="text-center mt-2">
                         <h5 class="mb-0">
-                            {{ user.get_full_name }} - ( {{ user.username }} )
-                            {% if user.is_active %}
+                            {{vehicle.registration_number}}
+                            {% if vehicle.is_active %}
                                 <i class="fa fa-check-circle text-success"></i>
                             {% endif %}
                         </h5>
-                        <p class="fw-light text-muted mb-0">registered on > {{ user.date_joined }}</p>
+                        <p class="fw-light text-muted mt-3 mb-0">registered on > {{ vehicle.created_at }}</p>
                     </div>
 
                     <div class="row mt-4">
+                         <div class="col">
+                            <p class="mb-0 text-center h3"><i class="fa fa-user"></i></p>
+                            <p class="mb-0 text-center h5">Agency Name</p>
+                            <p class="mb-0 text-center">{{ vehicle.agency.name }}</p>
+                        </div>
                         <div class="col">
                             <p class="mb-0 text-center h3"><i class="mdi mdi-email"></i></p>
-                            <p class="mb-0 text-center h5">Email</p>
-                            <p class="mb-0 text-center">{{ user.email }}</p>
+                            <p class="mb-0 text-center h5">Reg No</p>
+                            <p class="mb-0 text-center">{{ vehicle.registration_number}}</p>
                         </div>
                         <div class="col">
                             <p class="mb-0 text-center h3"><i class="mdi mdi-phone"></i></p>
-                            <p class="mb-0 text-center h5">Phone</p>
-                            <p class="mb-0 text-center">{{ user.phone_number }}</p>
+                            <p class="mb-0 text-center h5">Model</p>
+                            <p class="mb-0 text-center">{{ vehicle.model }}</p>
                         </div>
                         <div class="col text-center">
                             <p class="mb-0 text-center h3"><i class="mdi mdi-shield-account"></i></p>
-                            <p class="mb-0 text-center h5">Access Level</p>
+                            <p class="mb-0 text-center h5">Capacity</p>
                             <p class="mb-0 text-center">
                                 <b>
-                                    {% if user.is_superuser and user.is_staff %}
-                                        Admin
-                                    {% elif user.is_staff %}
-                                        Staff
-                                    {% else %}
-                                        User
-                                    {% endif %}
+                                   {{vehicle.capacity}}
                                 </b>
                             </p>
                         </div>
                         <div class="col text-center">
                             <p class="mb-0 text-center h3"><i class="mdi mdi-security"></i></p>
-                            <p class="mb-0 text-center h5">Last Login</p>
-                            <p class="mb-0 text-center">{{ user.last_login }}</p>
+                            <p class="mb-0 text-center h5">Status</p>
+                            <p class="mb-0 text-center">
+
+                                {% if vehicle.is_active %}
+                                <i class="fa fa-check-circle text-success"></i>
+                                {% else %}
+                                <i class="fa fa-check-circle text-danger"></i>
+
+                            {% endif %}
+
+                            </p>
                         </div>
 
                         <div class="col">
                             <p class="mb-0 text-center h3"><i class="fa fa-user-edit"></i></p>
                             <p class="mb-0 text-center h5">Profile</p>
                             <p class="mb-0 text-center">
-                                <a href="{% url 'admins:user-update' user.pk %}">Update</a>
-                            </p>
-                        </div>
-
-                        <div class="col">
-                            <p class="mb-0 text-center h3"><i class="fa fa-user-lock"></i></p>
-                            <p class="mb-0 text-center h5">Password</p>
-                            <p class="mb-0 text-center text-danger">
-                                <a href="{% url 'admins:user-password-reset-view' user.pk %}">Change</a>
+                                <a href="{% url 'admins:vehicle-update' vehicle.pk %}">Update</a>
                             </p>
                         </div>
                     </div>
