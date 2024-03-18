@@ -1,3 +1,5 @@
+from msilib.schema import ListView
+
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -16,22 +18,50 @@ from django.contrib.auth.decorators import login_required
 class DashboardView(TemplateView):
     template_name = 'agency/dashboard.html'
 
-
-@method_decorator(login_required, name='dispatch')
-class BookingView(ListView):
-    model = Booking
-    template_name = 'agency/booking.html'
-    context_object_name = 'bookings'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['vehicles'] = Vehicle.objects.filter(agency__owner=self.request.user)
+        return context
 
 
 @method_decorator(login_required, name='dispatch')
-class VehicleView(TemplateView):
+class VehicleView(ListView):
+    model = Vehicle
     template_name = 'agency/vehicle.html'
+
+    def get_queryset(self):
+        agency = get_object_or_404(Agency, owner=self.request.user)
+        return Vehicle.objects.filter(agency=agency)
 
 
 class VehicleCreateView(CreateView):
     model = Vehicle
+    template_name = 'agency/add_vehicle.html'
     form_class = VehicleForm
+    success_url = reverse_lazy('agency:vehicle')  # Adjust the URL name as needed
+
+    def form_valid(self, form):
+        agency = get_object_or_404(Agency, owner=self.request.user)
+        form.instance.agency = agency
+        return super().form_valid(form)
+
+
+class VehicleUpdateView(UpdateView):
+    model = Vehicle
+    form_class = VehicleForm  # Use your VehicleForm
+    template_name = 'agency/edit_vehicle.html'  # Specify your template
+    success_url = reverse_lazy('agency:vehicle')
+
+
+
+class VehicleDeleteView(DeleteView):
+    model = Vehicle
+    success_url = reverse_lazy('agency:vehicle')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        return self.get_success_url()
 
 
 @method_decorator(login_required, name='dispatch')
@@ -72,16 +102,6 @@ class EditProfileView(View):
 
 
 @method_decorator(login_required, name='dispatch')
-class ReviewsView(TemplateView):
-    template_name = 'agency/reviews.html'
-
-
-@method_decorator(login_required, name='dispatch')
-class WishlistView(TemplateView):
-    template_name = 'agency/wishlist.html'
-
-
-@method_decorator(login_required, name='dispatch')
 class TravelAgentsView(TemplateView):
     template_name = 'agency/travel_agents.html'
 
@@ -99,16 +119,6 @@ class PaymentsView(TemplateView):
 @method_decorator(login_required, name='dispatch')
 class CurrencyView(TemplateView):
     template_name = 'agency/currency.html'
-
-
-@method_decorator(login_required, name='dispatch')
-class SubscriberView(TemplateView):
-    template_name = 'agency/subscriber.html'
-
-
-@method_decorator(login_required, name='dispatch')
-class LocationView(TemplateView):
-    template_name = 'agency/location.html'
 
 
 @method_decorator(login_required, name='dispatch')

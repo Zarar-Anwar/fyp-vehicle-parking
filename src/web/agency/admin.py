@@ -10,7 +10,7 @@ class AgencyAdmin(admin.ModelAdmin):
 
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'object_id', 'model', 'capacity')
+    list_display = ('id', 'registration_number', 'model', 'capacity')
 
 
 @admin.register(Schedule)

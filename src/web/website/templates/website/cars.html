@@ -13,7 +13,7 @@ Vehicle List
         <div class="content">
             <h2>Vehicle List</h2>
             <ul class="list-unstyled">
-                <li class="d-inline"><a href="index.html">Home</a></li>
+                <li class="d-inline"><a href="{% url 'website:home' %}">Home</a></li>
                 <li class="d-inline">/</li>
                 <li class="d-inline active opacity-75">Vehicle Lists</li>
             </ul>
@@ -38,48 +38,11 @@ Vehicle List
                                 Filter <i class="fal fa-filter"></i>
                             </button>
                         </div>
-                        <div class="col-8 col-lg-6">
-                            <ul class="product-sort-list list-unstyled mb-20">
-                                <li class="item me-4">
-                                    <div class="sort-item d-flex align-items-center">
-                                        <label class="me-2 font-sm">Sort By:</label>
-                                        <select name="type" class="nice-select right color-dark" style="display: none;">
-                                            <option value="high">Trending</option>
-                                            <option value="low">Newest</option>
-                                            <option value="New">Popular</option>
-                                            <option value="Old">Used</option>
-                                        </select>
-                                        <div class="nice-select right color-dark" tabindex="0"><span class="current">Trending</span>
-                                            <ul class="list">
-                                                <li data-value="high" class="option selected">Trending</li>
-                                                <li data-value="low" class="option">Newest</li>
-                                                <li data-value="New" class="option">Popular</li>
-                                                <li data-value="Old" class="option">Used</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="item">
-                                    <a href="car-grid.html" class="btn-icon active" data-tooltip="tooltip"
-                                       data-bs-placement="top" aria-label="Grid View"
-                                       data-bs-original-title="Grid View">
-                                        <i class="fas fa-th-large"></i>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="car-list.html" class="btn-icon" data-tooltip="tooltip"
-                                       data-bs-placement="top" aria-label="List View"
-                                       data-bs-original-title="List View">
-                                        <i class="fas fa-th-list"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 <div class="row">
 
-                    {% if  page_obj %}
+                    {% if page_obj %}
 
                     {% for bus in page_obj %}
                     <div class="col-12 aos-init aos-animate" data-aos="fade-up">
@@ -87,8 +50,10 @@ Vehicle List
                             <figure class="product-img col-xl-4 col-lg-5 col-md-6 col-sm-12">
                                 <a href="{% url 'website:car-details' bus.pk %}" target="_self" title="Link"
                                    class="lazy-container ratio ratio-2-3">
-                                    <img class=" lazyloaded" src="{{ bus.Image.url }}"
-                                         data-src="{% static 'assets/images/product/pro-1.png' %}" alt="Product">
+                                    <img class="lazyloaded"
+                                         src="{% if bus.image %}{{ bus.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
+                                         alt="Bus Image">
+                                    data-src="{% static 'assets/images/product/pro-1.png' %}" alt="Product">
                                 </a>
                             </figure>
                             <div class="product-details col-xl-5 col-lg-5 col-md-6 col-sm-12 border-lg-end">

@@ -18,25 +18,29 @@ class LogoutView(View):
 
 @method_decorator(login_required, name='dispatch')
 class CrossAuthView(View):
-
     def get(self, request):
         if request.user.is_authenticated:
             if request.user.is_staff or request.user.is_superuser:
-                return redirect('/admins/')
+                return redirect("/admins/")
 
-            elif request.user.is_agency:
-                if request.user.is_completed:
-                    messages.success(request, "You are logged in")
-                    return redirect('agency:dashboard')
-                else:
-                    messages.error(request, "Please Fill the Information")
+            if request.user.is_completed:
+
+                if request.user.is_agency:
+                    return redirect("agency:dashboard")
+
+                elif request.user.is_traveller:
+                    return redirect("website:home")
+
+            else:
+
+                if request.user.is_agency:
                     return redirect('accounts:agency-profile-complete')
 
-            elif request.user.is_traveller:
-                messages.success(request, "You are logged in")
-                return redirect('traveler:dashboard')
+                else:
+                    return redirect('accounts:identification-check')
+
         else:
-            return redirect('account_login')
+            return redirect("account_login")
 
 
 @method_decorator(login_required, name='dispatch')
@@ -80,7 +84,7 @@ class IdentificationCheck(View):
                 user.save()
                 messages.success(request, 'Your Buyer Account has Been Created Successfully')
 
-                return redirect('traveller:dashboard')
+                return redirect('website:home')
 
         messages.error(request, 'Some issues inside user selection make sure you are selecting the right one.')
         return redirect('accounts:identification_check')
@@ -91,7 +95,7 @@ class ProfileCompleteView(View):
     def get(self, request):
         form = IncompleteAgencyForm(instance=request.user)
         context = {'form': form}
-        return render(request, template_name='accounts/complete_profile_company.html', context=context)
+        return render(request, template_name='accounts/complete_agency_form.html', context=context)
 
     def post(self, request):
         form = IncompleteAgencyForm(data=request.POST, files=request.FILES)
