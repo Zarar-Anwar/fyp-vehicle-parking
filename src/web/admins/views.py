@@ -127,8 +127,8 @@ class AgencyDetailView(DetailView):
 class AgencyUpdateView(UpdateView):
     model = Agency
     fields = [
-        'name', 'company_registration_number', 'vat_number',
-        'tagline', 'logo', 'cover_image', 'contact_email', 'contact_phone', 'address'
+        'name',
+         'logo', 'cover_image', 'contact_email', 'contact_phone', 'address'
     ]
     template_name = 'admins/agency_update_form.html'
 
@@ -162,7 +162,7 @@ class VehicleDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        vehicle = get_object_or_404(Vehicle, pk=self.kwargs['pk'])
+        context['vehicle'] = get_object_or_404(Vehicle, pk=self.kwargs['pk'])
         return context
 
 
