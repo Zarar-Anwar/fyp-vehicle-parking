@@ -1,0 +1,27 @@
+{% extends 'agency/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Confirm Vehicle Deletion
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h1 class="card-title">Confirmation</h1>
+                        <p class="card-text text-danger mb-5">Are you sure you want to delete the vehicle with registration number "{{ vehicle.registration_number }}"?</p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                            <a href="{% url 'agency:vehicle' %}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

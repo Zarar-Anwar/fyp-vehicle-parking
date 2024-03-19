@@ -10,9 +10,9 @@ from phonenumber_field.modelfields import PhoneNumberField
 class User(AbstractUser):
     email = models.EmailField(unique=True, max_length=200)
     country = models.CharField( max_length=200)
-    is_agency = models.BooleanField(default=True)
-    is_traveller = models.BooleanField(default=True)
-    is_completed = models.BooleanField(default=True)
+    is_agency = models.BooleanField(default=False)
+    is_traveller = models.BooleanField(default=False)
+    is_completed = models.BooleanField(default=False)
     profile_image = ResizedImageField(
         upload_to='users/images/profiles/', null=True, blank=True, size=[250, 250], quality=75, force_format='PNG',
         help_text='size of logo must be 250*250 and format must be png image file', crop=['middle', 'center']

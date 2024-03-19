@@ -37,9 +37,9 @@ class Agency(AgencyBranchData):
 
 class Vehicle(models.Model):
     agency = models.ForeignKey(Agency, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
     registration_number = models.CharField(max_length=20)
     model = models.CharField(max_length=100)
+    fare_rates = models.DecimalField(max_digits=8, decimal_places=2)
     capacity = models.PositiveIntegerField()
     image = models.ImageField(upload_to='vehicle_images/', null=True, blank=True)
     is_active = models.BooleanField(default=False)
@@ -47,10 +47,9 @@ class Vehicle(models.Model):
 
     class Meta:
         verbose_name_plural = 'Vehicles'
-        ordering = ['object_id']
 
     def __str__(self):
-        return f"{self.object_id} - {self.registration_number}"
+        return f"{self.model} - {self.registration_number}"
 
 
 class Schedule(models.Model):

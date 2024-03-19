@@ -9,61 +9,61 @@ Car-Details
 {% block css%}
 <style>
     .bus-card {
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      width: 100%;
-      align-items: center;
-          }
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        width: 100%;
+        text-align:center;
+        align-items: center;
+    }
 
     .bus-header {
-      background-color: #3498db;
-      color: #fff;
-      padding: 15px;
-      text-align: center;
+        background-color: #3498db;
+        color: #fff;
+        padding: 15px;
+        text-align: center;
     }
 
     .bus-seats {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      align-items: center;
-      padding: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 15px;
     }
 
     .seat {
 
-      width: 30px;
-      height: 30px;
-      background-color: blue;
-      color: #fff;
-      border-radius: 5px;
-      margin: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-color: blue;
+        color: #fff;
+        border-radius: 5px;
+        margin: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
     }
 
     .empty {
-      background-color: #f0f0f0;
-      cursor: default;
+        background-color: #f0f0f0;
+        cursor: default;
     }
 
     .bus-footer {
-      padding: 15px;
-      text-align: center;
+        padding: 15px;
+        text-align: center;
     }
 
     .book-button {
-      background-color: #27ae60;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
+        background-color: #27ae60;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
     }
 </style>
 {% endblock css%}
@@ -94,7 +94,7 @@ Car-Details
                     <h2 class="mb-5 text-center">Vehicle Features</h2>
                     <ul class="features-list justify-content-center">
                         <li class="font-lg">
-                            <span><i class="fas fa-file-alt"></i>Name : {{bus.name}} </span>
+                            <span><i class="fas fa-file-alt"></i>Reg No : {{bus.registration_number}} </span>
                         </li>
                         <li class="font-lg">
                             <span><i class="fas fa-users"></i>Seats : {{bus.capacity}} </span>
@@ -109,7 +109,7 @@ Car-Details
                 </div>
             </div>
 
-            <div class="col-lg-12">
+            <div class="col-lg-9">
                 <div class="product-single-gallery mb-40">
                     <div class="swiper product-single-slider swiper-initialized swiper-horizontal swiper-pointer-events swiper-watch-progress swiper-backface-hidden">
                         <div class="swiper-wrapper justify-content-center" id="swiper-wrapper-aacbbfa8ca779b29"
@@ -120,7 +120,7 @@ Car-Details
                                 <figure class="lazy-container ratio ratio-5-3">
                                     <a href="assets/images/product/pro-lg-1.jpg' %}" class="lightbox-single">
                                         <img class=" ls-is-cached lazyloaded"
-                                             src="{{bus.Image.url}}"
+                                             src="{% if bus.image %}{{ bus.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
                                              data-src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
                                              alt="product image">
                                     </a>
@@ -148,36 +148,73 @@ Car-Details
                     </div>
 
                 </div>
-
-                <div class="row ">
-                    <div class="col-lg-12 ">
+            </div>
+             <div class="col-lg-3">
                         <form method="post">
-
                             <div class="bus-card ">
                                 <div class="bus-header">
-                                    <h4>BUS : {{bus.name|upper}}</h4>
+                                    <h4>BUS : {{bus.registration_number|upper}}</h4>
                                 </div>
                                 <div class="bus-seats">
-
                                     {% for i in ""|rjust:bus.capacity %}
                                     <div class="seat">{{ forloop.counter }}</div>
+                                    {% if forloop.counter|divisibleby:2 %}
+                                </div>
+                                <div class="bus-seats">
+                                    {% endif %}
                                     {% endfor %}
-
-
                                 </div>
                                 <div class="bus-footer">
-                                    <button class="book-button" type="button">Book Now
+                                    <button class="book-button" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#invoiceModal">Book Now
                                     </button>
+
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="invoiceModal" tabindex="-1"
+                                         aria-labelledby="invoiceModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="invoiceModalLabel">Invoice</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <h4>Vehicle Details:</h4>
+                                                            <p><strong>Registration Number:</strong> {{
+                                                                bus.registration_number }}</p>
+                                                            <p><strong>Model:</strong> {{ bus.model }}</p>
+                                                            <p><strong>Capacity:</strong> {{ bus.capacity }}</p>
+                                                            <p><strong>Fare Rates:</strong> {{ bus.fare_rates }} Rs
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <img src="{% if bus.image %}{{ bus.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
+                                                                 alt="Vehicle Image"
+                                                                 class="img-fluid">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer text-center">
+                                                    <button type="button"
+                                                            class="text-success border border-2 border-success"
+                                                            style="font-size: 20px;">Pay Now
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </div>
 
                         </form>
 
                     </div>
-
-                </div>
-
-            </div>
         </div>
     </div>
 </div>

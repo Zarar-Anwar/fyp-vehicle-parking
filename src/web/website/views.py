@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.views.generic import TemplateView, DetailView, ListView
 
-from src.web.admins.models import Vehicle
+from src.web.agency.models import Vehicle
 
 
 # Create your views here.
