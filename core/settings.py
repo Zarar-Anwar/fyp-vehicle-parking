@@ -174,7 +174,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "donald.duck0762@gmail.com"
 EMAIL_HOST_PASSWORD = "dszdssspgghirkim"
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = "Support-Team <zararanwar1234321@gmail.com>"
+DEFAULT_FROM_EMAIL = "Support-Team <faridkhan1773@gmail.com>"
 
 """ RESIZER IMAGE --------------------------------------------------------------------------------"""
 STATIC_URL = '/static/'
