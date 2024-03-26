@@ -7,10 +7,10 @@ pytz
 DateTime
 
 django-jazzmin
-django~=4.2.3
+django==4.2.10
 django-environ
 django-filter~=23.2
-django-allauth
+django-allauth==0.55.0
 django-resized
 python-decouple
 django-ckeditor

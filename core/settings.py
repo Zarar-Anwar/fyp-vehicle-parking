@@ -2,6 +2,7 @@ import datetime
 from pathlib import Path
 import environ
 
+
 """ APPLICATION CONFIGURATIONS """
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,7 @@ LOGOUT_REDIRECT_URL = '/accounts/cross-auth/'
 LOGIN_REDIRECT_URL = '/accounts/cross-auth/'
 GOOGLE_CALLBACK_ADDRESS = f"{BASE_URL}/accounts/google/login/callback/"
 
-ROOT_URLCONF = 'root.urls'
+ROOT_URLCONF = 'core.urls'
 AUTH_USER_MODEL = 'accounts.User'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -86,6 +87,8 @@ MIDDLEWARE = [
     'django_browser_reload.middleware.BrowserReloadMiddleware',
 
 
+    # 'allauth.account.middleware.AccountMiddleware'
+
     # YOUR MIDDLEWARES
 ]
 
@@ -114,7 +117,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'root.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 if ENVIRONMENT == 'server':
     DATABASES = {
@@ -158,13 +161,14 @@ USE_L10N = True
 USE_TZ = True
 
 """ EMAIL CONFIGURATION --------------------------------------------------------------------------------"""
-EMAIL_BACKEND = 'django.root.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = env('EMAIL_PORT')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+
 
 """ RESIZER IMAGE --------------------------------------------------------------------------------"""
 STATIC_URL = '/static/'
@@ -188,18 +192,20 @@ DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
 
 """ ALL-AUTH SETUP --------------------------------------------------------------------------------"""
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
-ACCOUNT_SIGNUP_REDIRECT_URL = '/accounts/logout/'
-SOCIALACCOUNT_LOGIN_REDIRECT_URL = '/login/'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+# ACCOUNT_SIGNUP_REDIRECT_URL = 'accounts/login/'
+# SOCIALACCOUNT_LOGIN_REDIRECT_URL = '/login/'
 ACCOUNT_LOGOUT_ON_GET = True
-SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
+# SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 OLD_PASSWORD_FIELD_ENABLED = True
 LOGOUT_ON_PASSWORD_CHANGE = False
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/cross-auth/'
 
 """ DEBUGGING TOOLS """
 
