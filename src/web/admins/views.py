@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import (
-    TemplateView, ListView, DetailView, UpdateView
+    TemplateView, ListView, DetailView, UpdateView, CreateView
 )
 
 from src.web.accounts.models import User
@@ -128,7 +128,7 @@ class AgencyUpdateView(UpdateView):
     model = Agency
     fields = [
         'name',
-         'logo', 'cover_image', 'contact_email', 'contact_phone', 'address'
+        'logo', 'cover_image', 'contact_email', 'contact_phone', 'address'
     ]
     template_name = 'admins/agency_update_form.html'
 
@@ -154,6 +154,12 @@ class VehicleListView(ListView):
 
         context['vehicle_list'] = vehicle_page_object
         return context
+
+
+class VehicleAddView(CreateView):
+    model = Vehicle
+    fields = ['agency', 'registration_number', 'model', 'fare_rates', 'capacity', 'image']
+    template_name = 'admins/vehicle_add_form.html'
 
 
 class VehicleDetailView(DetailView):

@@ -9,7 +9,7 @@ Vehicle List
 {% block content %}
 
 <div class="row">
-    <div class="col-12">
+    <div class="col-10">
         <form method="get">
             <div class="input-group mb-3">
                 {{ vehicle_filter_form }}
@@ -17,9 +17,15 @@ Vehicle List
                     <button class="btn btn-primary" type="submit">
                         <i class="fa fa-search"></i> Search
                     </button>
+
                 </div>
             </div>
         </form>
+    </div>
+    <div class="col-2">
+        <a href="{% url 'admins:vehicle-add' %}" class="btn btn-success">
+            ADD VEHICLE
+        </a>
     </div>
 </div>
 
