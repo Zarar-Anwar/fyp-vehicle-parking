@@ -2,7 +2,7 @@ from django.urls import path
 
 from src.web.agency.views import DashboardView, ProfileView, SettingView, \
     TravellersView, InvoicesView, PaymentsView, CurrencyView, VehicleView, EditProfileView, \
-    TravelAgentsView, VehicleCreateView, VehicleUpdateView, VehicleDeleteView
+    TravelAgentsView, VehicleUpdateView, VehicleDeleteView
 
 app_name = "agency"
 
