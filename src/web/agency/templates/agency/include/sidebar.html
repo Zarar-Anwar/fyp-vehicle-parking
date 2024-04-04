@@ -29,9 +29,6 @@
                 <li class="{% if request.path == '/agency/vehicle/' %}page-active{% endif %}">
                     <a href="{% url 'agency:vehicle' %}"><i
                             class="la la-car mr-2 text-color"></i>Vehicles</a></li>
-                 <li class="{% if request.path == '/agency/add/vehicle/' %}page-active{% endif %}">
-                    <a href="{% url 'agency:add-vehicle' %}"><i
-                            class="la la-car mr-2 text-color"></i>Add Vehicles</a></li>
                       <li class="{% if request.path == '/agency/invoices/' %}page-active{% endif %}">
                     <a href="{% url 'agency:invoices' %}"><i
                             class="la la-money mr-2 text-color"></i>Finance</a></li>

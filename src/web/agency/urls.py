@@ -9,7 +9,6 @@ app_name = "agency"
 urlpatterns = [
     path('dashboard/', DashboardView.as_view(), name="dashboard"),
     path('vehicle/', VehicleView.as_view(), name="vehicle"),
-    path('add/vehicle/', VehicleCreateView.as_view(), name="add-vehicle"),
     path('update/vehicle/<int:pk>', VehicleUpdateView.as_view(), name="update-vehicle"),
     path('delete/vehicle/<int:pk>', VehicleDeleteView.as_view(), name="delete-vehicle"),
 

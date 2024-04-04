@@ -34,24 +34,11 @@ class VehicleView(ListView):
         return Vehicle.objects.filter(agency=agency)
 
 
-class VehicleCreateView(CreateView):
-    model = Vehicle
-    template_name = 'agency/add_vehicle.html'
-    form_class = VehicleForm
-    success_url = reverse_lazy('agency:vehicle')  # Adjust the URL name as needed
-
-    def form_valid(self, form):
-        agency = get_object_or_404(Agency, owner=self.request.user)
-        form.instance.agency = agency
-        return super().form_valid(form)
-
-
 class VehicleUpdateView(UpdateView):
     model = Vehicle
     form_class = VehicleForm  # Use your VehicleForm
     template_name = 'agency/edit_vehicle.html'  # Specify your template
     success_url = reverse_lazy('agency:vehicle')
-
 
 
 class VehicleDeleteView(DeleteView):
