@@ -28,7 +28,7 @@ class CrossAuthView(View):
 
             if request.user.is_completed:
 
-                if request.user.is_agency:
+                if request.user.is_agency or request.user.is_driver:
                     return redirect("agency:dashboard")
 
                 elif request.user.is_traveller:

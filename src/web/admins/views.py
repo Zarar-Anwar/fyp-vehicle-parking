@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AdminPasswordChangeForm
@@ -158,8 +159,13 @@ class VehicleListView(ListView):
 
 class VehicleAddView(CreateView):
     model = Vehicle
-    fields = ['agency', 'registration_number', 'model', 'fare_rates', 'capacity', 'image']
+    fields = ['agency', 'driver', 'registration_number', 'model', 'fare_rates', 'capacity', 'image']
     template_name = 'admins/vehicle_add_form.html'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['driver'].queryset = get_user_model().objects.filter(is_driver=True)
+        return form
 
 
 class VehicleDetailView(DetailView):
