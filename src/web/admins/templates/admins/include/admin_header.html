@@ -10,8 +10,6 @@
                             <i class="bx bx-home-circle mr-2"></i>Dashboard
                         </a>
                     </li>
-
-
                     {# Apps #}
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle arrow-none" href="{% url 'admins:user-list' %}">
@@ -30,10 +28,17 @@
                         </a>
                     </li>
                      <li class="nav-item">
-                        <a class="nav-link dropdown-toggle arrow-none" href="/admin/">
-                            <i class="bx bx-box mr-2"></i>Root Access
+                        <a class="nav-link dropdown-toggle arrow-none" href="{% url 'admins:vehicle-list' %}">
+                            <i class="bx bx-money mr-2"></i>Bookings
                         </a>
                     </li>
+
+                     <li class="nav-item">
+                        <a class="nav-link dropdown-toggle arrow-none" href="{% url 'admins:vehicle-list' %}">
+                            <i class="bx bx-user mr-2"></i>Drivers
+                        </a>
+                    </li>
+
                 </ul>
             </div>
         </nav>

@@ -29,7 +29,6 @@ from .models import (
     User
 )
 
-
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
 
@@ -41,7 +40,8 @@ class UserCustomAdmin(admin.ModelAdmin):
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('profile_image', 'first_name', 'last_name', 'email', 'phone_number')}),
         ('Permissions', {
-            'fields': ('is_traveller', 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
+            'fields': (
+            'is_traveller', 'is_active', 'is_staff', 'is_driver', 'is_superuser', 'groups', 'user_permissions'),
         }),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )

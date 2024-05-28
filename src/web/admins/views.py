@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AdminPasswordChangeForm
@@ -7,7 +8,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import (
-    TemplateView, ListView, DetailView, UpdateView
+    TemplateView, ListView, DetailView, UpdateView, CreateView
 )
 
 from src.web.accounts.models import User
@@ -128,7 +129,7 @@ class AgencyUpdateView(UpdateView):
     model = Agency
     fields = [
         'name',
-         'logo', 'cover_image', 'contact_email', 'contact_phone', 'address'
+        'logo', 'cover_image', 'contact_email', 'contact_phone', 'address'
     ]
     template_name = 'admins/agency_update_form.html'
 
@@ -154,6 +155,17 @@ class VehicleListView(ListView):
 
         context['vehicle_list'] = vehicle_page_object
         return context
+
+
+class VehicleAddView(CreateView):
+    model = Vehicle
+    fields = ['agency', 'driver', 'registration_number', 'model', 'fare_rates', 'capacity', 'image']
+    template_name = 'admins/vehicle_add_form.html'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['driver'].queryset = get_user_model().objects.filter(is_driver=True)
+        return form
 
 
 class VehicleDetailView(DetailView):

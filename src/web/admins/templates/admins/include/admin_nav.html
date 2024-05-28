@@ -9,19 +9,23 @@
             <div class="navbar-brand-box">
                 <a href="#" class="logo logo-dark">
                                 <span class="logo-sm">
-                                    <img src="{% if app.logo %}{{ app.logo.url }}{% else %}{% static 'assets/images/logo/logo-2.png' %}{% endif %}" alt="" height="35">
+                                    <img src="{% if app.logo %}{{ app.logo.url }}{% else %}{% static 'assets/images/logo/logo-2.png' %}{% endif %}"
+                                         alt="" height="35">
                                 </span>
                     <span class="logo-lg">
-                                    <img src="{% if app.logo %}{{ app.logo.url }}{% else %}{% static 'assets/images/logo/logo-2.png' %}{% endif %}" alt="" height="35">
+                                    <img src="{% if app.logo %}{{ app.logo.url }}{% else %}{% static 'assets/images/logo/logo-2.png' %}{% endif %}"
+                                         alt="" height="35">
                                 </span>
                 </a>
 
                 <a href="#" class="logo logo-light">
                                 <span class="logo-sm">
-                                    <img src="{% if app.logo %}{{ app.logo.url }}{% else %}{% static 'assets/images/logo/logo-2.png' %}{% endif %}" alt="" height="35">
+                                    <img src="{% if app.logo %}{{ app.logo.url }}{% else %}{% static 'assets/images/logo/logo-2.png' %}{% endif %}"
+                                         alt="" height="35">
                                 </span>
                     <span class="logo-lg">
-                                    <img src="{% if app.logo %}{{ app.logo.url }}{% else %}{% static 'assets/images/logo/logo-4.png' %}{% endif %}" alt="" height="70">
+                                    <img src="{% if app.logo %}{{ app.logo.url }}{% else %}{% static 'assets/images/logo/logo-4.png' %}{% endif %}"
+                                         alt="" height="70">
                                 </span>
                 </a>
             </div>
@@ -78,11 +82,14 @@
 
             </div>
 
-            {#            <div class="dropdown d-inline-block">#}
-            {#                <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">#}
-            {#                    <i class="bx bx-cog bx-spin"></i>#}
-            {#                </button>#}
-            {#            </div>#}
+            <div class="dropdown d-inline-block">
+
+                <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
+                    <i class="bx bx-cog bx-spin"></i>
+
+                </button>
+
+            </div>
 
 
             {# USER ONLINE #}
@@ -90,11 +97,11 @@
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user"
-                            {% if request.user.profile_image %}
+                         {% if request.user.profile_image %}
                          src="{{ request.user.profile_image.url }}"
-                            {% else %}
+                         {% else %}
                          src="{% static 'core/images/base/no-user.png' %}"
-                            {% endif %}
+                         {% endif %}
                          alt="Header Avatar">
                     <span class="d-none d-xl-inline-block ml-1">{{ request.user.username }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
@@ -127,5 +134,5 @@
 </header>
 
 {% if request.user.is_superuser %}
-    {% include 'admins/include/admin_header.html' %}
+{% include 'admins/include/admin_header.html' %}
 {% endif %}

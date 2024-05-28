@@ -1,5 +1,6 @@
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from src.web.accounts.models import User
@@ -37,6 +38,7 @@ class Agency(AgencyBranchData):
 
 class Vehicle(models.Model):
     agency = models.ForeignKey(Agency, on_delete=models.CASCADE)
+    driver = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vehicle_driver')
     registration_number = models.CharField(max_length=20)
     model = models.CharField(max_length=100)
     fare_rates = models.DecimalField(max_digits=8, decimal_places=2)
@@ -50,6 +52,11 @@ class Vehicle(models.Model):
 
     def __str__(self):
         return f"{self.model} - {self.registration_number}"
+
+    def save(self, *args, **kwargs):
+        if self.driver and not self.driver.is_driver:
+            raise ValidationError("The selected user is not a driver.")
+        super().save(*args, **kwargs)
 
 
 class Schedule(models.Model):

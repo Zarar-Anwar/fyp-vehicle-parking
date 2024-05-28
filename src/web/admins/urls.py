@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     DashboardView,
     UserListView, UserPasswordResetView, UserDetailView, UserUpdateView, AgencyListView, AgencyDetailView,
-    AgencyUpdateView, VehicleListView, VehicleDetailView, VehicleUpdateView
+    AgencyUpdateView, VehicleListView, VehicleDetailView, VehicleUpdateView, VehicleAddView
 )
 
 app_name = 'admins'
@@ -22,6 +22,7 @@ urlpatterns = [
 
     # Vehlicle
     path('vehicle/', VehicleListView.as_view(), name='vehicle-list'),
+    path('vehicle/add/', VehicleAddView.as_view(), name='vehicle-add'),
     path('vehicle/<int:pk>/', VehicleDetailView.as_view(), name='vehicle-detail'),
     path('vehicle/<int:pk>/change/', VehicleUpdateView.as_view(), name='vehicle-update'),
 

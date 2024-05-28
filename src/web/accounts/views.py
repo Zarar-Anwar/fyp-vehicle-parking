@@ -21,11 +21,14 @@ class CrossAuthView(View):
     def get(self, request):
         if request.user.is_authenticated:
             if request.user.is_staff or request.user.is_superuser:
-                return redirect("/admins/")
+                return redirect("/admin/")
+
+            if request.user.is_staff:
+                return redirect('/admins/')
 
             if request.user.is_completed:
 
-                if request.user.is_agency:
+                if request.user.is_agency or request.user.is_driver:
                     return redirect("agency:dashboard")
 
                 elif request.user.is_traveller:

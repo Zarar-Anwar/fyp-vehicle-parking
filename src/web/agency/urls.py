@@ -2,14 +2,13 @@ from django.urls import path
 
 from src.web.agency.views import DashboardView, ProfileView, SettingView, \
     TravellersView, InvoicesView, PaymentsView, CurrencyView, VehicleView, EditProfileView, \
-    TravelAgentsView, VehicleCreateView, VehicleUpdateView, VehicleDeleteView
+    TravelAgentsView, VehicleUpdateView, VehicleDeleteView
 
 app_name = "agency"
 
 urlpatterns = [
     path('dashboard/', DashboardView.as_view(), name="dashboard"),
     path('vehicle/', VehicleView.as_view(), name="vehicle"),
-    path('add/vehicle/', VehicleCreateView.as_view(), name="add-vehicle"),
     path('update/vehicle/<int:pk>', VehicleUpdateView.as_view(), name="update-vehicle"),
     path('delete/vehicle/<int:pk>', VehicleDeleteView.as_view(), name="delete-vehicle"),
 
