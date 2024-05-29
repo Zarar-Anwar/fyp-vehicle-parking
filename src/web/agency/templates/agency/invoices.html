@@ -1,6 +1,7 @@
 {% extends 'agency/base.html' %}
 
 {% load static %}
+{% load crispy_forms_tags %}
 
 <!--------------------------------------------------TITLE-------------------------------------------------------------->
 {% block title %}
@@ -25,7 +26,7 @@ DASHBOARD
                 <div class="col-lg-6">
                     <div class="breadcrumb-list text-right">
                         <ul class="list-items">
-                            <li><a href="index.html" class="text-white">Home</a></li>
+                            <li><a href="{% url 'website:home' %}" class="text-white">Home</a></li>
                             <li>Dashboard</li>
                             <li>Finance</li>
                         </ul>
@@ -53,10 +54,10 @@ DASHBOARD
                                             <div class="input-group mb-3">
                                                 {% for field in booking_filter_form %}
                                                 <div class="form-group mr-2">
-                                                    {{ field }}
+                                                    {{ field}}
                                                 </div>
                                                 {% endfor %}
-                                                <div class="input-group-append">
+                                                <div class="">
                                                     <button class="btn btn-primary" type="submit">
                                                         <i class="fa fa-search"></i> Search
                                                     </button>
@@ -71,34 +72,31 @@ DASHBOARD
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Active</th>
-                                        <th>Action</th>
+                                        <th>Seat No</th>
+                                        <th>Price</th>
+                                        <th>Schedule</th>
+                                        <th>Payment</th>
+                                        <th>Date</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {% for object in booking_list %}
                                     <tr>
-                                        <th scope="row"><a href="#" class="color-text">51372</a></th>
+                                        <th scope="row">{{ object.id }}</th>
                                         <td>
                                             <div class="table-content">
-                                                <h3 class="title">London to New York City</h3>
+                                                <h3 class="title">{{object.user.username}}</h3>
                                             </div>
                                         </td>
-                                        <td><a href="admin-dashboard-traveler-detail.html" class="color-text">John
-                                            Smith</a></td>
-                                        <td>$350</td>
-                                        <td>PayPal</td>
-                                        <td>30/5/2020</td>
+                                        <td>{{ object.seat_number }}</td>
+                                        <td>{{ object.schedule.price }}</td>
+                                        <td>{{object.schedule.departure_time }}</td>
+                                        {% if object.payment_status %}
+                                        <td><span class="badge badge-success text-white py-1 px-2">Paid</span></td>
+                                        {% else %}
                                         <td><span class="badge badge-warning text-white py-1 px-2">Pending</span></td>
-                                        <td>
-                                            <div class="table-content">
-                                                <a href="#" class="theme-btn theme-btn-small" data-toggle="tooltip"
-                                                   data-placement="top" title="" data-original-title="View"><i
-                                                        class="la la-eye"></i></a>
-                                            </div>
-                                        </td>
+                                        {% endif %}
+                                        <td>{{ object.booking_date }}</td>
                                     </tr>
                                     {% endfor %}
 

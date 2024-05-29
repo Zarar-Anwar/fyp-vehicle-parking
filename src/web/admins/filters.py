@@ -1,8 +1,9 @@
 import django_filters
-from django.forms import TextInput
+from django.forms import TextInput, CheckboxInput
+from django_filters import BooleanFilter
 
 from src.web.accounts.models import User
-from src.web.agency.models import Agency, Vehicle, Booking
+from src.web.agency.models import Agency, Vehicle, Booking, Schedule
 
 
 class UserFilter(django_filters.FilterSet):
@@ -59,14 +60,24 @@ class DriverFilter(django_filters.FilterSet):
 
 
 class BookingFilter(django_filters.FilterSet):
-    user = django_filters.CharFilter(widget=TextInput(attrs={'placeholder': 'Name'}),
-                                     lookup_expr='icontains')
     seat_number = django_filters.CharFilter(widget=TextInput(attrs={'placeholder': 'Seat Number'}),
                                             lookup_expr='icontains')
     booking_date = django_filters.CharFilter(widget=TextInput(attrs={'placeholder': 'Booking Date'}),
-                                            lookup_expr='icontains')
+                                             lookup_expr='icontains')
 
     class Meta:
         model = Booking
         fields = {}
         exclude = ['schedule', 'payment_status', 'referral']
+
+
+class ScheduleFilter(django_filters.FilterSet):
+    destination = django_filters.CharFilter(widget=TextInput(attrs={'placeholder': 'Destination'}),
+                                            lookup_expr='icontains')
+    schedule_date = django_filters.CharFilter(widget=TextInput(attrs={'placeholder': 'Schedule Date'}),
+                                              lookup_expr='icontains')
+    status = BooleanFilter(widget=CheckboxInput(), field_name='status', lookup_expr='exact', label="Status")
+
+    class Meta:
+        model = Schedule
+        fields = {}

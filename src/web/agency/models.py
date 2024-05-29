@@ -1,7 +1,9 @@
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
+from datetime import date
+
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from src.web.accounts.models import User
 
@@ -67,13 +69,23 @@ class Schedule(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     available_seats = models.PositiveIntegerField()
     schedule_date = models.DateField()
+    status = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = 'Schedules'
         ordering = ['vehicle', 'destination']
 
     def __str__(self):
-        return f"{self.vehicle.content_object.name} Schedule to {self.destination}"
+        return f"{self.vehicle.model} Schedule to {self.destination}"
+
+    def update_status(self):
+        if self.schedule_date < date.today():
+            self.status = False
+            self.save()
+
+    @classmethod
+    def update_all_statuses(cls):
+        cls.objects.filter(schedule_date__lt=date.today(), status=True).update(status=False)
 
 
 class Referral(models.Model):
@@ -88,10 +100,19 @@ class Referral(models.Model):
         return f"Referral code: {self.code}"
 
 
+class Seat(models.Model):
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name='seats')
+    seat_number = models.PositiveIntegerField()
+    is_booked = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Bus {self.vehicle.model} - Seat {self.seat_number}"
+
+
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
-    seat_number = models.PositiveIntegerField()
+    seat = models.OneToOneField(Seat, on_delete=models.CASCADE)
     payment_status = models.BooleanField(default=False)
     booking_date = models.DateTimeField(auto_now_add=True)
     referral = models.ForeignKey(Referral, on_delete=models.SET_NULL, null=True, blank=True)
@@ -102,3 +123,10 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking by {self.user} for {self.schedule}"
+
+
+@receiver(post_save, sender=Vehicle)
+def create_seats(sender, instance, created, **kwargs):
+    if created:
+        for i in range(1, instance.number_of_seats + 1):
+            Seat.objects.create(bus=instance, seat_number=i)
