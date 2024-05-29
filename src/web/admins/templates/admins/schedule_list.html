@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load core_tags %}
+
+{% block subtitle %}
+Booking List
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12">
+        <form method="get">
+            <div class="input-group mb-3">
+                {{schedule_filter_form }}
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        {% if schedule_list %}
+                        <thead class="border-bottom">
+                        <tr>
+                            <th>ID</th>
+                            <th>Model</th>
+                            <th>Destination</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>Price</th>
+                            <th>Available Seats</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        {% for object in schedule_list %}
+                        <tr>
+                            <td>{{ object.pk }}</td>
+                            <td>{{ object.vehicle.model }}</td>
+                            <td>{{ object.destination }}</td>
+                            <td>{{ object.departure_time }}</td>
+                            <td>{{ object.arrival_time }}</td>
+                            <td>{{ object.price }}</td>
+                            <td>{{ object.available_seats }}</td>
+                            <td>{{ object.schedule_date }}</td>
+                              <td>
+                                {% if object.status %}
+                                <b class="text-success"><i class="fa fa-check-circle">Active</i></b>
+
+                                {% else %}
+                                <b class="text-danger"><i class="fa fa-times-circle">Expired</i></b>
+
+                                {% endif %}
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                        {% else %}
+                        <th class="text-danger">No schedules data available.</th>
+                        {% endif %}
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="mt-4">
+            <ul class="pagination">
+                {% if schedule_list.has_previous %}
+                <li>
+                            <span>
+                                <a href="{% relative_url schedule_list.previous_page_number 'page' request.GET.urlencode %}">
+                                    Previous
+                                </a>
+                            </span>
+                </li>
+                {% endif %}
+                <li class="">
+                    <span>Page {{ schedule_list.number }} of {{ schedule_list.paginator.num_pages }}.</span>
+                </li>
+                {% if schedule_list.has_next %}
+                <li>
+                            <span>
+                                <a href="{% relative_url schedule_list.next_page_number 'page' request.GET.urlencode %}">
+                                    Next
+                                </a>
+                            </span>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js_code %}
+<script>
+    $(document).ready(function () {
+
+        $('label').hide();
+        $('input').addClass('form-control');
+        $('select').addClass('form-control');
+
+    });
+</script>
+{% endblock %}
+
+

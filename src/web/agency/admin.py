@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Agency, Vehicle, Schedule, Booking
+from .models import Agency, Vehicle, Schedule, Booking, Seat
 
 
 @admin.register(Agency)
@@ -19,6 +19,11 @@ class ScheduleAdmin(admin.ModelAdmin):
         'vehicle', 'departure_time', 'arrival_time', 'destination', 'price', 'available_seats')
 
 
+@admin.register(Seat)
+class SeatAdmin(admin.ModelAdmin):
+    list_display = ('vehicle', 'seat_number', 'is_booked')
+
+
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('user', 'schedule', 'seat_number', 'payment_status', 'booking_date')
+    list_display = ('user', 'schedule', 'seat', 'payment_status', 'booking_date')

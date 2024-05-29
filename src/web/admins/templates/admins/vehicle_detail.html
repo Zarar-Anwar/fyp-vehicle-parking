@@ -59,6 +59,7 @@
                             <p class="mb-0 text-center">{{ vehicle.model }}</p>
                         </div>
                         <div class="col text-center">
+                            <a href="{% url 'website:car-details' vehicle.id %}">
                             <p class="mb-0 text-center h3"><i class="mdi mdi-shield-account"></i></p>
                             <p class="mb-0 text-center h5">Capacity</p>
                             <p class="mb-0 text-center">
@@ -66,6 +67,7 @@
                                    {{vehicle.capacity}}
                                 </b>
                             </p>
+                            </a>
                         </div>
                         <div class="col text-center">
                             <p class="mb-0 text-center h3"><i class="mdi mdi-security"></i></p>

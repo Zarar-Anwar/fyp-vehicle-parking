@@ -12,9 +12,9 @@ from django.views.generic import (
 )
 
 from src.web.accounts.models import User
-# from faker_data import initialization
-from src.web.admins.filters import UserFilter, AgencyFilter, VehicleFilter, DriverFilter, BookingFilter
-from src.web.agency.models import Agency, Vehicle, Booking
+from src.web.admins.bll import total_system_income
+from src.web.admins.filters import UserFilter, AgencyFilter, VehicleFilter, DriverFilter, BookingFilter, ScheduleFilter
+from src.web.agency.models import Agency, Vehicle, Booking, Schedule
 
 admin_decorators = [login_required, user_passes_test(lambda u: u.is_superuser)]
 
@@ -26,9 +26,9 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
         context['users'] = User.objects.all()
+        income = total_system_income()
+        context['income'] = income
         context['users_count_data'] = list(User.objects.values_list('id', flat=True))
-        # context = calculate_statistics(context)
-        # initialization(init=False, mid=False, end=False)
         return context
 
 
@@ -226,7 +226,6 @@ class DriverListView(ListView):
         return context
 
 
-
 """BOOKING"""
 
 
@@ -246,4 +245,27 @@ class BookingListView(ListView):
         booking_page_object = paginator.get_page(page_number)
 
         context['booking_list'] = booking_page_object
+        return context
+
+
+class ScheduleListView(ListView):
+    model = Schedule
+    template_name = "admins/schedule_list.html"
+    context_object_name = "schedule"
+    paginate_by = 50
+
+    def get_queryset(self):
+        Schedule.update_all_statuses()
+        return Schedule.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(ScheduleListView, self).get_context_data(**kwargs)
+        schedule_filter = ScheduleFilter(self.request.GET, queryset=self.get_queryset())
+        context['schedule_filter_form'] = schedule_filter.form
+
+        paginator = Paginator(schedule_filter.qs, 50)
+        page_number = self.request.GET.get('page')
+        schedule_page_object = paginator.get_page(page_number)
+
+        context['schedule_list'] = schedule_page_object
         return context
