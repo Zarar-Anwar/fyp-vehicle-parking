@@ -13,8 +13,8 @@ from django.views.generic import (
 
 from src.web.accounts.models import User
 # from faker_data import initialization
-from src.web.admins.filters import UserFilter, AgencyFilter, VehicleFilter
-from src.web.agency.models import Agency, Vehicle
+from src.web.admins.filters import UserFilter, AgencyFilter, VehicleFilter, DriverFilter, BookingFilter
+from src.web.agency.models import Agency, Vehicle, Booking
 
 admin_decorators = [login_required, user_passes_test(lambda u: u.is_superuser)]
 
@@ -95,7 +95,8 @@ class UserPasswordResetView(View):
         return render(request, 'admins/admin_password_reset.html', {'form': form, 'object': user})
 
 
-# Agency
+"""AGENCY"""
+
 
 class AgencyListView(ListView):
     model = Agency
@@ -137,7 +138,8 @@ class AgencyUpdateView(UpdateView):
         return reverse('admins:agency-detail', kwargs={'pk': self.object.pk})
 
 
-# Vehicle
+"""VEHICLE"""
+
 
 class VehicleListView(ListView):
     model = Vehicle
@@ -200,3 +202,48 @@ class VehicleUpdateView(UpdateView):
     #     vehicle = get_object_or_404(Vehicle, pk=self.kwargs['pk'])
     #     return context
     #
+
+
+"""DRIVER"""
+
+
+class DriverListView(ListView):
+    model = User
+    template_name = "admins/driver_list.html"
+    context_object_name = "driver"
+    paginate_by = 50
+
+    def get_context_data(self, **kwargs):
+        context = super(DriverListView, self).get_context_data(**kwargs)
+        driver_filter = DriverFilter(self.request.GET, queryset=User.objects.filter(is_driver=True))
+        context['driver_filter_form'] = driver_filter.form
+
+        paginator = Paginator(driver_filter.qs, 50)
+        page_number = self.request.GET.get('page')
+        driver_page_object = paginator.get_page(page_number)
+
+        context['driver_list'] = driver_page_object
+        return context
+
+
+
+"""BOOKING"""
+
+
+class BookingListView(ListView):
+    model = Booking
+    template_name = "admins/booking_list.html"
+    context_object_name = "booking"
+    paginate_by = 50
+
+    def get_context_data(self, **kwargs):
+        context = super(BookingListView, self).get_context_data(**kwargs)
+        booking_filter = BookingFilter(self.request.GET, queryset=Booking.objects.filter())
+        context['booking_filter_form'] = booking_filter.form
+
+        paginator = Paginator(booking_filter.qs, 50)
+        page_number = self.request.GET.get('page')
+        booking_page_object = paginator.get_page(page_number)
+
+        context['booking_list'] = booking_page_object
+        return context
