@@ -3,29 +3,23 @@
 {% load core_tags %}
 
 {% block subtitle %}
-Vehicle List
+Booking List
 {% endblock %}
 
 {% block content %}
 
 <div class="row">
-    <div class="col-10">
+    <div class="col-12">
         <form method="get">
             <div class="input-group mb-3">
-                {{ vehicle_filter_form }}
+                {{ booking_filter_form }}
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="submit">
                         <i class="fa fa-search"></i> Search
                     </button>
-
                 </div>
             </div>
         </form>
-    </div>
-    <div class="col-2">
-        <a href="{% url 'admins:vehicle-add' %}" class="btn btn-success">
-            ADD VEHICLE
-        </a>
     </div>
 </div>
 
@@ -34,37 +28,40 @@ Vehicle List
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-
-
                 <div class="table-responsive">
                     <table class="table table-borderless">
-                        {% if vehicle_list %}
+                        {% if booking_list %}
                         <thead class="border-bottom">
                         <tr>
                             <th>ID</th>
-                            <th>Agency Name</th>
-                            <th>Reg No</th>
-                            <th>Model</th>
-                            <th>
-                                Capacity
-                            </th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Active</th>
                             <th>Action</th>
                         </tr>
                         </thead>
 
                         <tbody>
 
-                        {% for object in vehicle_list %}
+                        {% for object in booking_list %}
                         <tr>
                             <td>{{ object.pk }}</td>
-                            <td>{{ object.agency.name }}</td>
-                            <td>{{ object.registration_number }}</td>
-                            <td>{{ object.model }}</td>
+                            <td>{{ object.first_name }} {{ object.last_name }}</td>
+                            <td>{{ object.username }}</td>
+                            <td>{{ object.email }}</td>
                             <td>
-                                {{ object.capacity }}
+                                {% if object.is_active %}
+                                <b class="text-success"><i class="fa fa-check-circle"></i></b>
+
+                                {% else %}
+                                <b class="text-danger"><i class="fa fa-times-circle"></i></b>
+
+                                {% endif %}
                             </td>
+
                             <td>
-                                <a href="{% url 'admins:vehicle-detail' object.pk %}"
+                                <a href="{% url 'admins:user-detail' user.pk %}"
                                    class="text-decoration-none"><i
                                         class="mdi mdi-eye icon-sm"></i> View
                                 </a>
@@ -74,7 +71,7 @@ Vehicle List
 
                         </tbody>
                         {% else %}
-                        <th class="text-danger">No users data available.</th>
+                        <th class="text-danger">No booking data available.</th>
                         {% endif %}
                     </table>
                 </div>
@@ -89,22 +86,22 @@ Vehicle List
     <div class="col-md-12">
         <div class="mt-4">
             <ul class="pagination">
-                {% if vehicle_list.has_previous %}
+                {% if booking_list.has_previous %}
                 <li>
                             <span>
-                                <a href="{% relative_url vehicle_list.previous_page_number 'page' request.GET.urlencode %}">
+                                <a href="{% relative_url booking_list.previous_page_number 'page' request.GET.urlencode %}">
                                     Previous
                                 </a>
                             </span>
                 </li>
                 {% endif %}
                 <li class="">
-                    <span>Page {{ vehicle_list.number }} of {{ vehicle_list.paginator.num_pages }}.</span>
+                    <span>Page {{ booking_list.number }} of {{ booking_list.paginator.num_pages }}.</span>
                 </li>
-                {% if vehicle_list.has_next %}
+                {% if booking_list.has_next %}
                 <li>
                             <span>
-                                <a href="{% relative_url vehicle_list.next_page_number 'page' request.GET.urlencode %}">
+                                <a href="{% relative_url booking_list.next_page_number 'page' request.GET.urlencode %}">
                                     Next
                                 </a>
                             </span>

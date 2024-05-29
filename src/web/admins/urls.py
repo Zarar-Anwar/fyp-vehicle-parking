@@ -2,7 +2,8 @@ from django.urls import path
 from .views import (
     DashboardView,
     UserListView, UserPasswordResetView, UserDetailView, UserUpdateView, AgencyListView, AgencyDetailView,
-    AgencyUpdateView, VehicleListView, VehicleDetailView, VehicleUpdateView, VehicleAddView
+    AgencyUpdateView, VehicleListView, VehicleDetailView, VehicleUpdateView, VehicleAddView, DriverListView,
+    BookingListView
 )
 
 app_name = 'admins'
@@ -20,10 +21,16 @@ urlpatterns = [
     path('agency/<int:pk>/', AgencyDetailView.as_view(), name='agency-detail'),
     path('agency/<int:pk>/change/', AgencyUpdateView.as_view(), name='agency-update'),
 
-    # Vehlicle
+    # Vehicle
     path('vehicle/', VehicleListView.as_view(), name='vehicle-list'),
     path('vehicle/add/', VehicleAddView.as_view(), name='vehicle-add'),
     path('vehicle/<int:pk>/', VehicleDetailView.as_view(), name='vehicle-detail'),
     path('vehicle/<int:pk>/change/', VehicleUpdateView.as_view(), name='vehicle-update'),
+
+    # Driver
+    path('driver-list/', DriverListView.as_view(), name='driver-list'),
+
+    # Booking
+    path('booking-list/', BookingListView.as_view(), name='booking-list'),
 
 ]
