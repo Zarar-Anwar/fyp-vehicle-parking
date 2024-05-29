@@ -27,7 +27,6 @@ class DashboardView(TemplateView):
         context = super(DashboardView, self).get_context_data(**kwargs)
         context['users'] = User.objects.all()
         income = total_system_income()
-        print(income)
         context['income'] = income
         context['users_count_data'] = list(User.objects.values_list('id', flat=True))
         return context

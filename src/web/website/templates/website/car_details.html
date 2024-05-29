@@ -14,7 +14,7 @@ Car-Details
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         width: 100%;
-        text-align:center;
+        text-align: center;
         align-items: center;
     }
 
@@ -27,13 +27,19 @@ Car-Details
 
     .bus-seats {
         display: flex;
-        flex-wrap: wrap;
+        justify-content: center;
         align-items: center;
         padding: 15px;
     }
 
-    .seat {
+    .seat-line {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        margin-bottom: 10px; /* Adjust as needed */
+    }
 
+    .seat {
         width: 30px;
         height: 30px;
         background-color: blue;
@@ -44,11 +50,6 @@ Car-Details
         align-items: center;
         justify-content: center;
         cursor: pointer;
-    }
-
-    .empty {
-        background-color: #f0f0f0;
-        cursor: default;
     }
 
     .bus-footer {
@@ -65,6 +66,7 @@ Car-Details
         cursor: pointer;
         font-size: 16px;
     }
+
 </style>
 {% endblock css%}
 
@@ -149,72 +151,85 @@ Car-Details
 
                 </div>
             </div>
-             <div class="col-lg-3">
-                        <form method="post">
-                            <div class="bus-card ">
-                                <div class="bus-header">
-                                    <h4>BUS : {{bus.registration_number|upper}}</h4>
-                                </div>
-                                <div class="bus-seats">
-                                    {% for i in ""|rjust:bus.capacity %}
-                                    <div class="seat">{{ forloop.counter }}</div>
-                                    {% if forloop.counter|divisibleby:2 %}
-                                </div>
-                                <div class="bus-seats">
-                                    {% endif %}
-                                    {% endfor %}
-                                </div>
-                                <div class="bus-footer">
-                                    <button class="book-button" type="button" data-bs-toggle="modal"
-                                            data-bs-target="#invoiceModal">Book Now
-                                    </button>
 
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="invoiceModal" tabindex="-1"
-                                         aria-labelledby="invoiceModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="invoiceModalLabel">Invoice</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
+            <div class="col-lg-3">
+                <form method="post">
+                    <div class="bus-card">
+                        <div class="bus-header">
+                            <h4>BUS : {{ bus.registration_number|upper }}</h4>
+                        </div>
+                        <div class="bus-seats">
+                            <div class="seat-column">
+                                <!-- First line of seats from seat_1 -->
+                                {% for seat in seat_1|slice:":10" %}
+                                <div class="seat">{{ seat.seat_number }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="seat-column">
+                                <!-- Second line of seats from seat_1 -->
+                                {% for seat in seat_1|slice:"10:20" %}
+                                <div class="seat">{{ seat.seat_number }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="seat-column" style="margin-left: 20px;"> <!-- Adjust margin as needed -->
+                                <!-- First line of seats from seat_2 -->
+                                {% for seat in seat_2|slice:":10" %}
+                                <div class="seat">{{ seat.seat_number }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="seat-column">
+                                <!-- Second line of seats from seat_2 -->
+                                {% for seat in seat_2|slice:"10:20" %}
+                                <div class="seat">{{ seat.seat_number }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="bus-footer">
+                            <button class="book-button" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#invoiceModal">Book Now
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="invoiceModal" tabindex="-1"
+                                 aria-labelledby="invoiceModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="invoiceModalLabel">Invoice</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <h4>Vehicle Details:</h4>
+                                                    <p><strong>Registration Number:</strong>
+                                                        {{ bus.registration_number }}</p>
+                                                    <p><strong>Model:</strong> {{ bus.model }}</p>
+                                                    <p><strong>Capacity:</strong> {{ bus.capacity }}</p>
+                                                    <p><strong>Fare Rates:</strong> {{ bus.fare_rates }} Rs
+                                                    </p>
                                                 </div>
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <h4>Vehicle Details:</h4>
-                                                            <p><strong>Registration Number:</strong> {{
-                                                                bus.registration_number }}</p>
-                                                            <p><strong>Model:</strong> {{ bus.model }}</p>
-                                                            <p><strong>Capacity:</strong> {{ bus.capacity }}</p>
-                                                            <p><strong>Fare Rates:</strong> {{ bus.fare_rates }} Rs
-                                                            </p>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <img src="{% if bus.image %}{{ bus.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
-                                                                 alt="Vehicle Image"
-                                                                 class="img-fluid">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer text-center">
-                                                    <button type="button"
-                                                            class="text-success border border-2 border-success"
-                                                            style="font-size: 20px;">Pay Now
-                                                    </button>
+                                                <div class="col-lg-6">
+                                                    <img src="{% if bus.image %}{{ bus.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
+                                                         alt="Vehicle Image"
+                                                         class="img-fluid">
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="modal-footer text-center">
+                                            <button type="button"
+                                                    class="text-success border border-2 border-success"
+                                                    style="font-size: 20px;">Pay Now
+                                            </button>
+                                        </div>
                                     </div>
-
-
                                 </div>
                             </div>
-
-                        </form>
-
+                        </div>
                     </div>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>

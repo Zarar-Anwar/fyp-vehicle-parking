@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.views.generic import TemplateView, DetailView, ListView
 
-from src.web.agency.models import Vehicle
+from src.web.agency.models import Vehicle, Seat
 
 
 # Create your views here.
@@ -30,6 +30,20 @@ class CarDetailsView(DetailView):
     model = Vehicle
     context_object_name = 'bus'
     template_name = 'website/car_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        seats = Seat.objects.filter(vehicle=self.object)
+        total_seats = seats.count()
+
+        half_seats = total_seats // 2
+
+        seat_1 = seats[:half_seats]
+        seat_2 = seats[half_seats:]
+
+        context['seat_1'] = seat_1
+        context['seat_2'] = seat_2
+        return context
 
 
 class AboutView(TemplateView):

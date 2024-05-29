@@ -128,5 +128,5 @@ class Booking(models.Model):
 @receiver(post_save, sender=Vehicle)
 def create_seats(sender, instance, created, **kwargs):
     if created:
-        for i in range(1, instance.number_of_seats + 1):
-            Seat.objects.create(bus=instance, seat_number=i)
+        for i in range(1, instance.capacity + 1):
+            Seat.objects.create(vehicle=instance, seat_number=i)
