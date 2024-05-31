@@ -51,7 +51,7 @@ Vehicle List
                                 <a href="{% url 'website:car-details' bus.pk %}" target="_self" title="Link"
                                    class="lazy-container ratio ratio-2-3">
                                     <img class="lazyloaded"
-                                         src="{% if bus.image %}{{ bus.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
+                                         src="{% if bus.vehicle.image %}{{ bus.vehicle.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
                                          alt="Bus Image">
                                     data-src="{% static 'assets/images/product/pro-1.png' %}" alt="Product">
                                 </a>
@@ -60,9 +60,9 @@ Vehicle List
                                 <h5 class="product-title mb-10"><a href="{% url 'website:car-details' bus.pk %}"
                                                                    target="_self" title="Link"></a>{{bus.name}}</h5>
                                 <ul class="product-list-group list-unstyled">
-                                    <li><strong>Model :</strong> {{bus.model}}</li>
-                                    <li><strong>Capacity :</strong> {{bus.capacity}}</li>
-                                    <li><strong>Fare Rates :</strong> {{bus.fare_rates}} Rs</li>
+                                    <li><strong>Model :</strong> {{bus.vehicle.model}}</li>
+                                    <li><strong>Capacity :</strong> {{bus.vehicle.capacity}}</li>
+                                    <li><strong>Fare Rates :</strong> {{bus.vehicle.fare_rates}} Rs</li>
                                 </ul>
                             </div>
                             <div class="product-action col-xl-3 col-lg-2 col-md-12 col-sm-12">

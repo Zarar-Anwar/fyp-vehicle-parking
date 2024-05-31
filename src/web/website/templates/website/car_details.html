@@ -52,6 +52,10 @@
                 cursor: pointer;
             }
 
+            .seat.booked {
+                background-color: red; /* Change color for booked seats */
+            }
+
             .bus-footer {
                 padding: 15px;
                 text-align: center;
@@ -66,8 +70,8 @@
                 cursor: pointer;
                 font-size: 16px;
             }
-
         </style>
+
     {% endblock css %}
 
 
@@ -97,16 +101,17 @@
                         <h2 class="mb-5 text-center">Vehicle Features</h2>
                         <ul class="features-list justify-content-center">
                             <li class="font-lg">
-                                <span><i class="fas fa-file-alt"></i>Reg No : {{ bus.registration_number }} </span>
+                                <span><i
+                                        class="fas fa-file-alt"></i>Reg No : {{ bus.vehicle.registration_number }} </span>
                             </li>
                             <li class="font-lg">
-                                <span><i class="fas fa-users"></i>Seats : {{ bus.capacity }} </span>
+                                <span><i class="fas fa-users"></i>Seats : {{ bus.vehicle.capacity }} </span>
                             </li>
                             <li class="font-lg">
-                                <span><i class="fas fa-car"></i> Model : {{ bus.model }}</span>
+                                <span><i class="fas fa-car"></i> Model : {{ bus.vehicle.model }}</span>
                             </li>
                             <li class="font-lg">
-                                <span><i class="fas fa-coins"></i>Fare_Rates : {{ bus.fare_rates }}</span>
+                                <span><i class="fas fa-coins"></i>Fare_Rates : {{ bus.vehicle.fare_rates }}</span>
                             </li>
                         </ul>
                     </div>
@@ -134,7 +139,11 @@
 
 
 
-                                                         {% if bus.image %}{{ bus.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
+
+
+
+
+                                                         {% if bus.vehicle.image %}{{ bus.vehicle.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
                                                  data-src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
                                                  alt="product image">
                                         </a>
@@ -168,34 +177,42 @@
                     <form method="post">
                         <div class="bus-card">
                             <div class="bus-header">
-                                <h4>BUS : {{ bus.registration_number|upper }}</h4>
+                                <h4>BUS : {{ bus.vehicle.registration_number|upper }}</h4>
                             </div>
                             <div class="bus-seats">
                                 <div class="seat-column">
                                     {% for seat in seat_1|slice:":10" %}
-                                        <div class="seat " id="book-button" type="button" data-bs-toggle="modal"
-                                             data-bs-target="#invoiceModal" data-fare-rates="{{ bus.fare_rates }}"
+                                        <div class="seat {% if seat.is_booked %}booked{% endif %}" id="book-button"
+                                             type="button" data-bs-toggle="modal"
+                                             data-bs-target="#invoiceModal"
+                                             data-fare-rates="{{ bus.vehicle.fare_rates }}"
                                              data-seat-number="{{ seat.seat_number }}">{{ seat.seat_number }}</div>
                                     {% endfor %}
                                 </div>
                                 <div class="seat-column">
                                     {% for seat in seat_1|slice:"10:20" %}
-                                        <div class="seat " id="book-button" type="button" data-bs-toggle="modal"
-                                             data-bs-target="#invoiceModal" data-fare-rates="{{ bus.fare_rates }}"
+                                        <div class="seat {% if seat.is_booked %}booked{% endif %}" id="book-button"
+                                             type="button" data-bs-toggle="modal"
+                                             data-bs-target="#invoiceModal"
+                                             data-fare-rates="{{ bus.vehicle.fare_rates }}"
                                              data-seat-number="{{ seat.seat_number }}">{{ seat.seat_number }}</div>
                                     {% endfor %}
                                 </div>
                                 <div class="seat-column" style="margin-left: 20px;">
                                     {% for seat in seat_2|slice:":10" %}
-                                        <div class="seat " id="book-button" type="button" data-bs-toggle="modal"
-                                             data-bs-target="#invoiceModal" data-fare-rates="{{ bus.fare_rates }}"
+                                        <div class="seat {% if seat.is_booked %}booked{% endif %}" id="book-button"
+                                             type="button" data-bs-toggle="modal"
+                                             data-bs-target="#invoiceModal"
+                                             data-fare-rates="{{ bus.vehicle.fare_rates }}"
                                              data-seat-number="{{ seat.seat_number }}">{{ seat.seat_number }}</div>
                                     {% endfor %}
                                 </div>
                                 <div class="seat-column">
                                     {% for seat in seat_2|slice:"10:20" %}
-                                        <div class="seat " id="book-button" type="button" data-bs-toggle="modal"
-                                             data-bs-target="#invoiceModal" data-fare-rates="{{ bus.fare_rates }}"
+                                        <div class="seat {% if seat.is_booked %}booked{% endif %}" id="book-button"
+                                             type="button" data-bs-toggle="modal"
+                                             data-bs-target="#invoiceModal"
+                                             data-fare-rates="{{ bus.vehicle.fare_rates }}"
                                              data-seat-number="{{ seat.seat_number }}">{{ seat.seat_number }}</div>
                                     {% endfor %}
                                 </div>
@@ -217,10 +234,11 @@
                                                     <div class="col-lg-6">
                                                         <h4>Vehicle Details:</h4>
                                                         <p><strong>Registration
-                                                            Number:</strong> {{ bus.registration_number }}</p>
-                                                        <p><strong>Model:</strong> {{ bus.model }}</p>
-                                                        <p><strong>Capacity:</strong> {{ bus.capacity }}</p>
-                                                        <p><strong>Fare Rates:</strong> {{ bus.fare_rates }} Rs</p>
+                                                            Number:</strong> {{ bus.vehicle.registration_number }}</p>
+                                                        <p><strong>Model:</strong> {{ bus.vehicle.model }}</p>
+                                                        <p><strong>Capacity:</strong> {{ bus.vehicle.capacity }}</p>
+                                                        <p><strong>Fare Rates:</strong> {{ bus.vehicle.fare_rates }} Rs
+                                                        </p>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <img src="
@@ -228,7 +246,11 @@
 
 
 
-                                                                {% if bus.image %}{{ bus.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
+
+
+
+
+                                                                {% if bus.vehicle.image %}{{ bus.vehicle.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
                                                              alt="Vehicle Image" class="img-fluid">
                                                     </div>
                                                 </div>

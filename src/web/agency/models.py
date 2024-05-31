@@ -109,7 +109,7 @@ class Seat(models.Model):
     is_booked = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Bus {self.vehicle.model} - Seat {self.seat_number}"
+        return f" Seat {self.seat_number}"
 
 
 class Booking(models.Model):
@@ -118,7 +118,6 @@ class Booking(models.Model):
     seat = models.OneToOneField(Seat, on_delete=models.CASCADE)
     payment_status = models.BooleanField(default=False)
     booking_date = models.DateTimeField(auto_now_add=True)
-    referral = models.ForeignKey(Referral, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Bookings'
@@ -131,5 +130,5 @@ class Booking(models.Model):
 @receiver(post_save, sender=Schedule)
 def create_seats(sender, instance, created, **kwargs):
     if created:
-        for i in range(1, instance.capacity + 1):
-            Seat.objects.create(vehicle=instance, seat_number=i)
+        for i in range(1, instance.vehicle.capacity + 1):
+            Seat.objects.create(schedule=instance, seat_number=i)

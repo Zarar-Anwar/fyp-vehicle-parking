@@ -4,83 +4,89 @@
 
 <!--------------------------------------------------TITLE-------------------------------------------------------------->
 {% block title %}
-DASHBOARD-HOME
+    DASHBOARD-HOME
 {% endblock %}
 
 
 {% block content %}
-<div class="dashboard-content-wrap">
-    <div class="dashboard-bread dashboard-bread-2">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="breadcrumb-content">
-                        <div class="section-heading">
-                            <h2 class="sec__title font-size-30 text-white">Dashboard</h2>
+    <div class="dashboard-content-wrap">
+        <div class="dashboard-bread dashboard-bread-2">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="breadcrumb-content">
+                            <div class="section-heading">
+                                <h2 class="sec__title font-size-30 text-white">Dashboard</h2>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="col-lg-6">
+                        <div class="breadcrumb-list text-right">
+                            <ul class="list-items">
+                                <li><a href="{% url 'website:home' %}" class="text-white">Home</a></li>
+                                <li>Pages</li>
+                                <li>Dashboard</li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="col-lg-6">
-                    <div class="breadcrumb-list text-right">
-                        <ul class="list-items">
-                            <li><a href="{% url 'website:home' %}" class="text-white">Home</a></li>
-                            <li>Pages</li>
-                            <li>Dashboard</li>
-                        </ul>
-                    </div>
+                <div class="row mt-4">
+
+                    {% if user.is_agency or user.is_authenticated %}
+                        <div class="col-lg-4 responsive-column-l">
+                            <div class="icon-box icon-layout-2 dashboard-icon-box pb-0">
+                                <div class="d-flex pb-3 justify-content-between">
+                                    <div class="info-content">
+                                        <p class="info__desc">Total Booking!</p>
+                                        <h4 class="info__title">{{ booking.count }}</h4>
+                                    </div>
+                                    <div class="info-icon icon-element bg-4">
+                                        <i class="la la-shopping-cart"></i>
+                                    </div>
+                                </div>
+
+                                <div class="section-block"></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if user.is_agency %}
+                        <div class="col-lg-4 responsive-column-l">
+                            <div class="icon-box icon-layout-2 dashboard-icon-box pb-0">
+                                <div class="d-flex pb-3 justify-content-between">
+                                    <div class="info-content">
+                                        <p class="info__desc">Total Vehicles</p>
+                                        <h4 class="info__title">{{ vehicles.count }}</h4>
+                                    </div>
+                                    <div class="info-icon icon-element bg-3">
+                                        <i class="la la-car"></i>
+                                    </div>
+                                </div>
+                                <div class="section-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 responsive-column-l">
+                            <div class="icon-box icon-layout-2 dashboard-icon-box pb-0">
+                                <div class="d-flex pb-3 justify-content-between">
+                                    <div class="info-content">
+                                        <p class="info__desc">Total Income</p>
+                                        <h4 class="info__title">{{ income }}</h4>
+                                    </div>
+                                    <div class="info-icon icon-element bg-2">
+                                        <i class="la la-money"></i>
+                                    </div>
+                                </div>
+                                <div class="section-block"></div>
+                            </div>
+                        </div>
+                    {% endif %}
+
                 </div>
 
             </div>
-
-            <div class="row mt-4">
-                <div class="col-lg-4 responsive-column-l">
-                    <div class="icon-box icon-layout-2 dashboard-icon-box pb-0">
-                        <div class="d-flex pb-3 justify-content-between">
-                            <div class="info-content">
-                                <p class="info__desc">Total Booking!</p>
-                                <h4 class="info__title">{{ booking.count}}</h4>
-                            </div>
-                            <div class="info-icon icon-element bg-4">
-                                <i class="la la-shopping-cart"></i>
-                            </div>
-                        </div>
-
-                        <div class="section-block"></div>
-                    </div>
-                </div>
-                <div class="col-lg-4 responsive-column-l">
-                    <div class="icon-box icon-layout-2 dashboard-icon-box pb-0">
-                        <div class="d-flex pb-3 justify-content-between">
-                            <div class="info-content">
-                                <p class="info__desc">Total Vehicles</p>
-                                <h4 class="info__title">{{ vehicles.count }}</h4>
-                            </div>
-                            <div class="info-icon icon-element bg-3">
-                                <i class="la la-car"></i>
-                            </div>
-                        </div>
-                        <div class="section-block"></div>
-                    </div>
-                </div>
-                <div class="col-lg-4 responsive-column-l">
-                    <div class="icon-box icon-layout-2 dashboard-icon-box pb-0">
-                        <div class="d-flex pb-3 justify-content-between">
-                            <div class="info-content">
-                                <p class="info__desc">Total Income</p>
-                                <h4 class="info__title">{{income}}</h4>
-                            </div>
-                            <div class="info-icon icon-element bg-2">
-                                <i class="la la-money"></i>
-                            </div>
-                        </div>
-                        <div class="section-block"></div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
-</div>
 
 {% endblock %}

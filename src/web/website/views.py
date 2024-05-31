@@ -1,7 +1,11 @@
+from datetime import date
+
 import stripe
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
+from django.db import transaction
+from django.db.models import F
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.views import View
@@ -26,7 +30,7 @@ class CarsView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        vehicle_list = Vehicle.objects.all()
+        vehicle_list = Schedule.objects.all()
         paginator = Paginator(vehicle_list, 2)  # Display 5 items per page
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
@@ -35,14 +39,14 @@ class CarsView(ListView):
 
 
 class CarDetailsView(DetailView):
-    model = Vehicle
+    model = Schedule
     context_object_name = 'bus'
     template_name = 'website/car_details.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        schedule = Schedule.objects.get(vehicle=self.object)
-        seats = Seat.objects.filter(schedule)
+        schedule = Schedule.objects.get(vehicle=self.object.vehicle)
+        seats = Seat.objects.filter(schedule=schedule)
         total_seats = seats.count()
 
         half_seats = total_seats // 2
@@ -109,35 +113,34 @@ class CreateCheckoutSessionView(View):
                 }
             )
 
-            # Mark the seat as booked and create a booking
-            seat = Seat.objects.get(seat_number=seat_number)
-            schedule = seat.vehicle
+            try:
+                seat = Seat.objects.get(seat_number=seat_number)
+            except Seat.DoesNotExist:
+                return HttpResponseBadRequest("Seat does not exist.")
+
+            schedule = seat.schedule
+
             if schedule.available_seats <= 0:
                 raise ValidationError("No available seats for this schedule.")
 
+            # Mark the seat as booked and create a booking
             seat.is_booked = True
             seat.save()
 
-            # Create a booking
-            booking = Booking.objects.create(
-                user=request.user,
-                schedule=schedule,
-                seat=seat,
-                payment_status=False  # update after payment success
-            )
+            with transaction.atomic():
+                # Booking.objects.create(
+                #     user=request.user,
+                #     schedule=schedule,
+                #     seat=seat,
+                # )
 
-            # Update available seats count in the schedule
-            schedule.available_seats -= 1
-            schedule.save()
+                # Update available seats count in the schedule
+                schedule.available_seats -= 1
+                schedule.save()
 
             return JsonResponse({
                 'id': checkout_session.id,
-                'booking_id': booking.id  # Return the booking ID for reference
             })
-        except json.JSONDecodeError:
-            return HttpResponseBadRequest("Invalid JSON.")
-        except Seat.DoesNotExist:
-            return HttpResponseBadRequest("Seat does not exist.")
         except ValidationError as e:
             return HttpResponseBadRequest(str(e))
         except Exception as e:
@@ -146,15 +149,31 @@ class CreateCheckoutSessionView(View):
 
 def SuccessView(request):
     session_id = request.GET.get('session_id')
-    session = stripe.checkout.Session.retrieve(session_id)
 
-    # Find the booking and update the payment status
-    booking = Booking.objects.get(seat__seat_number=session.metadata.seat_number)
-    booking.payment_status = True
-    booking.save()
+    if not session_id:
+        return HttpResponseBadRequest("Session ID is missing.")
 
-    messages.success(request, "Payment SuccessFully")
-    return render(request, 'website/car_details.html')
+    try:
+        session = stripe.checkout.Session.retrieve(session_id)
+        seat_number = session.metadata.get('seat_number')
+
+        if not seat_number:
+            return HttpResponseBadRequest("Seat number is missing in session metadata.")
+
+        # Find the booking and update the payment status
+        booking = Booking.objects.get(seat__seat_number=seat_number)
+        booking.payment_status = True
+        booking.save()
+
+        messages.success(request, "Payment Successful")
+        return render(request, 'website/car_details.html')
+    except stripe.error.StripeError as e:
+        # Handle Stripe API errors
+        return HttpResponseBadRequest(f"Stripe Error: {str(e)}")
+    except Booking.DoesNotExist:
+        return HttpResponseBadRequest("Booking not found.")
+    except Exception as e:
+        return HttpResponseBadRequest(str(e))
 
 
 def CancelView(request):
