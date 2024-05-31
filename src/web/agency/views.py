@@ -101,7 +101,11 @@ class InvoicesView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(InvoicesView, self).get_context_data(**kwargs)
-        booking_filter = BookingFilter(self.request.GET, queryset=Booking.objects.filter())
+        if self.request.user.is_agency:
+            booking_filter = BookingFilter(self.request.GET, queryset=Booking.objects.filter())
+        elif self.request.user.is_authenticated:
+            booking_filter = BookingFilter(self.request.GET, queryset=Booking.objects.filter(user=self.request.user))
+
         context['booking_filter_form'] = booking_filter.form
 
         paginator = Paginator(booking_filter.qs, 50)

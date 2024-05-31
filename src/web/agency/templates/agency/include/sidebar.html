@@ -31,8 +31,8 @@
               {% endif %}
 
               {% if user.is_authenticated %}
-                <li class="{% if request.path == '/agency/user/booking/' %}page-active{% endif %}">
-                    <a href="{% url 'agency:dashboard' %}"><i class="la la-dashboard mr-2"></i>Your Bookings</a></li>
+                <li class="{% if request.path == '/agency/invoices/' %}page-active{% endif %}">
+                    <a href="{% url 'agency:invoices' %}"><i class="la la-dashboard mr-2"></i>Your Bookings</a></li>
               {% endif %}
 
               {% if user.is_agency or user.is_driver %}
