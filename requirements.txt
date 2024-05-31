@@ -17,7 +17,7 @@ django-ckeditor
 django-crispy-forms
 djangorestframework
 dj-rest-auth
-
+stripe
 crispy-bootstrap5
 django-browser-reload
 drf-yasg
