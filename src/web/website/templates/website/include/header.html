@@ -175,7 +175,7 @@
                 <div class="more-option mobile-item">
                     {% if user.is_authenticated %}
                     <div class="item">
-                        <a href="{% url 'account_logout' %}" class="btn btn-warning" style="background-color:orange;font-size:20px">Logout</a>
+                        <a href="{% url 'agency:dashboard' %}" class="btn btn-warning" style="background-color:orange;font-size:20px">Dashboard</a>
                     </div>
                     {% else %}
                     <div class="item">

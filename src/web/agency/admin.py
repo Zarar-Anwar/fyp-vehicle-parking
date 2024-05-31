@@ -21,7 +21,7 @@ class ScheduleAdmin(admin.ModelAdmin):
 
 @admin.register(Seat)
 class SeatAdmin(admin.ModelAdmin):
-    list_display = ('vehicle', 'seat_number', 'is_booked')
+    list_display = ('schedule', 'seat_number', 'is_booked')
 
 
 @admin.register(Booking)

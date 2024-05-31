@@ -1,6 +1,7 @@
 from datetime import date
 
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -44,7 +45,9 @@ class Vehicle(models.Model):
     registration_number = models.CharField(max_length=20)
     model = models.CharField(max_length=100)
     fare_rates = models.DecimalField(max_digits=8, decimal_places=2)
-    capacity = models.PositiveIntegerField()
+    capacity = models.PositiveIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(40)]
+    )
     image = models.ImageField(upload_to='vehicle_images/', null=True, blank=True)
     is_active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -101,12 +104,12 @@ class Referral(models.Model):
 
 
 class Seat(models.Model):
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name='seats')
+    schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='seats')
     seat_number = models.PositiveIntegerField()
     is_booked = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Bus {self.vehicle.model} - Seat {self.seat_number}"
+        return f" Seat {self.seat_number}"
 
 
 class Booking(models.Model):
@@ -115,7 +118,6 @@ class Booking(models.Model):
     seat = models.OneToOneField(Seat, on_delete=models.CASCADE)
     payment_status = models.BooleanField(default=False)
     booking_date = models.DateTimeField(auto_now_add=True)
-    referral = models.ForeignKey(Referral, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Bookings'
@@ -125,8 +127,8 @@ class Booking(models.Model):
         return f"Booking by {self.user} for {self.schedule}"
 
 
-@receiver(post_save, sender=Vehicle)
+@receiver(post_save, sender=Schedule)
 def create_seats(sender, instance, created, **kwargs):
     if created:
-        for i in range(1, instance.capacity + 1):
-            Seat.objects.create(vehicle=instance, seat_number=i)
+        for i in range(1, instance.vehicle.capacity + 1):
+            Seat.objects.create(schedule=instance, seat_number=i)

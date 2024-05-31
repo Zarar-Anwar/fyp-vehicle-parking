@@ -25,10 +25,14 @@ class DashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['vehicles'] = Vehicle.objects.filter(agency__owner=self.request.user)
-        context['booking'] = Booking.objects.filter(schedule__vehicle__agency__owner=self.request.user)
-        agency = get_object_or_404(Agency, owner=self.request.user)
-        context['income'] = agency_income(agency)
+        if self.request.user.is_agency:
+            context['vehicles'] = Vehicle.objects.filter(agency__owner=self.request.user)
+            context['booking'] = Booking.objects.filter(schedule__vehicle__agency__owner=self.request.user)
+            agency = get_object_or_404(Agency, owner=self.request.user)
+            context['income'] = agency_income(agency)
+        elif self.request.user.is_authenticated:
+            context['booking'] = Booking.objects.filter(user=self.request.user)
+
         return context
 
 
@@ -41,8 +45,16 @@ class VehicleView(ListView):
     template_name = 'agency/vehicle.html'
 
     def get_queryset(self):
-        agency = get_object_or_404(Agency, owner=self.request.user)
-        return Vehicle.objects.filter(agency=agency)
+        user = self.request.user
+
+        # Check if the user is an agency owner
+        if self.request.user.is_agency:
+            agency = get_object_or_404(Agency, owner=user)
+            return Vehicle.objects.filter(agency=agency)
+
+        # Check if the user is a driver
+        elif self.request.user.is_driver:
+            return Vehicle.objects.filter(driver=self.request.user)
 
 
 class VehicleUpdateView(UpdateView):
@@ -89,7 +101,11 @@ class InvoicesView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(InvoicesView, self).get_context_data(**kwargs)
-        booking_filter = BookingFilter(self.request.GET, queryset=Booking.objects.filter())
+        if self.request.user.is_agency:
+            booking_filter = BookingFilter(self.request.GET, queryset=Booking.objects.filter())
+        elif self.request.user.is_authenticated:
+            booking_filter = BookingFilter(self.request.GET, queryset=Booking.objects.filter(user=self.request.user))
+
         context['booking_filter_form'] = booking_filter.form
 
         paginator = Paginator(booking_filter.qs, 50)

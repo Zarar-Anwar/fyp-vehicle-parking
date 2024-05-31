@@ -3,127 +3,119 @@
 {% load core_tags %}
 
 {% block subtitle %}
-Booking List
+    Booking List
 {% endblock %}
 
 {% block content %}
 
-<div class="row">
-    <div class="col-12">
-        <form method="get">
-            <div class="input-group mb-3">
-                {{ booking_filter_form }}
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fa fa-search"></i> Search
-                    </button>
+    <div class="row">
+        <div class="col-12">
+            <form method="get">
+                <div class="input-group mb-3">
+                    {{ booking_filter_form }}
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search"></i> Search
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-borderless">
-                        {% if booking_list %}
-                        <thead class="border-bottom">
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Active</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            {% if booking_list %}
+                                <thead class="border-bottom">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User</th>
+                                    <th>Schedule</th>
+                                    <th>Seat</th>
+                                    <th>Payment Status</th>
+                                </tr>
+                                </thead>
 
-                        <tbody>
+                                <tbody>
 
-                        {% for object in booking_list %}
-                        <tr>
-                            <td>{{ object.pk }}</td>
-                            <td>{{ object.first_name }} {{ object.last_name }}</td>
-                            <td>{{ object.username }}</td>
-                            <td>{{ object.email }}</td>
-                            <td>
-                                {% if object.is_active %}
-                                <b class="text-success"><i class="fa fa-check-circle"></i></b>
+                                {% for object in booking_list %}
+                                    <tr>
+                                        <td>{{ object.pk }}</td>
+                                        <td>{{ object.user.username }}</td>
+                                        <td>{{ object.schedule.schedule_date }}</td>
+                                        <td>{{ object.seat.seat_number }}</td>
+                                        <td>
+                                            {% if object.payment_status %}
+                                                <b class="text-success"><i class="fa fa-check-circle"></i></b>
 
-                                {% else %}
-                                <b class="text-danger"><i class="fa fa-times-circle"></i></b>
+                                            {% else %}
+                                                <b class="text-danger"><i class="fa fa-times-circle"></i></b>
 
-                                {% endif %}
-                            </td>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
 
-                            <td>
-                                <a href="{% url 'admins:user-detail' user.pk %}"
-                                   class="text-decoration-none"><i
-                                        class="mdi mdi-eye icon-sm"></i> View
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
+                                </tbody>
+                            {% else %}
+                                <th class="text-danger">No booking data available.</th>
+                            {% endif %}
+                        </table>
+                    </div>
 
-                        </tbody>
-                        {% else %}
-                        <th class="text-danger">No booking data available.</th>
-                        {% endif %}
-                    </table>
+
                 </div>
-
-
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="mt-4">
-            <ul class="pagination">
-                {% if booking_list.has_previous %}
-                <li>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mt-4">
+                <ul class="pagination">
+                    {% if booking_list.has_previous %}
+                        <li>
                             <span>
                                 <a href="{% relative_url booking_list.previous_page_number 'page' request.GET.urlencode %}">
                                     Previous
                                 </a>
                             </span>
-                </li>
-                {% endif %}
-                <li class="">
-                    <span>Page {{ booking_list.number }} of {{ booking_list.paginator.num_pages }}.</span>
-                </li>
-                {% if booking_list.has_next %}
-                <li>
+                        </li>
+                    {% endif %}
+                    <li class="">
+                        <span>Page {{ booking_list.number }} of {{ booking_list.paginator.num_pages }}.</span>
+                    </li>
+                    {% if booking_list.has_next %}
+                        <li>
                             <span>
                                 <a href="{% relative_url booking_list.next_page_number 'page' request.GET.urlencode %}">
                                     Next
                                 </a>
                             </span>
-                </li>
-                {% endif %}
-            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
 
 {% block js_code %}
-<script>
-    $(document).ready(function () {
+    <script>
+        $(document).ready(function () {
 
-        $('label').hide();
-        $('input').addClass('form-control');
-        $('select').addClass('form-control');
+            $('label').hide();
+            $('input').addClass('form-control');
+            $('select').addClass('form-control');
 
-    });
-</script>
+        });
+    </script>
 {% endblock %}
 
 

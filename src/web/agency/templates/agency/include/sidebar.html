@@ -24,13 +24,22 @@
 
         <div class="sidebar-menu-wrap">
             <ul class="sidebar-menu toggle-menu list-items">
+
+               {% if user.is_agency or user.is_authenticated %}
                 <li class="{% if request.path == '/agency/dashboard/' %}page-active{% endif %}">
                     <a href="{% url 'agency:dashboard' %}"><i class="la la-dashboard mr-2"></i>Dashboard</a></li>
+              {% endif %}
 
+              {% if user.is_authenticated %}
+                <li class="{% if request.path == '/agency/invoices/' %}page-active{% endif %}">
+                    <a href="{% url 'agency:invoices' %}"><i class="la la-dashboard mr-2"></i>Your Bookings</a></li>
+              {% endif %}
+
+              {% if user.is_agency or user.is_driver %}
                 <li class="{% if request.path == '/agency/vehicle/' %}page-active{% endif %}">
                     <a href="{% url 'agency:vehicle' %}"><i
                             class="la la-car mr-2 text-color"></i>Vehicles</a></li>
-
+               {% endif %}
                 {% if user.is_agency %}
 
                 <li class="{% if request.path == '/agency/invoices/' %}page-active{% endif %}">

@@ -2,263 +2,359 @@
 {% load static %}
 
 {% block title %}
-Car-Details
+    Car-Details
 {% endblock %}
 {% block content %}
 
-{% block css%}
-<style>
-    .bus-card {
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        width: 100%;
-        text-align: center;
-        align-items: center;
-    }
+    {% block css %}
+        <style>
+            .bus-card {
+                background-color: #fff;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+                width: 100%;
+                text-align: center;
+                align-items: center;
+            }
 
-    .bus-header {
-        background-color: #3498db;
-        color: #fff;
-        padding: 15px;
-        text-align: center;
-    }
+            .bus-header {
+                background-color: #3498db;
+                color: #fff;
+                padding: 15px;
+                text-align: center;
+            }
 
-    .bus-seats {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 15px;
-    }
+            .bus-seats {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 15px;
+            }
 
-    .seat-line {
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-        margin-bottom: 10px; /* Adjust as needed */
-    }
+            .seat-line {
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+                margin-bottom: 10px; /* Adjust as needed */
+            }
 
-    .seat {
-        width: 30px;
-        height: 30px;
-        background-color: blue;
-        color: #fff;
-        border-radius: 5px;
-        margin: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-    }
+            .seat {
+                width: 30px;
+                height: 30px;
+                background-color: blue;
+                color: #fff;
+                border-radius: 5px;
+                margin: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
 
-    .bus-footer {
-        padding: 15px;
-        text-align: center;
-    }
+            .seat.booked {
+                background-color: red; /* Change color for booked seats */
+            }
 
-    .book-button {
-        background-color: #27ae60;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
+            .bus-footer {
+                padding: 15px;
+                text-align: center;
+            }
 
-</style>
-{% endblock css%}
+            .book-button {
+                background-color: #27ae60;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+        </style>
+
+    {% endblock css %}
 
 
-{#----------Main Banner------------#}
-<div class="page-title-area pb-100 bg-img bg-s-cover" data-bg-image="{% static 'assets/images/page-title-bg-4.jpg' %}"
-     style="background-image: url(&quot;assets/images/page-title-bg-4.jpg' %}&quot;); background-position: center center; display: block;">
-    <div class="container">
-        <div class="content">
-            <h2>Vehicle Details</h2>
-            <ul class="list-unstyled">
-                <li class="d-inline"><a href="index.html">Home</a></li>
-                <li class="d-inline">/</li>
-                <li class="d-inline active opacity-75">Vehicle Details</li>
-            </ul>
+    {#----------Main Banner------------#}
+    <div class="page-title-area pb-100 bg-img bg-s-cover"
+         data-bg-image="{% static 'assets/images/page-title-bg-4.jpg' %}"
+         style="background-image: url(&quot;assets/images/page-title-bg-4.jpg' %}&quot;); background-position: center center; display: block;">
+        <div class="container">
+            <div class="content">
+                <h2>Vehicle Details</h2>
+                <ul class="list-unstyled">
+                    <li class="d-inline"><a href="index.html">Home</a></li>
+                    <li class="d-inline">/</li>
+                    <li class="d-inline active opacity-75">Vehicle Details</li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
 
-{#----------Steps Area------------#}
-<div class="car-details-area  pb-60">
-    <div class="container">
-        <div class="row gx-xl-5">
+    {#----------Steps Area------------#}
+    <div class="car-details-area  pb-60">
+        <div class="container">
+            <div class="row gx-xl-5">
 
-            <div class="col-lg-12 m-5 ">
-                <div class="product-featured pt-60 aos-init aos-animate text-center" data-aos="fade-up">
-                    <h2 class="mb-5 text-center">Vehicle Features</h2>
-                    <ul class="features-list justify-content-center">
-                        <li class="font-lg">
-                            <span><i class="fas fa-file-alt"></i>Reg No : {{bus.registration_number}} </span>
-                        </li>
-                        <li class="font-lg">
-                            <span><i class="fas fa-users"></i>Seats : {{bus.capacity}} </span>
-                        </li>
-                        <li class="font-lg">
-                            <span><i class="fas fa-car"></i> Model : {{bus.model}}</span>
-                        </li>
-                        <li class="font-lg">
-                            <span><i class="fas fa-coins"></i>Fare_Rates : {{bus.fare_rates}}</span>
-                        </li>
-                    </ul>
+                <div class="col-lg-12 m-5 ">
+                    <div class="product-featured pt-60 aos-init aos-animate text-center" data-aos="fade-up">
+                        <h2 class="mb-5 text-center">Vehicle Features</h2>
+                        <ul class="features-list justify-content-center">
+                            <li class="font-lg">
+                                <span><i
+                                        class="fas fa-file-alt"></i>Reg No : {{ bus.vehicle.registration_number }} </span>
+                            </li>
+                            <li class="font-lg">
+                                <span><i class="fas fa-users"></i>Seats : {{ bus.vehicle.capacity }} </span>
+                            </li>
+                            <li class="font-lg">
+                                <span><i class="fas fa-car"></i> Model : {{ bus.vehicle.model }}</span>
+                            </li>
+                            <li class="font-lg">
+                                <span><i class="fas fa-coins"></i>Fare_Rates : {{ bus.vehicle.fare_rates }}</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-lg-9">
-                <div class="product-single-gallery mb-40">
-                    <div class="swiper product-single-slider swiper-initialized swiper-horizontal swiper-pointer-events swiper-watch-progress swiper-backface-hidden">
-                        <div class="swiper-wrapper justify-content-center" id="swiper-wrapper-aacbbfa8ca779b29"
-                             aria-live="off"
-                             style="transform: translate3d(-2088px, 0px, 0px); transition-duration: 0ms;">
-                            <div class="" data-swiper-slide-index="0" role="group" aria-label="1 / 4"
-                                 style="width:100%;">
-                                <figure class="lazy-container ratio ratio-5-3">
-                                    <a href="assets/images/product/pro-lg-1.jpg' %}" class="lightbox-single">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% if bus.image %}{{ bus.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
-                                             alt="product image">
-                                    </a>
-                                </figure>
-                            </div>
-                        </div>
-                        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                <div class="col-lg-9">
+                    <div class="product-single-gallery mb-40">
+                        <div class="swiper product-single-slider swiper-initialized swiper-horizontal swiper-pointer-events swiper-watch-progress swiper-backface-hidden">
+                            <div class="swiper-wrapper justify-content-center" id="swiper-wrapper-aacbbfa8ca779b29"
+                                 aria-live="off"
+                                 style="transform: translate3d(-2088px, 0px, 0px); transition-duration: 0ms;">
+                                <div class="" data-swiper-slide-index="0" role="group" aria-label="1 / 4"
+                                     style="width:100%;">
+                                    <figure class="lazy-container ratio ratio-5-3">
+                                        <a href="assets/images/product/pro-lg-1.jpg' %}" class="lightbox-single">
+                                            <img class=" ls-is-cached lazyloaded"
+                                                 src="
 
-                    <div class="product-thumb">
-                        <div class="swiper slider-thumbnails swiper-initialized swiper-horizontal swiper-pointer-events swiper-thumbs">
-                            <div class="swiper-wrapper" id="swiper-wrapper-48766dda2181ba310" aria-live="polite"
-                                 style="transform: translate3d(-711px, 0px, 0px); transition-duration: 0ms;">
-                                <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active"
-                                     role="group" aria-label="1 / 4" style="width: 162.75px; margin-right: 15px;"
-                                     data-swiper-slide-index="0">
-                                    <div class="thumbnail-img lazy-container ratio ratio-5-3">
-                                        <img class=" ls-is-cached lazyloaded"
-                                             src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
-                                             data-src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
-                                             alt="product image">
-                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                         {% if bus.vehicle.image %}{{ bus.vehicle.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
+                                                 data-src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
+                                                 alt="product image">
+                                        </a>
+                                    </figure>
                                 </div>
                             </div>
                             <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
-                    </div>
 
-                </div>
-            </div>
-
-            <div class="col-lg-3">
-                <form method="post">
-                    <div class="bus-card">
-                        <div class="bus-header">
-                            <h4>BUS : {{ bus.registration_number|upper }}</h4>
-                        </div>
-                        <div class="bus-seats">
-                            <div class="seat-column">
-                                <!-- First line of seats from seat_1 -->
-                                {% for seat in seat_1|slice:":10" %}
-                                <div class="seat">{{ seat.seat_number }}</div>
-                                {% endfor %}
-                            </div>
-                            <div class="seat-column">
-                                <!-- Second line of seats from seat_1 -->
-                                {% for seat in seat_1|slice:"10:20" %}
-                                <div class="seat">{{ seat.seat_number }}</div>
-                                {% endfor %}
-                            </div>
-                            <div class="seat-column" style="margin-left: 20px;"> <!-- Adjust margin as needed -->
-                                <!-- First line of seats from seat_2 -->
-                                {% for seat in seat_2|slice:":10" %}
-                                <div class="seat">{{ seat.seat_number }}</div>
-                                {% endfor %}
-                            </div>
-                            <div class="seat-column">
-                                <!-- Second line of seats from seat_2 -->
-                                {% for seat in seat_2|slice:"10:20" %}
-                                <div class="seat">{{ seat.seat_number }}</div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <div class="bus-footer">
-                            <button class="book-button" type="button" data-bs-toggle="modal"
-                                    data-bs-target="#invoiceModal">Book Now
-                            </button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="invoiceModal" tabindex="-1"
-                                 aria-labelledby="invoiceModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="invoiceModalLabel">Invoice</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                        <div class="product-thumb">
+                            <div class="swiper slider-thumbnails swiper-initialized swiper-horizontal swiper-pointer-events swiper-thumbs">
+                                <div class="swiper-wrapper" id="swiper-wrapper-48766dda2181ba310" aria-live="polite"
+                                     style="transform: translate3d(-711px, 0px, 0px); transition-duration: 0ms;">
+                                    <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active"
+                                         role="group" aria-label="1 / 4" style="width: 162.75px; margin-right: 15px;"
+                                         data-swiper-slide-index="0">
+                                        <div class="thumbnail-img lazy-container ratio ratio-5-3">
+                                            <img class=" ls-is-cached lazyloaded"
+                                                 src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
+                                                 data-src="{% static 'assets/images/product/pro-lg-1.jpg' %}"
+                                                 alt="product image">
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <h4>Vehicle Details:</h4>
-                                                    <p><strong>Registration Number:</strong>
-                                                        {{ bus.registration_number }}</p>
-                                                    <p><strong>Model:</strong> {{ bus.model }}</p>
-                                                    <p><strong>Capacity:</strong> {{ bus.capacity }}</p>
-                                                    <p><strong>Fare Rates:</strong> {{ bus.fare_rates }} Rs
-                                                    </p>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <img src="{% if bus.image %}{{ bus.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
-                                                         alt="Vehicle Image"
-                                                         class="img-fluid">
+                                    </div>
+                                </div>
+                                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <form method="post">
+                        <div class="bus-card">
+                            <div class="bus-header">
+                                <h4>BUS : {{ bus.vehicle.registration_number|upper }}</h4>
+                            </div>
+                            <div class="bus-seats">
+                                <div class="seat-column">
+                                    {% for seat in seat_1|slice:":10" %}
+                                        <div class="seat {% if seat.is_booked %}booked{% endif %}" id="book-button"
+                                             type="button" data-bs-toggle="modal"
+                                             data-bs-target="#invoiceModal"
+                                             data-fare-rates="{{ bus.vehicle.fare_rates }}"
+                                             data-seat-number="{{ seat.seat_number }}">{{ seat.seat_number }}</div>
+                                    {% endfor %}
+                                </div>
+                                <div class="seat-column">
+                                    {% for seat in seat_1|slice:"10:20" %}
+                                        <div class="seat {% if seat.is_booked %}booked{% endif %}" id="book-button"
+                                             type="button" data-bs-toggle="modal"
+                                             data-bs-target="#invoiceModal"
+                                             data-fare-rates="{{ bus.vehicle.fare_rates }}"
+                                             data-seat-number="{{ seat.seat_number }}">{{ seat.seat_number }}</div>
+                                    {% endfor %}
+                                </div>
+                                <div class="seat-column" style="margin-left: 20px;">
+                                    {% for seat in seat_2|slice:":10" %}
+                                        <div class="seat {% if seat.is_booked %}booked{% endif %}" id="book-button"
+                                             type="button" data-bs-toggle="modal"
+                                             data-bs-target="#invoiceModal"
+                                             data-fare-rates="{{ bus.vehicle.fare_rates }}"
+                                             data-seat-number="{{ seat.seat_number }}">{{ seat.seat_number }}</div>
+                                    {% endfor %}
+                                </div>
+                                <div class="seat-column">
+                                    {% for seat in seat_2|slice:"10:20" %}
+                                        <div class="seat {% if seat.is_booked %}booked{% endif %}" id="book-button"
+                                             type="button" data-bs-toggle="modal"
+                                             data-bs-target="#invoiceModal"
+                                             data-fare-rates="{{ bus.vehicle.fare_rates }}"
+                                             data-seat-number="{{ seat.seat_number }}">{{ seat.seat_number }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="bus-footer">
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="invoiceModal" tabindex="-1"
+                                     aria-labelledby="invoiceModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="invoiceModalLabel">Invoice</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <h4>Vehicle Details:</h4>
+                                                        <p><strong>Registration
+                                                            Number:</strong> {{ bus.vehicle.registration_number }}</p>
+                                                        <p><strong>Model:</strong> {{ bus.vehicle.model }}</p>
+                                                        <p><strong>Capacity:</strong> {{ bus.vehicle.capacity }}</p>
+                                                        <p><strong>Fare Rates:</strong> {{ bus.vehicle.fare_rates }} Rs
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <img src="
+
+
+
+
+
+
+
+
+                                                                {% if bus.vehicle.image %}{{ bus.vehicle.image.url }}{% else %}https://via.placeholder.com/300x200?text=No+Image{% endif %}"
+                                                             alt="Vehicle Image" class="img-fluid">
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer text-center">
-                                            <button type="button"
-                                                    class="text-success border border-2 border-success"
-                                                    style="font-size: 20px;">Pay Now
-                                            </button>
+                                            <div class="modal-footer text-center">
+                                                <button type="button" id="pay-now-button"
+                                                        class="text-success border border-2 border-success"
+                                                        style="font-size: 20px;">Pay Now
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
 
+
+            </div>
         </div>
     </div>
-</div>
 
 
 {% endblock %}
 
 {% block external_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let selectedSeat = null;
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let selectedSeat = null;
 
-        // Get all seats
-        const seats = document.querySelectorAll('.seat');
+            // Get all seats
+            const seats = document.querySelectorAll('.seat');
 
-        // Add click event listener to each seat
-        seats.forEach(function (seat) {
-            seat.addEventListener('click', function () {
-                if (selectedSeat) {
-                    // Reset the previously selected seat to blue
-                    selectedSeat.style.backgroundColor = 'blue';
-                }
+            // Add click event listener to each seat
+            seats.forEach(function (seat) {
+                seat.addEventListener('click', function () {
+                    if (selectedSeat) {
+                        // Reset the previously selected seat to blue
+                        selectedSeat.style.backgroundColor = 'blue';
+                    }
 
-                // Set the current seat as selected (orange)
-                this.style.backgroundColor = 'orange';
-                selectedSeat = this;
+                    // Set the current seat as selected (orange)
+                    this.style.backgroundColor = 'orange';
+                    selectedSeat = this;
+                });
             });
         });
-    });
-</script>
+    </script>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe("{{ stripe_publishable_key }}");
+
+        document.querySelectorAll('#book-button').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var fareRates = button.getAttribute('data-fare-rates');
+                var seatNumber = button.getAttribute('data-seat-number');
+                var payNowButton = document.getElementById('pay-now-button');
+                payNowButton.setAttribute('data-fare-rates', fareRates);
+                payNowButton.setAttribute('data-seat-number', seatNumber);
+                console.log("Fare Rates: ", fareRates); // Debugging log
+                console.log("Seat Number: ", seatNumber); // Debugging log
+            });
+        });
+
+        var payNowButton = document.getElementById('pay-now-button');
+
+        payNowButton.addEventListener('click', function () {
+            var fareRates = payNowButton.getAttribute('data-fare-rates');
+            var seatNumber = payNowButton.getAttribute('data-seat-number');
+
+            console.log("Sending Fare Rates: ", fareRates); // Debugging log
+            console.log("Sending Seat Number: ", seatNumber); // Debugging log
+
+            fetch('/create-checkout-session/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify({
+                    fare_rates: fareRates,
+                    seat_number: seatNumber
+                })
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (sessionId) {
+                    return stripe.redirectToCheckout({sessionId: sessionId.id});
+                })
+                .then(function (result) {
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                });
+        });
+
+
+    </script>
+
 
 {% endblock %}

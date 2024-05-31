@@ -183,7 +183,7 @@ class VehicleDetailView(DetailView):
 class VehicleUpdateView(UpdateView):
     model = Vehicle
     fields = [
-        'registration_number', 'model', 'capacity', 'image', 'is_active'
+        'agency', 'driver', 'registration_number', 'model', 'capacity', 'image', 'is_active'
     ]
     template_name = 'admins/vehicle_update_form.html'
 
