@@ -13,6 +13,7 @@ from django.views.generic import TemplateView, DetailView, ListView
 import json
 
 from core import settings
+from src.web.accounts.models import User
 from src.web.agency.models import Vehicle, Seat, Booking, Schedule
 
 
@@ -90,6 +91,7 @@ class CreateCheckoutSessionView(View):
             fare_rates = float(fare_rates)  # Convert fare_rates to float if it's valid
 
             YOUR_DOMAIN = "http://localhost:8000"
+            user_id = self.request.user.id
 
             checkout_session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
@@ -100,7 +102,7 @@ class CreateCheckoutSessionView(View):
                             'product_data': {
                                 'name': 'Bus Ticket',
                             },
-                            'unit_amount': int(fare_rates * 100),  # convert to cents
+                            'unit_amount': int(fare_rates),  # convert to cents
                         },
                         'quantity': 1,
                     },
@@ -110,6 +112,7 @@ class CreateCheckoutSessionView(View):
                 cancel_url=YOUR_DOMAIN + '/cancel/',
                 metadata={
                     'seat_number': seat_number,
+                    "user_id": user_id
                 }
             )
 
@@ -124,22 +127,13 @@ class CreateCheckoutSessionView(View):
                 raise ValidationError("No available seats for this schedule.")
 
             # Mark the seat as booked and create a booking
-            seat.is_booked = True
-            seat.save()
 
-            with transaction.atomic():
-                # Booking.objects.create(
-                #     user=request.user,
-                #     schedule=schedule,
-                #     seat=seat,
-                # )
-
-                # Update available seats count in the schedule
-                schedule.available_seats -= 1
-                schedule.save()
+            schedule.available_seats -= 1
+            schedule.save()
 
             return JsonResponse({
                 'id': checkout_session.id,
+                'user_id': self.request.user.id
             })
         except ValidationError as e:
             return HttpResponseBadRequest(str(e))
@@ -149,6 +143,7 @@ class CreateCheckoutSessionView(View):
 
 def SuccessView(request):
     session_id = request.GET.get('session_id')
+    print(request.user)
 
     if not session_id:
         return HttpResponseBadRequest("Session ID is missing.")
@@ -156,22 +151,35 @@ def SuccessView(request):
     try:
         session = stripe.checkout.Session.retrieve(session_id)
         seat_number = session.metadata.get('seat_number')
+        user_id = session.metadata.get('user_id')
+        user = User.objects.get(id=user_id)
 
         if not seat_number:
             return HttpResponseBadRequest("Seat number is missing in session metadata.")
 
-        # Find the booking and update the payment status
-        booking = Booking.objects.get(seat__seat_number=seat_number)
-        booking.payment_status = True
+        try:
+            seat = Seat.objects.get(seat_number=seat_number)
+        except Seat.DoesNotExist:
+            return HttpResponseBadRequest("Seat does not exist.")
+
+        seat.is_booked = True
+        seat.save()
+
+        schedule = Schedule.objects.get(id=seat.schedule.id)
+
+        booking = Booking.objects.create(
+            user=user,
+            schedule=schedule,
+            seat=seat,
+            payment_status=True
+        )
+
         booking.save()
 
         messages.success(request, "Payment Successful")
         return render(request, 'website/car_details.html')
     except stripe.error.StripeError as e:
-        # Handle Stripe API errors
         return HttpResponseBadRequest(f"Stripe Error: {str(e)}")
-    except Booking.DoesNotExist:
-        return HttpResponseBadRequest("Booking not found.")
     except Exception as e:
         return HttpResponseBadRequest(str(e))
 
