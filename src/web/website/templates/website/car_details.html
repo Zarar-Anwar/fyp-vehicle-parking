@@ -256,10 +256,16 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer text-center">
+                                                {% if user.is_authenticated %}
                                                 <button type="button" id="pay-now-button"
                                                         class="text-success border border-2 border-success"
                                                         style="font-size: 20px;">Pay Now
                                                 </button>
+                                                {% else %}
+                                                    <a class="btn btn-primary" href="{% url 'account_login' %}">
+                                                    Pay Now
+                                                    </a>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>

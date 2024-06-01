@@ -93,6 +93,12 @@ class CreateCheckoutSessionView(View):
             YOUR_DOMAIN = "http://localhost:8000"
             user_id = self.request.user.id
 
+            # Log user ID for debugging
+            print(f"User ID: {user_id}")
+
+            if user_id is None:
+                return HttpResponseBadRequest("User not authenticated.")
+
             checkout_session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
                 line_items=[
@@ -102,7 +108,7 @@ class CreateCheckoutSessionView(View):
                             'product_data': {
                                 'name': 'Bus Ticket',
                             },
-                            'unit_amount': int(fare_rates),  # convert to cents
+                            'unit_amount': int(fare_rates * 100),  # convert to cents
                         },
                         'quantity': 1,
                     },
@@ -112,7 +118,7 @@ class CreateCheckoutSessionView(View):
                 cancel_url=YOUR_DOMAIN + '/cancel/',
                 metadata={
                     'seat_number': seat_number,
-                    "user_id": user_id
+                    'user_id': user_id
                 }
             )
 
@@ -127,13 +133,12 @@ class CreateCheckoutSessionView(View):
                 raise ValidationError("No available seats for this schedule.")
 
             # Mark the seat as booked and create a booking
-
             schedule.available_seats -= 1
             schedule.save()
 
             return JsonResponse({
                 'id': checkout_session.id,
-                'user_id': self.request.user.id
+                'user_id': user_id
             })
         except ValidationError as e:
             return HttpResponseBadRequest(str(e))
@@ -143,7 +148,6 @@ class CreateCheckoutSessionView(View):
 
 def SuccessView(request):
     session_id = request.GET.get('session_id')
-    print(request.user)
 
     if not session_id:
         return HttpResponseBadRequest("Session ID is missing.")
@@ -152,7 +156,15 @@ def SuccessView(request):
         session = stripe.checkout.Session.retrieve(session_id)
         seat_number = session.metadata.get('seat_number')
         user_id = session.metadata.get('user_id')
+
+        # Log session metadata for debugging
+        print(f"Session Metadata: seat_number={seat_number}, user_id={user_id}")
+
+        if not user_id:
+            return HttpResponseBadRequest("User ID is missing in session metadata.")
+
         user = User.objects.get(id=user_id)
+        print(user)
 
         if not seat_number:
             return HttpResponseBadRequest("Seat number is missing in session metadata.")
@@ -177,7 +189,7 @@ def SuccessView(request):
         booking.save()
 
         messages.success(request, "Payment Successful")
-        return render(request, 'website/car_details.html')
+        return render(request, 'website/home.html')
     except stripe.error.StripeError as e:
         return HttpResponseBadRequest(f"Stripe Error: {str(e)}")
     except Exception as e:
