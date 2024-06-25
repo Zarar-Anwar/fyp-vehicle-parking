@@ -18,11 +18,9 @@ urlpatterns = [
     path('profile/', ProfileView.as_view(), name="profile"),
     path('edit/profile/', EditProfileView.as_view(), name="edit_profile"),
 
-
     path('invoices/', InvoicesView.as_view(), name="invoices"),
     path('payments/', PaymentsView.as_view(), name="payments"),
     path('currency/', CurrencyView.as_view(), name="currency"),
-
 
     path('setting/', SettingView.as_view(), name="setting"),
 ]

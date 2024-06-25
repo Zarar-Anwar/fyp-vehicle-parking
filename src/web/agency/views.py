@@ -5,12 +5,13 @@ from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
 
+from core import settings
 from src.web.accounts.forms import IncompleteAgencyForm, UserForm, VehicleForm
 from src.web.admins.filters import BookingFilter
 from src.web.agency.bll import agency_income
-from src.web.agency.models import Booking, Agency, Vehicle
+from src.web.agency.models import Booking, Agency, Vehicle, Schedule, Seat
 
 from django.shortcuts import render, get_object_or_404, redirect
 

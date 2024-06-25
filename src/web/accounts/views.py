@@ -26,6 +26,9 @@ class CrossAuthView(View):
             if request.user.is_staff:
                 return redirect('/admins/')
 
+            if request.user.is_driver:
+                return redirect("agency:dashboard")
+
             if request.user.is_completed:
 
                 if request.user.is_agency or request.user.is_driver:
