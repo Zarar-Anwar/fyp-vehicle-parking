@@ -10,7 +10,7 @@ from django.views.generic import TemplateView, ListView, CreateView, UpdateView,
 from core import settings
 from src.web.accounts.forms import IncompleteAgencyForm, UserForm, VehicleForm
 from src.web.admins.filters import BookingFilter
-from src.web.agency.bll import agency_income
+from src.web.agency.bll import agency_income, driver_income
 from src.web.agency.models import Booking, Agency, Vehicle, Schedule, Seat
 
 from django.shortcuts import render, get_object_or_404, redirect
@@ -31,6 +31,10 @@ class DashboardView(TemplateView):
             context['booking'] = Booking.objects.filter(schedule__vehicle__agency__owner=self.request.user)
             agency = get_object_or_404(Agency, owner=self.request.user)
             context['income'] = agency_income(agency)
+        elif self.request.user.is_driver:
+            context['driver_income'] = driver_income(self.request.user)
+            context['booking'] = Booking.objects.filter(user=self.request.user)
+
         elif self.request.user.is_authenticated:
             context['booking'] = Booking.objects.filter(user=self.request.user)
 
