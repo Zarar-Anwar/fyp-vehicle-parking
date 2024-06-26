@@ -30,7 +30,7 @@
                     <a href="{% url 'agency:dashboard' %}"><i class="la la-dashboard mr-2"></i>Dashboard</a></li>
               {% endif %}
 
-              {% if user.is_authenticated and user.is_agency %}
+              {% if user.is_authenticated or user.is_agency %}
                 <li class="{% if request.path == '/agency/invoices/' %}page-active{% endif %}">
                     <a href="{% url 'agency:invoices' %}"><i class="la la-dashboard mr-2"></i>Your Bookings</a></li>
               {% endif %}
