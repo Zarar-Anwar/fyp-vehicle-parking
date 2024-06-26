@@ -1,5 +1,7 @@
 from django.contrib import admin
+from django.core.exceptions import ValidationError
 
+from .forms import VehicleAdminForm
 from .models import Agency, Vehicle, Schedule, Booking, Seat
 
 
@@ -8,9 +10,19 @@ class AgencyAdmin(admin.ModelAdmin):
     list_display = ('owner', 'name', 'contact_phone', 'contact_email', 'address')
 
 
-@admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'registration_number', 'model', 'capacity')
+    form = VehicleAdminForm
+
+    def save_model(self, request, obj, form, change):
+        try:
+            obj.save()
+        except ValidationError as e:
+            form.add_error('driver', e.message)
+            return
+        super().save_model(request, obj, form, change)
+
+
+admin.site.register(Vehicle, VehicleAdmin)
 
 
 @admin.register(Schedule)
