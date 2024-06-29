@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AdminPasswordChangeForm
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -11,6 +11,7 @@ from django.views.generic import (
     TemplateView, ListView, DetailView, UpdateView, CreateView
 )
 
+from src.web.accounts.forms import UserForm
 from src.web.accounts.models import User
 from src.web.admins.bll import total_system_income
 from src.web.admins.filters import UserFilter, AgencyFilter, VehicleFilter, DriverFilter, BookingFilter, ScheduleFilter
@@ -226,6 +227,23 @@ class DriverListView(ListView):
         return context
 
 
+class DriverAddView(TemplateView):
+    template_name = 'admins/add_driver.html'
+
+    def get(self, request, *args, **kwargs):
+        form = UserForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = UserForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_driver = True
+            user.save()
+            return redirect('admins:driver-list')
+        return render(request, self.template_name, {'form': form})
+
+
 """BOOKING"""
 
 
@@ -269,3 +287,12 @@ class ScheduleListView(ListView):
 
         context['schedule_list'] = schedule_page_object
         return context
+
+
+class ReleaseScheduleView(View):
+    def get(self, request, *args, **kwargs):
+        schedule_id = kwargs.get('pk')
+        schedule = get_object_or_404(Schedule, id=schedule_id)
+        schedule.status = False
+        schedule.save()
+        return redirect('admins:schedule-list')

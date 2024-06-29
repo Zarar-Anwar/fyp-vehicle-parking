@@ -42,6 +42,7 @@ Booking List
                             <th>Available Seats</th>
                             <th>Date</th>
                             <th>Status</th>
+                            <th></th>
                         </tr>
                         </thead>
 
@@ -57,7 +58,7 @@ Booking List
                             <td>{{ object.price }}</td>
                             <td>{{ object.available_seats }}</td>
                             <td>{{ object.schedule_date }}</td>
-                              <td>
+                            <td>
                                 {% if object.status %}
                                 <b class="text-success"><i class="fa fa-check-circle">Active</i></b>
 
@@ -66,6 +67,12 @@ Booking List
 
                                 {% endif %}
                             </td>
+                            {% if object.status %}
+                            <td>
+                                <a href="{% url 'admins:release-schedule' object.id %}" class="badge btn btn-success">Release</a>
+                            </td>
+                            {% endif %}
+
 
                         </tr>
                         {% endfor %}
