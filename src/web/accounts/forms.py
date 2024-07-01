@@ -4,7 +4,7 @@ from django.forms import ModelForm
 from django import forms
 
 from src.web.accounts.models import User
-from src.web.agency.models import Agency, Vehicle
+from src.web.agency.models import Agency, Vehicle, Schedule
 
 
 class UserProfileForm(ModelForm):
@@ -19,7 +19,8 @@ class UserProfileForm(ModelForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'phone_number', 'country', 'profile_image']
+        fields = ['first_name', 'last_name', 'email', 'password', 'phone_number', 'country',
+                  'profile_image']
 
 
 class IncompleteAgencyForm(ModelForm):
@@ -58,3 +59,11 @@ class VehicleForm(ModelForm):
     class Meta:
         model = Vehicle
         fields = ['registration_number', 'model', 'fare_rates', 'capacity', 'image', 'is_active']
+
+
+class ScheduleForm(ModelForm):
+    class Meta:
+        model = Schedule
+        fields = ['vehicle', 'departure_time', 'arrival_time', 'destination', 'price', 'available_seats',
+                  'schedule_date', 'status']
+

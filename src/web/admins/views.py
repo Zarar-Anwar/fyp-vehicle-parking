@@ -11,7 +11,7 @@ from django.views.generic import (
     TemplateView, ListView, DetailView, UpdateView, CreateView
 )
 
-from src.web.accounts.forms import UserForm
+from src.web.accounts.forms import UserForm, ScheduleForm
 from src.web.accounts.models import User
 from src.web.admins.bll import total_system_income
 from src.web.admins.filters import UserFilter, AgencyFilter, VehicleFilter, DriverFilter, BookingFilter, ScheduleFilter
@@ -287,6 +287,23 @@ class ScheduleListView(ListView):
 
         context['schedule_list'] = schedule_page_object
         return context
+
+
+class ScheduleAddView(TemplateView):
+    template_name = 'admins/schedule_add.html'
+
+    def get(self, request, *args, **kwargs):
+        form = ScheduleForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = UserForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_driver = True
+            user.save()
+            return redirect('admins:schedule-list')
+        return render(request, self.template_name, {'form': form})
 
 
 class ReleaseScheduleView(View):
