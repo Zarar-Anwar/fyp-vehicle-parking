@@ -3,7 +3,7 @@ from .views import (
     DashboardView,
     UserListView, UserPasswordResetView, UserDetailView, UserUpdateView, AgencyListView, AgencyDetailView,
     AgencyUpdateView, VehicleListView, VehicleDetailView, VehicleUpdateView, VehicleAddView, DriverListView,
-    BookingListView, ScheduleListView, ReleaseScheduleView, DriverAddView
+    BookingListView, ScheduleListView, ReleaseScheduleView, DriverAddView, ScheduleAddView
 )
 
 app_name = 'admins'
@@ -34,6 +34,7 @@ urlpatterns = [
     # Booking
     path('booking-list/', BookingListView.as_view(), name='booking-list'),
     path('schedule-list/', ScheduleListView.as_view(), name='schedule-list'),
+    path('schedule-add/', ScheduleAddView.as_view(), name='schedule-add'),
     path('release-schedule/<int:pk>/', ReleaseScheduleView.as_view(), name='release-schedule'),
 
 ]
