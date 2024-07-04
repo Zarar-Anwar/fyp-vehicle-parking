@@ -2,7 +2,6 @@ import datetime
 from pathlib import Path
 import environ
 
-
 """ APPLICATION CONFIGURATIONS """
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,8 +35,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51PMT7mD7QXDpIRQpznRHbzKIbgS8dySSKdzKeyWc2iGZQ46IK3TqoMLKI3BKF9vYvxIq5vmxnAC1Aq7zAHGql5dy00kTdwj9br'
 STRIPE_SECRET_KEY = 'sk_test_51PMT7mD7QXDpIRQpjOKyqwPBDnHcjn0xEAQX9BOiCZXVL8mSYwc6ECmUAoP3UaR351FpHD3SlOkq2magaBSz2UUa00AhiEEDcE'
-
-
 
 INSTALLED_APPS = [
     # DJANGO APPS
@@ -92,7 +89,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_browser_reload.middleware.BrowserReloadMiddleware',
-
 
     # 'allauth.account.middleware.AccountMiddleware'
 
@@ -176,7 +172,6 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = env('EMAIL_PORT')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 
-
 """ RESIZER IMAGE --------------------------------------------------------------------------------"""
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
@@ -213,6 +208,9 @@ LOGOUT_ON_PASSWORD_CHANGE = False
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/cross-auth/'
+ACCOUNT_FORMS = {
+    'login': 'src.web.accounts.forms.CustomLoginForm',
+}
 
 """ DEBUGGING TOOLS """
 

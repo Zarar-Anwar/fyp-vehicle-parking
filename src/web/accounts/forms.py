@@ -1,7 +1,9 @@
+from allauth.account.forms import LoginForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit
 from django.forms import ModelForm
 from django import forms
+from rest_framework.exceptions import ValidationError
 
 from src.web.accounts.models import User
 from src.web.agency.models import Agency, Vehicle, Schedule
@@ -19,8 +21,23 @@ class UserProfileForm(ModelForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password', 'phone_number', 'country',
-                  'profile_image']
+        fields = ['first_name', 'last_name', 'email', 'password', 'phone_number', 'country', 'profile_image']
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise ValidationError('A user with that email already exists.')
+        return email
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.username = self.cleaned_data.get('email')  # Assuming you use email as the username
+        if commit:
+            user.save()
+        return user
 
 
 class IncompleteAgencyForm(ModelForm):
@@ -67,3 +84,9 @@ class ScheduleForm(ModelForm):
         fields = ['vehicle', 'departure_time', 'arrival_time', 'destination', 'price', 'available_seats',
                   'schedule_date', 'status']
 
+
+class CustomLoginForm(LoginForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomLoginForm, self).__init__(*args, **kwargs)
+        # Remove the remember field
+        self.fields.pop('remember')

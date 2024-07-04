@@ -17,7 +17,15 @@
                 </div>
                 <div class="author-bio">
                     <h4 class="author__title">{{user.username|capfirst}}</h4>
+                    {% if user.is_driver %}
+                    <span class="author__meta">Welcome to Driver Panel</span>
+                    {% elif user.is_agency %}
+                    <span class="author__meta">Welcome to Agency Panel</span>
+                    {% elif user.is_superuser %}
                     <span class="author__meta">Welcome to Admin Panel</span>
+                    {% else %}
+                    <span class="author__meta">Welcome to User Panel</span>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -25,21 +33,21 @@
         <div class="sidebar-menu-wrap">
             <ul class="sidebar-menu toggle-menu list-items">
 
-               {% if user.is_agency or user.is_authenticated %}
+                {% if user.is_agency or user.is_authenticated %}
                 <li class="{% if request.path == '/agency/dashboard/' %}page-active{% endif %}">
                     <a href="{% url 'agency:dashboard' %}"><i class="la la-dashboard mr-2"></i>Dashboard</a></li>
-              {% endif %}
+                {% endif %}
 
-              {% if user.is_authenticated or user.is_agency %}
+                {% if user.is_authenticated or user.is_agency %}
                 <li class="{% if request.path == '/agency/invoices/' %}page-active{% endif %}">
                     <a href="{% url 'agency:invoices' %}"><i class="la la-dashboard mr-2"></i>Your Bookings</a></li>
-              {% endif %}
+                {% endif %}
 
-              {% if user.is_agency or user.is_driver %}
+                {% if user.is_agency or user.is_driver %}
                 <li class="{% if request.path == '/agency/vehicle/' %}page-active{% endif %}">
                     <a href="{% url 'agency:vehicle' %}"><i
                             class="la la-car mr-2 text-color"></i>Vehicles</a></li>
-               {% endif %}
+                {% endif %}
                 {% if user.is_agency %}
 
                 <li class="{% if request.path == '/agency/invoices/' %}page-active{% endif %}">
