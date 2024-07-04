@@ -3,132 +3,137 @@
 {% load core_tags %}
 
 {% block subtitle %}
-    Driver List
+Driver List
 {% endblock %}
 
 {% block content %}
 
-    <div class="row">
-        <div class="col-12">
-            <form method="get">
-                <div class="input-group mb-3">
-                    {{ driver_filter_form }}
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">
-                            <i class="fa fa-search"></i> Search
-                        </button>
-                    </div>
-                     <a  href="{% url 'admins:driver-add' %}" class="btn btn-success" type="submit">
-                            <i class="fa fa-user"></i> Add Driver
-                        </a>
+<div class="row">
+    <div class="col-12">
+        <form method="get">
+            <div class="input-group mb-3">
+                {{ driver_filter_form }}
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search"></i> Search
+                    </button>
                 </div>
-            </form>
-        </div>
+                <a href="{% url 'admins:driver-add' %}" class="btn btn-success" type="submit">
+                    <i class="fa fa-user"></i> Add Driver
+                </a>
+            </div>
+        </form>
     </div>
+</div>
 
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
 
 
-                    <div class="table-responsive">
-                        <table class="table table-borderless">
-                            {% if driver_list %}
-                                <thead class="border-bottom">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>Active</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        {% if driver_list %}
+                        <thead class="border-bottom">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Buss</th>
+                            <th>Active</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
 
-                                <tbody>
+                        <tbody>
 
-                                {% for user in driver_list %}
-                                    <tr>
-                                        <td>{{ user.pk }}</td>
-                                        <td>{{ user.first_name }} {{ user.last_name }}</td>
-                                        <td>{{ user.username }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>
-                                            {% if user.is_active %}
-                                                <b class="text-success"><i class="fa fa-check-circle"></i></b>
-
-                                            {% else %}
-                                                <b class="text-danger"><i class="fa fa-times-circle"></i></b>
-
-                                            {% endif %}
-                                        </td>
-
-                                        <td>
-                                            <a href="{% url 'admins:user-detail' user.pk %}"
-                                               class="text-decoration-none"><i
-                                                    class="mdi mdi-eye icon-sm"></i> View
-                                            </a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-
-                                </tbody>
+                        {% for driver_info in driver_list %}
+                        <tr>
+                            <td>{{ driver_info.driver.pk }}</td>
+                            <td>{{ driver_info.driver.first_name }} {{ driver_info.driver.last_name }}</td>
+                            <td>{{ driver_info.driver.username }}</td>
+                            <td>{{ driver_info.driver.email }}</td>
+                            {% if driver_info.vehicle %}
+                            <td>Bus Model is : {{ driver_info.vehicle.model }}</td>
                             {% else %}
-                                <th class="text-danger">No users data available.</th>
+                            <td class="text-danger">Not added yet</td>
                             {% endif %}
-                        </table>
-                    </div>
+                            <td>
+                                {% if driver_info.driver.is_active %}
+                                <b class="text-success"><i class="fa fa-check-circle"></i></b>
+                                {% else %}
+                                <b class="text-danger"><i class="fa fa-times-circle"></i></b>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <a href="{% url 'admins:user-detail' driver_info.driver.pk %}"
+                                   class="text-decoration-none"><i
+                                        class="mdi mdi-eye icon-sm"></i> View
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
 
 
+                        </tbody>
+                        {% else %}
+                        <th class="text-danger">No users data available.</th>
+                        {% endif %}
+                    </table>
                 </div>
+
+
             </div>
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="mt-4">
-                <ul class="pagination">
-                    {% if driver_list.has_previous %}
-                        <li>
+<div class="row">
+    <div class="col-md-12">
+        <div class="mt-4">
+            <ul class="pagination">
+                {% if driver_list.has_previous %}
+                <li>
                             <span>
                                 <a href="{% relative_url driver_list.previous_page_number 'page' request.GET.urlencode %}">
                                     Previous
                                 </a>
                             </span>
-                        </li>
-                    {% endif %}
-                    <li class="">
-                        <span>Page {{ driver_list.number }} of {{ driver_list.paginator.num_pages }}.</span>
-                    </li>
-                    {% if driver_list.has_next %}
-                        <li>
+                </li>
+                {% endif %}
+                <li class="">
+                    <span>Page {{ driver_list.number }} of {{ driver_list.paginator.num_pages }}.</span>
+                </li>
+                {% if driver_list.has_next %}
+                <li>
                             <span>
                                 <a href="{% relative_url driver_list.next_page_number 'page' request.GET.urlencode %}">
                                     Next
                                 </a>
                             </span>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+                </li>
+                {% endif %}
+            </ul>
         </div>
     </div>
+</div>
 
 {% endblock %}
 
 {% block js_code %}
-    <script>
-        $(document).ready(function () {
+<script>
+    $(document).ready(function () {
 
-            $('label').hide();
-            $('input').addClass('form-control');
-            $('select').addClass('form-control');
+        $('label').hide();
+        $('input').addClass('form-control');
+        $('select').addClass('form-control');
 
-        });
-    </script>
+    });
+</script>
 {% endblock %}
 
 

@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AdminPasswordChangeForm
+from django.db import IntegrityError
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse
@@ -10,6 +11,7 @@ from django.views import View
 from django.views.generic import (
     TemplateView, ListView, DetailView, UpdateView, CreateView
 )
+from rest_framework.reverse import reverse_lazy
 
 from src.web.accounts.forms import UserForm, ScheduleForm
 from src.web.accounts.models import User
@@ -164,6 +166,7 @@ class VehicleAddView(CreateView):
     model = Vehicle
     fields = ['agency', 'driver', 'registration_number', 'model', 'fare_rates', 'capacity', 'image']
     template_name = 'admins/vehicle_add_form.html'
+    success_url = reverse_lazy('admins:vehicle-list')
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -215,15 +218,25 @@ class DriverListView(ListView):
     paginate_by = 50
 
     def get_context_data(self, **kwargs):
-        context = super(DriverListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         driver_filter = DriverFilter(self.request.GET, queryset=User.objects.filter(is_driver=True))
         context['driver_filter_form'] = driver_filter.form
 
-        paginator = Paginator(driver_filter.qs, 50)
+        paginator = Paginator(driver_filter.qs, self.paginate_by)
         page_number = self.request.GET.get('page')
         driver_page_object = paginator.get_page(page_number)
 
-        context['driver_list'] = driver_page_object
+        # Add vehicle information for each driver
+        driver_list = []
+        for driver in driver_page_object:
+            vehicle = None
+            try:
+                vehicle = Vehicle.objects.get(driver=driver)
+            except Vehicle.DoesNotExist:
+                vehicle = None
+            driver_list.append({'driver': driver, 'vehicle': vehicle})
+
+        context['driver_list'] = driver_list
         return context
 
 
@@ -237,10 +250,14 @@ class DriverAddView(TemplateView):
     def post(self, request, *args, **kwargs):
         form = UserForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.is_driver = True
-            user.save()
-            return redirect('admins:driver-list')
+            try:
+                user = form.save(commit=False)
+                user.is_driver = True
+                user.username = user.email  # Assuming you use email as the username
+                user.save()
+                return redirect('admins:driver-list')
+            except IntegrityError:
+                form.add_error('email', 'A user with that email already exists.')
         return render(request, self.template_name, {'form': form})
 
 

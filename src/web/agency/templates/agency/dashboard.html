@@ -15,7 +15,15 @@ DASHBOARD-HOME
                 <div class="col-lg-6">
                     <div class="breadcrumb-content">
                         <div class="section-heading">
-                            <h2 class="sec__title font-size-30 text-white">Dashboard</h2>
+                            {% if user.is_driver %}
+                            <h2 class="sec__title font-size-30 text-white">Driver Dashboard</h2>
+                            {% elif user.is_agency %}
+                            <h2 class="sec__title font-size-30 text-white">Agency Dashboard</h2>
+                            {% elif user.is_superuser %}
+                            <h2 class="sec__title font-size-30 text-white">Admin Dashboard</h2>
+                            {% else %}
+                            <h2 class="sec__title font-size-30 text-white">User Dashboard</h2>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
