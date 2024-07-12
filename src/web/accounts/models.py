@@ -11,6 +11,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, max_length=200)
     country = models.CharField( max_length=200)
     is_agency = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
     is_traveller = models.BooleanField(default=False)
     is_completed = models.BooleanField(default=False)
     is_driver = models.BooleanField(default=False)

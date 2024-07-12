@@ -149,7 +149,7 @@
             <nav class="navbar navbar-expand-lg justify-content-between">
                 <a class="navbar-brand" href="{% url 'website:home' %}">
                     <h3><img width="200px" src="{% static 'assets/images/logo/logo-1.png' %}" alt="Logo"></h3>
-<!--                    <h3>PassangerXpress</h3>-->
+                    <!--                    <h3>PassangerXpress</h3>-->
                 </a>
                 <div class="collapse navbar-collapse">
                     <ul id="mainMenu1" class="navbar-nav mobile-item mx-auto">
@@ -174,9 +174,22 @@
 
                 <div class="more-option mobile-item">
                     {% if user.is_authenticated %}
+                    {% if user.is_traveller or user.is_agency or user.is_driver %}
                     <div class="item">
-                        <a href="{% url 'agency:dashboard' %}" class="btn btn-warning" style="background-color:orange;font-size:20px">Dashboard</a>
+                        <a href="{% url 'agency:dashboard' %}" class="btn btn-warning"
+                           style="background-color:orange;font-size:20px">Dashboard</a>
                     </div>
+                    {% elif user.is_admin %}
+                    <div class="item">
+                        <a href="{% url 'admins:dashboard' %}" class="btn btn-warning"
+                           style="background-color:orange;font-size:20px">Dashboard</a>
+                    </div>
+                    {% elif user.is_superuser %}
+                    <div class="item">
+                        <a href="/admin/" class="btn btn-warning" style="background-color:orange;font-size:20px">Dashboard</a>
+                    </div>
+                    {% endif %}
+
                     {% else %}
                     <div class="item">
                         <a href="{% url 'account_login' %}" class="btn btn-md btn-primary radius-sm" title="Get a Quote"

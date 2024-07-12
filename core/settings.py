@@ -208,9 +208,7 @@ LOGOUT_ON_PASSWORD_CHANGE = False
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/cross-auth/'
-ACCOUNT_FORMS = {
-    'login': 'src.web.accounts.forms.CustomLoginForm',
-}
+
 
 """ DEBUGGING TOOLS """
 

@@ -41,7 +41,8 @@ class UserCustomAdmin(admin.ModelAdmin):
         ('Personal info', {'fields': ('profile_image', 'first_name', 'last_name', 'email', 'phone_number')}),
         ('Permissions', {
             'fields': (
-                'is_traveller','is_agency', 'is_completed', 'is_active', 'is_staff', 'is_driver', 'is_superuser', 'groups',
+                'is_traveller', 'is_admin', 'is_agency', 'is_completed', 'is_active', 'is_staff', 'is_driver',
+                'is_superuser', 'groups',
                 'user_permissions'),
         }),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
