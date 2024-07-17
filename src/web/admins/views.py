@@ -19,7 +19,7 @@ from src.web.admins.bll import total_system_income
 from src.web.admins.filters import UserFilter, AgencyFilter, VehicleFilter, DriverFilter, BookingFilter, ScheduleFilter
 from src.web.agency.models import Agency, Vehicle, Booking, Schedule
 
-admin_decorators = [login_required, user_passes_test(lambda u: u.is_authenticated and u.is_admin)]
+admin_decorators = [login_required, user_passes_test(lambda u: u.is_authenticated and u.is_superuser or u.is_admin)]
 
 
 @method_decorator(admin_decorators, name='dispatch')
